@@ -1,0 +1,302 @@
+﻿@model NeSever.Common.Models.Uyelik.KullaniciKisiselBilgiVM
+
+<div class="ui-block">
+    <div class="ui-block-title">
+        <h6 class="title">Kişisel Bilgiler</h6>
+    </div>
+    <div class="ui-block-content">
+        <form id="KisiselBilgiForm">
+            <div class="row">
+                <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div id="AdFloating" class="form-group label-floating is-empty">
+                        <label class="control-label">Ad</label>
+                        <input asp-for="Adi" class="form-control" type="text">
+                    </div>
+                </div>
+
+                <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div id="SoyadFloating" class="form-group label-floating is-empty">
+                        <label class="control-label">Soyad</label>
+                        <input asp-for="Soyadi" class="form-control" placeholder="" type="text">
+                    </div>
+                </div>
+
+                <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div id="EpostaFloating" class="form-group label-floating is-empty">
+                        <label class="control-label">E-posta</label>
+                        <input asp-for="Eposta" class="form-control" placeholder="" type="email" readonly>
+                    </div>
+                </div>
+                <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div id="DogumGunuFloating" class="form-group">
+                        <label class="control-label">Doğum Günü</label>
+                        <br />
+                        <div style="width: 30%; float: left;">
+                            <select asp-for="@Model.DogumGun" class="form-control" style="padding:6px;">
+                                <option value="">Gün</option>
+                                @for (int gun = 1; gun <= 31; gun++)
+                                {
+                                    <option value="@gun">@gun</option>
+                                }
+                            </select>
+                        </div>
+                        <div style="width: 30%; float: left; ">
+                            <select asp-for="DogumAy" class="form-control" style="padding:6px;">
+                                <option value="">Ay</option>
+                                @for (int ay = 1; ay <= 12; ay++)
+                                {
+                                    <option value="@ay">@ay</option>
+                                }
+                            </select>
+                        </div>
+                        <div style="width: 40%; float:left;">
+                            <select asp-for="DogumYil" class="form-control" style="padding:6px;">
+                                <option value="">Yıl</option>
+                                @for (int yil = (DateTime.Now.Year - 17); yil >= 1900; yil--)
+                                {
+                                    <option value="@yil">@yil</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div id="TelefonFloating" class="form-group label-floating is-empty">
+                        <label class="control-label">Telefon No</label>
+                        <input asp-for="Telefon" class="form-control" placeholder="" type="text">
+                    </div>
+                </div>
+
+                <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div id="InstagramFloating" class="form-group label-floating is-empty">
+                        <label class="control-label">Instagram Adı</label>
+                        <input asp-for="InstagramAdi" class="form-control" placeholder="" type="text">
+                    </div>
+                </div>
+
+                <div class="col col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="form-group">
+                        <textarea asp-for="Adres" class="form-control  count-chars" placeholder="Adres..." maxlength="500" data-chars-max="500" data-msg-color="danger"></textarea>
+                    </div>
+                </div>
+
+                <div class="col col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="form-group">
+                        <textarea asp-for="Hakkinda" class="form-control count-chars" placeholder="Hakkında birşeyler yaz" maxlength="500" data-chars-max="500" data-msg-color="danger"></textarea>
+                    </div>
+                </div>
+
+                <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div class="form-group label-floating is-select">
+                        <label class="control-label">Ülke</label>
+                        <select name="KullaniciUlke" class="selectpicker form-control">
+                            <option value="TR">Türkiye</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div class="form-group label-floating is-select">
+                        <label class="control-label">Şehir</label>
+                        <select asp-for="KullaniciSehirId" asp-items="ViewBag.Sehirler" id="KullaniciSehir" class="selectpicker form-control">
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div class="form-group label-floating is-select">
+                        <label class="control-label">Cinsiyet</label>
+                        <select asp-for="Cinsiyet" class="selectpicker form-control">
+                            <option value="K">Kadın</option>
+                            <option value="E">Erkek</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div class="form-group label-floating is-select">
+                        <label class="control-label">İlişki Durumu</label>
+                        <select asp-for="IliskiDurumu" class="selectpicker form-control">
+                            <option value="BI">Belirtmek İstemiyor</option>
+                            <option value="E">Evli</option>
+                            <option value="B">Bekar</option>
+                            <option value="N">Nişanlı</option>
+                            <option value="S">Sözlü</option>
+                            <option value="YCM">Yalnız Çok Mutlu</option>
+                            <option value="AA">Arkadaş Arıyor</option>
+                            <option value="IV">İlişkisi Var</option>
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+                    <button class="btn btn-secondary btn-lg full-width" onclick="kisiselBilgiIptal();">İptal</button>
+                </div>
+                <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+                    <button onclick="KisiselBilgiKaydetGuncelle()" class="btn btn-primary btn-lg full-width">Kaydet</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="/Themes/FrontEnd/src/js/libs-init/libs-init.js"></script>
+<script src="~/js/site.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        IsFocused();
+    });
+
+    function IsFocused() {
+        if ($('#Adi').val()) {
+            $("#AdFloating").addClass("is-focused");
+        }
+        if ($('#Soyadi').val()) {
+            $("#SoyadFloating").addClass("is-focused");
+        }
+        if ($('#Eposta').val()) {
+            $("#EpostaFloating").addClass("is-focused");
+        }
+        if ($('#Telefon').val()) {
+            $("#TelefonFloating").addClass("is-focused");
+        }      
+        if ($('#Adres').val()) {
+            $("#AdresFloating").addClass("is-focused");
+        }
+        if ($('#InstagramAdi').val()) {
+            $("#InstagramFloating").addClass("is-focused");
+        }
+    }
+
+    function KisiselBilgiKaydetGuncelle() {
+        $("#KisiselBilgiForm").validate({
+            rules: {
+                Adi: {
+                    required: true,
+                    maxlength: 50
+                },
+                Soyadi: {
+                    required: true,
+                    maxlength: 50
+                },
+                Telefon: {
+                    minlength: 10,
+                    maxlength: 10,
+                    number:true,
+                },
+                Adres: {
+                    maxlength: 500
+                },
+                Hakkinda: {
+                    maxlength: 500
+                },
+                Cinsiyet: {
+                    required: true,
+                },
+                DogumGun: {
+                    required: true,
+                    maxlength: 50
+                },
+                DogumAy: {
+                    required: true,
+                },
+                DogumYil: {
+                    required: true,
+                },
+                InstagramAdi: {
+                    maxlength: 100
+                },
+            },
+            messages: {
+                Adi: {
+                    required: "Boş Geçilemez",
+                    maxlength: "Karakter Sınırı Aşıldı"
+                },
+                Soyadi: {
+                    required: "Boş Geçilemez",
+                    maxlength: "Karakter Sınırı Aşıldı"
+                },
+                Telefon: {
+                    minlength: "Telefon Numarası 5xxxxxxxxx Olacak Şekilde 10 Hane Girilmelidir",
+                    maxlength: "Telefon Numarası 5xxxxxxxxx Olacak Şekilde 10 Hane Girilmelidir",
+                    number: "Sadece Rakam Girilebilir"
+                },
+                Adres: {
+                    maxlength: "Karakter Sınırı Aşıldı"
+                },
+                Hakkinda: {
+                    maxlength: "Karakter Sınırı Aşıldı"
+                },
+                Cinsiyet: {
+                    required: "Boş Geçilemez"
+                },
+                DogumGun: {
+                    required: "*",
+                },
+                DogumAy: {
+                    required: "*",
+                },
+                DogumYil: {
+                    required: "*",
+                },
+                InstagramAdi: {
+                    maxlength: "Karakter Sınırı Aşıldı"
+                },
+            },
+            submitHandler: function (form) {
+                var kullaniciKisiselBilgiModel = $('#KisiselBilgiForm').serializeObject();
+                $.ajax({
+                    url: "/Kullanici/KisiselBilgiKaydetGuncelle",
+                    type: "POST",
+                    dataType: 'json',
+                    contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                    data: kullaniciKisiselBilgiModel,
+                    success: function (data) {
+                        if (data.Type == 1) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Başarılı!',
+                                text: data.ErrorMessage,
+                                confirmButtonText: "Tamam"
+                            });
+                        }
+                        else if (data.Type == 2 && data.ErrorMessage == "session")
+                        {
+                            location.reload();
+                        }
+                        else if (data.Type == 2 && data.ErrorMessage == "karakter") {
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Uyarı!',
+                                text: "Hakkında Alanı Karakter Sınırı Aşıldı.",
+                                confirmButtonText: "Tamam"
+                            });
+                        }    
+                        else {
+                            Swal.fire({
+                                icon: 'warning',
+                                text: data.ErrorMessage,
+                                confirmButtonText: "Tamam"
+                            })
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        console.log("hata!");
+                    }
+                });
+            }
+        })
+    }
+
+    function kisiselBilgiIptal() {
+        event.preventDefault();
+
+        var middleContent = $('#middleContent');
+        middleContent.html('');
+        middleContent.load('@Url.Action("KisiselBilgiPartial","Kullanici")');
+    };
+</script>

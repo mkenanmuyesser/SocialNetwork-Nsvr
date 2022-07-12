@@ -1,0 +1,98 @@
+﻿
+@model NeSever.Common.Models.Uyelik.KullaniciSifreGonderVM
+<div class="modal fade" id="restore-password" tabindex="-1" role="dialog" aria-labelledby="restore-password" aria-hidden="true" style="z-index:2000;">
+    <div class="modal-dialog window-popup restore-password-popup" role="document">
+        <div class="modal-content">
+            <a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
+                <svg class="olymp-close-icon"><use xlink:href="#olymp-close-icon"></use></svg>
+            </a>
+
+            <div class="modal-header">
+                <h6 class="title">Şifremi Unuttum</h6>
+            </div>
+
+            <div class="modal-body">
+                <form  id="UyeSifreGonder">
+                    <p>
+                        E-postanızı girin ve "Şifre Gönder" butonuna tıklayın. <br />
+                        E-postanıza yeni şifreniz gönderilecektir. 
+                        <br />
+                    </p>
+                    <div class="form-group label-floating">
+                        <label class="control-label">E-posta</label>
+                        <input class="form-control" asp-for="GirilenMailAdresi" placeholder="" value="">
+                    </div>
+                    <button class="btn btn-purple btn-lg full-width" onclick="UyeSifreGonder()">Şifre Gönder</button>
+                   
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function showLoading() {
+        $('#UyeSifreGonder').loadingModal({ text: 'Lütfen Bekleyin...' });
+        $('#UyeSifreGonder').loadingModal('animation', 'cubeGrid');
+    };
+
+    function hideLoading(id) {
+        $('#UyeSifreGonder').loadingModal('destroy');
+    };
+    function UyeSifreGonder() {
+        $("#UyeSifreGonder").validate({
+            rules: {
+                GirilenMailAdresi: {
+                    required: true,
+                    email: true,
+                    maxlength: 50
+                }
+            },
+            messages: {
+                GirilenMailAdresi: {
+                    required: "Boş Geçilemez",
+                    email: "Yanlış E-posta Formatı",
+                    maxlength: "Karakter Sınırı Aşıldı"
+                }
+            },
+            submitHandler: function (form) {
+                var uyeSifreGonderModel = $('#UyeSifreGonder').serializeObject();
+
+                $.ajax({
+                    url: "/Kullanici/UyeSifreGonder",
+                    type: "POST",
+                    dataType: 'json',
+                    contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                    data: uyeSifreGonderModel,                  
+                    beforeSend: function () {
+                        showLoading('UyeSifreGonder');
+                    },
+                    success: function (data) {
+                        $('#GirilenMailAdresi').val('');
+                        hideLoading('UyeSifreGonder');
+                        $('#restore-password').modal('hide');
+
+                        if (data.Type == 2) {
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Uyarı!',
+                                text: data.ErrorMessage
+                            })
+                        }
+                        if (data.Type == 1) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Başarılı',
+                                html: 'Yeni şifreniz e-posta adresinize gönderildi.<br>' +
+                                    '<b>Gelen kutusunda yeni şifreniz görünmüyorsa lütfen gereksiz, önemsiz ve spam klasörlerinizi de kontrol ediniz.</b>',
+                                confirmButtonText: "Tamam"
+                            });
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        hideLoading('UyeSifreGonder');
+                    }
+                });
+            }
+        });
+    }
+</script>

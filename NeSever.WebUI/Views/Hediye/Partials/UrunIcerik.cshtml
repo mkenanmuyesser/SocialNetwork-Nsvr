@@ -1,0 +1,203 @@
+﻿@model IPagedList<NeSever.Common.Models.Urun.UrunIcerikVM>
+
+<script src="/js/jquery.lazy.min.js"></script>
+
+<div class="row">
+    @if (!Model.Any())
+    {
+        <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 align-center pb80 pt80">
+            <p>
+                <h3>Aradığınız ürün bulunamadı.</h3>
+            </p>
+        </div>
+    }
+    else
+    {
+        @foreach (var urun in Model)
+        {
+            <div class="col col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+                <div class="shop-product-item">
+                    <div class="product-thumb" style="background-color:transparent;">
+                        <a href="/Hediye/Detay/@urun.UrunId" style="width:100%; text-align:center">
+                            <img class="lazy" src="/Uploads/Site/loading_250_250.gif" data-src="@urun.ResimUrl" alt="product" style="height:250px;">
+                        </a>
+                    </div>
+
+                    <div class="product-content">
+                        <div class="block-title">
+                            <a href="/Hediye/Detay/@urun.UrunId" class="product-category">@urun.MarkaAdi</a>
+                            <a href="/Hediye/Detay/@urun.UrunId" class="h5 title">@urun.UrunAdi</a>
+                        </div>
+                        <div class="block-price">
+                            @if (urun.SatilabilirUrun && urun.Fiyat > 0)
+                            {
+                                <a href="javascript:;" onclick="alisverisSepetineEkle('@urun.UrunId');" class="in-cart" style="opacity: 50 !important; background-color: #38a9ff !important; top:-80px;" title="AlışVeriş Sepetine Ekle">
+                                    <svg class="olymp-shopping-bag-icon">
+                                        <title>AlışVeriş Sepetine Ekle</title>
+                                        <use xlink:href="#olymp-shopping-bag-icon">
+                                            <title>AlışVeriş Sepetine Ekle</title>
+                                        </use>
+                                    </svg>
+                                </a>
+                            }
+
+                            <a href="javascript:;" onclick="hediyeSepetineEkle('@urun.UrunId', '@urun.HediyeSepetindekiUrunAdeti');" class="in-cart" style="opacity: 50 !important; background-color: #ff5e3a !important; top: -30px;" title="Hediye Sepetine Ekle">
+                                <svg class="olymp-shopping-bag-icon">
+                                    <title>Hediye Sepetine Ekle</title>
+                                    <use xlink:href="#olymp-like-post-icon">
+                                        <title>Hediye Sepetine Ekle</title>
+                                    </use>
+                                </svg>
+                            </a>
+
+                            <div style=" margin-right: 0; font-size: 16px; font-weight: 700;">
+                                @if (urun.SatilabilirUrun && urun.Fiyat > 0)
+                                {
+                                    @Html.Raw((urun.Fiyat.ToString("#,##0.00"))+" TL");
+                                }
+                                else
+                                {
+
+                                    @Html.Raw(" ");
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 align-center pb80 pt80">
+            <nav aria-label="Page navigation">
+                @Html.PagedListPager((IPagedList)Model, page => Url.Action("Ara",
+                 new
+                 {
+                     p = page,
+                     s = Context.Request.Query["s"],
+                     sk = Context.Request.Query["sk"],
+                     q = Context.Request.Query["q"],
+                     m = Context.Request.Query["m"],
+                     k = Context.Request.Query["k"],
+                     w = Context.Request.Query["w"],
+                     kb = Context.Request.Query["kb"],
+                 }),
+               new PagedListRenderOptionsBase
+               {
+                   UlElementClasses = new string[] { "pagination justify-content-center" },
+                   LiElementClasses = new string[] { "page-item" },
+                   ActiveLiElementClass = "page-item active",
+                   PageClasses = new string[] { "page-link" },
+                   EllipsesFormat = "<a class='page-link' style='padding:12px 0px 0px 0px; border:none;'>...</a>",
+                   Display = PagedListDisplayMode.Always,
+                   DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+                   DisplayLinkToLastPage = PagedListDisplayMode.Always,
+                   DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+                   DisplayLinkToNextPage = PagedListDisplayMode.Always,
+                   MaximumPageNumbersToDisplay = 5,
+                   ContainerDivClasses = null,
+               })
+            </nav>
+        </div>
+    }
+</div>
+
+<partial name="~/Views/Shared/Partials/UyeHediye.cshtml" />
+<partial name="~/Views/Shared/Partials/UyeAlisveris.cshtml" />
+
+<script type="text/javascript" charset="utf-8">
+    $('.lazy').Lazy({
+        scrollDirection: 'vertical',
+        effect: 'fadeIn',
+        visibleOnly: true,
+        onError: function (element) {
+            console.log('error loading ' + element.data('src'));
+        }
+    });
+</script>
+<script type="text/javascript">
+    function hediyeSepetineEkle(id, adet) {
+        $.ajax({
+            url: "/Hediye/KullaniciHediyeEkle/" + id,
+            type: "GET",
+            dataType: 'json',
+            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+            success: function (data) {
+                if (data.error == true) {
+                    if (data.operation == "show") {
+                        hediyeSepetiShowModal(adet);
+                    }
+                    else if (data.operation == "message") {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Uyarı!',
+                            text: data.message,
+                            confirmButtonText: "Tamam"
+                        })
+                    }
+                }
+                else {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Evvet!',
+                        text: "Hediye sepetinize eklendi.",
+                        confirmButtonText: "Tamam"
+                    })
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log("hata!");
+            }
+        });
+    }
+
+    function hediyeSepetiShowModal(adet) {
+        $('#hediyeSepetiToplamUrunSayisi').html(adet);
+        $('#hediyeEkleModal').modal('show');
+    }
+
+    function alisverisSepetineEkle(id) {
+        var sendData = { UrunId: id, Adet: 1 };
+
+        $.ajax({
+            url: "/Sepet/SepetUrunEkle",
+            type: "POST",
+            dataType: 'json',
+            data: sendData,
+            success: function (data) {
+                if (data.error == true) {
+                    if (data.operation == "show") {
+                        alisverisSepetiShowModal();
+                    }
+                    else if (data.operation == "message") {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Uyarı!',
+                            text: data.message,
+                            confirmButtonText: "Tamam"
+                        })
+                    }
+                }
+                else {
+                    $("#headerSepetUrunSayisi").empty();
+                    $("#headerMobilSepetUrunSayisi").empty();
+                    $("#headerSepetUrunSayisi").html(data.recordsTotal);
+                    $("#headerMobilSepetUrunSayisi").html(data.recordsTotal);
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Evvet!',
+                        text: "Alışveriş sepetinize eklendi.",
+                        confirmButtonText: "Tamam"
+                    })
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log("hata!");
+            }
+        });
+    }
+
+    function alisverisSepetiShowModal() {
+        $('#uyeAlisverisModal').modal('show');
+    }
+</script>

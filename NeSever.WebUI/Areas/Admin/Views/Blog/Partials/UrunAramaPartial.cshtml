@@ -1,0 +1,168 @@
+﻿
+@model NeSever.Common.Models.Urun.UrunAramaVM
+<form method="post" id="_formAra">
+    <input type="hidden" asp-for="AktifMi" />
+    <div class="col-md-12">
+        <div class="col-md-6" style="float:left">
+            <label class="control-label">SKU</label>
+            <input asp-for="Sku" class="form-control">
+        </div>
+        <div class="col-md-6" style="float:left">
+            <label class="control-label">Ürün Adı</label>
+            <input asp-for="UrunAdi" class="form-control">
+        </div>
+    </div>
+    <div class="col-md-12">
+    
+            <button type="button" onclick="javascript: urunAra();" style="margin-top:1%;margin-left:47%" class="btn btn-primary btn-primary--icon">Ara <i class="la la-search"></i></button>
+       
+    </div>
+        <div class="col-md-12">
+            <table id="dtArama" class="table table-bordered table-hover table-checkable">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>UrunId</th>
+                        <th>Sku</th>
+                        <th>UrunAdi</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="col-md-12">
+         
+                <button type="button" onclick="javascript: UrunleriSec();" style="margin-top:1%" class="btn btn-primary btn-primary--icon">Ürünleri Ekle</button>
+          
+
+        </div>
+
+
+
+
+
+
+
+</form>
+
+<script src="/Themes/Admin/dist/assets/plugins/custom/datatables/datatables.bundle.js?v=7.0.5"></script>
+
+<script type="text/javascript">
+    function showLoading(id) {
+        KTApp.block(document.getElementById(id), {
+            overlayColor: '#000000',
+            state: 'danger',
+            message: 'Lütfen bekleyin...'
+        });
+    };
+
+    function hideLoading(id) {
+        KTApp.unblock(document.getElementById(id));
+    };
+    function UrunleriSec() {
+        var secilenUrunlerArray = [];
+        $.each($("input[name^='selectedCheckbox']"), function (key, value) {
+            if ($(this)[0].checked == true) {
+                secilenUrunlerArray.push($(this).val());
+            }
+        });
+    
+
+    
+        $.ajax({
+            url: '../../../Admin/Blog/UrunListesiGuncelle',
+            type: "Get",
+            contentType: "application/json; charset=utf-8",
+            dataType: 'JSON',
+            data: {
+                seciliUrunler: JSON.stringify(secilenUrunlerArray)
+            },
+            success: function (result) {
+
+                $('#m_modal').modal('hide');
+                var tbl = $('#urunTable');
+                $('#urunTable tr').remove();
+                var rowBaslik = $('<tr></tr>').attr({ class: ["class1", "class2", "class3"].join(' ') }).appendTo(tbl);
+                $('<th>SKU</th><th>Urun Adi</th><th></th>').appendTo(rowBaslik);
+                for (var i = 0; i < result.length; i++) {
+                    var row = $('<tr></tr>').attr({ class: ["class1", "class2", "class3"].join(' ') }).appendTo(tbl);
+                    $('<td></td>').text(result[i].Sku).appendTo(row);
+                    $('<td></td>').text(result[i].UrunAdi).appendTo(row);
+                    $('<td><input type="button" onclick="UrunSil(' + result[i].UrunId + ')" class="btn btn-warning" value="Sil"></button></td>').appendTo(row);
+                }
+
+                tbl.appendTo($("#urunTableDiv"));
+
+            },
+            error: function () {
+                alert("hata");
+            }
+        });
+
+    }
+
+    function urunAra() {
+
+        var sendData = $('#_formAra').serializeObject();
+        $('#dtArama').DataTable().destroy();
+
+        var table = $('#dtArama').DataTable({
+            processing: true,
+            serverSide: true,
+            filter: false,
+            responsive: true,
+            orderMulti: false,
+            autoWidth: false,
+            ordering: false,
+            ajax: {
+
+                url: "/Admin/Blog/UrunAramaSonuclariniGetir",
+                type: "POST",
+
+                dataType: "json",
+                data: sendData,
+                beforeSend: function () {
+                    showLoading('dtArama');
+                },
+                complete: function () {
+                    hideLoading('dtArama');
+                },
+                error: function (error) {
+                    hideLoading('dtArama');
+                }
+            },
+
+            columns: [
+                { data: 'UrunId', defaultContent: '' },
+                { data: 'UrunId', defaultContent: '' },
+                { data: 'Sku', defaultContent: '' },
+                { data: 'UrunAdi', defaultContent: '' }
+
+
+            ],
+            columnDefs: [
+                {
+                    targets: 0, width: '5%', "render": function (data) {
+
+                        return '<input type="checkbox" name="selectedCheckbox" id="chc' + data + '"  value="'
+                            + $('<div/>').text(data).html() + '">';
+
+                    },
+                },
+
+                { targets: 1, width: '5%' },
+                { targets: 2, width: '5%' },
+                { targets: 3, width: '5%' },
+            ],
+            dom: `<'row'<'col-sm-6 text-left'f><'col-sm-6 text-right'B>>
+                    <'row'<'col-sm-12'tr>>
+                    <'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7 dataTables_pager'lp>>`,
+            lengthMenu: [[5, 25, 50], [5, 25, 50]],
+            buttons: [],
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.10.21/i18n/Turkish.json'
+            }
+        });
+
+    }
+
+</script>

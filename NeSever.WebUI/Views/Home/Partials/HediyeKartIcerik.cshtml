@@ -1,0 +1,36 @@
+﻿@model List<NeSever.Common.Models.Icerik.HediyeKartIcerikVM>
+
+<div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12" style="padding-bottom:50px;">
+    <div class="modal fade" id="HediyeKartGonder" tabindex="-1" role="dialog" aria-labelledby="public-event" aria-hidden="true">
+        <div class="modal-dialog window-popup event-private-public public-event" role="document">
+            <div class="modal-content">
+                <a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
+                    <svg class="olymp-close-icon"><use xlink:href="#olymp-close-icon"></use></svg>
+                </a>
+                <div class="modal-body" id="hediyeKartIcerikGonderModalBody">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <ul class="widget w-last-photo">
+        @for(var i =0;i < 8;i++)
+        {
+            <li>
+                <a data-toggle="modal" href="javascript:;" onclick="hediyeKartGetir('@Model[i].HediyeKartId');" data-target="#public-event">
+                    <img class="lazy" src="~/Uploads/Site/loading_250_250.gif" data-src="@Model[i].ResimBase64" alt="@Model[i].HediyeKartAdi" title="@Model[i].Aciklama" onclick="hediyeKartGetir('@Model[i].HediyeKartId');">
+                </a>
+            </li>
+        }
+    </ul>
+</div>
+
+<script type="text/javascript">
+    function hediyeKartGetir(id) {
+        var middleContent = $('#hediyeKartIcerikGonderModalBody');
+        middleContent.html('');
+        middleContent.load('/Home/HediyeKartGonderPartial/' + id);
+        $('#HediyeKartGonder').modal('show');
+    }
+</script>

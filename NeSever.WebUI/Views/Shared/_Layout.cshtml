@@ -1,0 +1,351 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@using  NeSever.Common.Models.Uyelik;
+
+@{
+    var controller = ViewContext.RouteData.Values["Controller"].ToString();
+    var action = ViewContext.RouteData.Values["Action"].ToString();
+
+    KullaniciVM kullaniciBilgileri = new KullaniciVM();
+
+    if (Context.Session.GetString("Kullanici") != null && Context.Session.GetString("KullaniciBilgileri") != null)
+    {
+        kullaniciBilgileri = Newtonsoft.Json.JsonConvert.DeserializeObject<KullaniciVM>(Context.Session.GetString("KullaniciBilgileri"));
+    }
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Nesever.com.tr - Türkiye'nin Hediye Kültürünü Değiştiren Site.</title>
+
+    <meta charset="utf-8">
+    <meta name="description" content="Profilini oluştur, beğendiğin hediyeleri sepetine ekle ve sevdiklerin alsın. Hediye göndermek istediğinde arkadaşını bul, hediye sepetini incele ve onu mutlu edeceğine emin olduğun hediyeyi aramağan et. Herkes Hediye Sever" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    @*<meta name="google-signin-client_id" content="126104961000-lsu6luj9pur6gjt6a7fm1ogstv3c9qq8.apps.googleusercontent.com">*@
+    <script src="https://apis.google.com/js/api:client.js"></script>
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" type="text/css" href="/Themes/FrontEnd/src/Bootstrap/dist/css/bootstrap.css">
+
+    <!-- Main Styles CSS -->
+    <link rel="stylesheet" type="text/css" href="/Themes/FrontEnd/src/css/main.css">
+    <link rel="stylesheet" type="text/css" href="/Themes/FrontEnd/src/css/fonts.min.css">
+    <link rel="stylesheet" type="text/css" href="~/css/tagify.css">
+
+    <!-- Owl Carousel CSS-->
+    <link href="/Themes/FrontEnd/OwlCarousel2-2.3.4/docs/assets/owlcarousel/assets/owl.carousel.css" rel="stylesheet" />
+    <link href="/Themes/FrontEnd/OwlCarousel2-2.3.4/docs/assets/owlcarousel/assets/owl.theme.default.css" rel="stylesheet" />
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-179403332-1"></script>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/tr_TR/sdk.js#xfbml=1&version=v8.0&appId=640271859957164&autoLogAppEvents=1" nonce="cZwriMdi"></script>
+
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-179403332-1');
+    </script>
+
+
+    <!-- Main Font -->
+    <script src="/Themes/FrontEnd/src/js/libs/webfontloader.min.js"></script>
+
+    <script>
+        WebFont.load({
+            google: {
+                families: ['Roboto:300,400,500,700:latin']
+            }
+        });
+    </script>
+
+    <script src="~/js/tagify.min.js"></script>
+    <script src="/Themes/FrontEnd/src/js/jQuery/jquery-3.4.1.js"></script>
+
+    <script src="~/js/jQuery.tagify.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    @*<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
+            integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
+            crossorigin="anonymous"></script>*@
+
+    <script src="/Themes/FrontEnd/OwlCarousel2-2.3.4/docs/assets/owlcarousel/owl.carousel.js"></script>
+
+    <script type='text/javascript' src='https://platform-api.sharethis.com/js/sharethis.js#property=5fa03bc36bdd840019e02817&product=inline-share-buttons' async='async'></script>
+
+    <link href="/Themes/FrontEnd/loading-modal/css/jquery.loadingModal.css" rel="stylesheet" />
+
+    <style type="text/css">
+        .landing-page .content-bg-wrap:before {
+            background-color: transparent;
+        }
+
+        .header .page-title {
+            padding: 18px 50px 26px 100px;
+        }
+
+        .fixed-sidebar .ui-block-title {
+            margin: 0px;
+        }
+
+        .error {
+            color: red;
+        }
+
+        .bg-red {
+            background-color: red;
+        }
+
+        .bootstrap-select {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body class="body-bg-white @(string.IsNullOrEmpty(kullaniciBilgileri.RefreshToken)?"":"page-has-right-panels")" style="padding-right:0px;">
+    <div class="modal fade" id="popupModal" tabindex="-1" role="dialog" aria-labelledby="popup-write-rewiev" aria-hidden="true" style="z-index:2000;">
+        <div class="modal-dialog window-popup main-popup-search " role="document">
+            <div id="popupModalContent" class="modal-content">
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="ProfilSikayetModal" tabindex="-1" role="dialog" aria-labelledby="fav-page-popup" aria-hidden="true">
+        <div class="modal-dialog window-popup fav-page-popup" role="document">
+            <div class="modal-content">
+                <a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
+                    <svg class="olymp-close-icon"><use xlink:href="#olymp-close-icon"></use></svg>
+                </a>
+                <div class="modal-header">
+                    <h6 class="title">Profili Şikayet Et</h6>
+                </div>
+
+                <div id="ProfilSikayetModalBody" class="modal-body">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="loginlink" tabindex="-1" role="dialog" aria-labelledby="main-popup-search" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered window-popup main-popup-search" role="document" style="pointer-events:none;">
+            <div class="modal-content">
+                <a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
+                    <svg class="olymp-close-icon"><use xlink:href="#olymp-close-icon"></use></svg>
+                </a>
+                <div class="modal-body">
+                    <form class="form-inline search-form" method="post">
+                        <div class="form-group label-floating">
+                            Arkadaşlarına ulaşmak mı istiyorsun ? Giriş yapmak veya kaydolmak için <a asp-controller="Kullanici" asp-action="Islem">&nbsp;Tıkla!</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (!string.IsNullOrEmpty(kullaniciBilgileri.RefreshToken))
+    {
+        <partial name="~/Views/Shared/Partials/ProfilSagMenu.cshtml" />
+    }
+
+    <partial name="~/Views/Shared/Partials/HeaderNavBar.cshtml" />
+
+    <div class="stunning-header bg-primary-opacity" style="top:60px;">
+        <div class="header--standard header--standard-landing" id="header--standard">
+            <div class="container">
+                <div class="header--standard-wrap">
+                </div>
+            </div>
+        </div>
+
+        <div class="content-bg-wrap stunning-header-bg1"></div>
+    </div>
+
+    <div class="header-spacer" style="height:50px;"></div>
+
+    @RenderBody()
+
+    <partial name="~/Views/Shared/Partials/Footer.cshtml" />
+
+    <partial name="~/Views/Shared/Partials/CookiePolicy.cshtml" />
+
+    <a class="back-to-top" href="#">
+        <img src="/Themes/FrontEnd/src/svg-icons/back-to-top.svg" alt="arrow" class="back-icon">
+    </a>
+
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.15.0/jquery.validate.min.js"></script>
+
+    @RenderSection("Scripts", required: false)
+
+    <script src="/Themes/FrontEnd/src/js/libs/jquery.appear.js"></script>
+    <script src="/Themes/FrontEnd/src/js/libs/jquery.mousewheel.js"></script>
+    <script src="/Themes/FrontEnd/src/js/libs/perfect-scrollbar.js"></script>
+    <script src="/Themes/FrontEnd/src/js/libs/jquery.matchHeight.js"></script>
+    <script src="/Themes/FrontEnd/src/js/libs/svgxuse.js"></script>
+    <script src="/Themes/FrontEnd/src/js/libs/imagesloaded.pkgd.js"></script>
+    <script src="/Themes/FrontEnd/src/js/libs/Headroom.js"></script>
+    <script src="/Themes/FrontEnd/src/js/libs/velocity.js"></script>
+    <script src="/Themes/FrontEnd/src/js/libs/ScrollMagic.js"></script>
+    <script src="/Themes/FrontEnd/src/js/libs/jquery.waypoints.js"></script>
+    <script src="/Themes/FrontEnd/src/js/libs/jquery.countTo.js"></script>
+    <script src="/Themes/FrontEnd/src/js/libs/popper.min.js"></script>
+    <script src="/Themes/FrontEnd/src/js/libs/material.min.js"></script>
+    <script src="/Themes/FrontEnd/src/js/libs/bootstrap-select.js"></script>
+    <script src="/Themes/FrontEnd/src/js/libs/smooth-scroll.js"></script>
+    <script src="/Themes/FrontEnd/src/js/libs/selectize.js"></script>
+    <script src="/Themes/FrontEnd/src/js/libs/swiper.jquery.js"></script>
+    <script src="/Themes/FrontEnd/src/js/libs/moment.js"></script>
+    <script src="/Themes/FrontEnd/src/js/libs/daterangepicker.js"></script>
+    <script src="/Themes/FrontEnd/src/js/libs/fullcalendar.js"></script>
+    <script src="/Themes/FrontEnd/src/js/libs/isotope.pkgd.js"></script>
+    <script src="/Themes/FrontEnd/src/js/libs/ajax-pagination.js"></script>
+    <script src="/Themes/FrontEnd/src/js/libs/Chart.js"></script>
+    <script src="/Themes/FrontEnd/src/js/libs/chartjs-plugin-deferred.js"></script>
+    <script src="/Themes/FrontEnd/src/js/libs/circle-progress.js"></script>
+    <script src="/Themes/FrontEnd/src/js/libs/loader.js"></script>
+    <script src="/Themes/FrontEnd/src/js/libs/run-chart.js"></script>
+    <script src="/Themes/FrontEnd/src/js/libs/jquery.magnific-popup.js"></script>
+    <script src="/Themes/FrontEnd/src/js/libs/jquery.gifplayer.js"></script>
+    <script src="/Themes/FrontEnd/src/js/libs/mediaelement-and-player.js"></script>
+    <script src="/Themes/FrontEnd/src/js/libs/mediaelement-playlist-plugin.min.js"></script>
+    <script src="/Themes/FrontEnd/src/js/libs/ion.rangeSlider.js"></script>
+    <script src="/Themes/FrontEnd/src/js/libs/leaflet.js"></script>
+    <script src="/Themes/FrontEnd/src/js/libs/MarkerClusterGroup.js"></script>
+    <script src="/Themes/FrontEnd/src/js/libs/lazyload.js"></script>
+    <script src="/js/jquery.blockUI.js"></script>
+    <script src="~/js/selectize-navbar.js"></script>
+
+    @*<script type="text/javascript">
+            var pageLazyLoad = new LazyLoad({
+                elements_selector: "[loading=lazy]",
+                use_native: true // ← enables hybrid lazy loading
+            });
+
+            window.lazyLoadOptions = {
+                elements_selector: "[loading=lazy]",
+                use_native: true // ← enables hybrid lazy loading
+            };
+        </script>*@
+
+    <script src="/Themes/FrontEnd/src/js/main.js"></script>
+    <script src="/Themes/FrontEnd/src/js/libs-init/libs-init.js"></script>
+    <script defer src="/Themes/FrontEnd/src/fonts/fontawesome-all.js"></script>
+
+    <script src="/Themes/FrontEnd/src/Bootstrap/dist/js/bootstrap.bundle.js"></script>
+    <script src="~/js/jquery.serializeObject.min.js"></script>
+
+    <script src="/Themes/FrontEnd/loading-modal/js/jquery.loadingModal.min.js"></script>
+
+    <!-- SVG icons loader -->
+    <script src="/Themes/FrontEnd/src/js/svg-loader.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/locale/tr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.js"></script>
+    <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+    <script src="https://apis.google.com/js/api:client.js"></script>
+
+    <!-- /SVG icons loader -->
+
+    <script type="text/javascript">
+        function getFbUserData(isConnected) {
+            if (isConnected) {
+                if (sessionStorage.getItem("RefreshToken") == null) {
+                    FB.api('/me?fields=id,email,name,first_name,last_name,gender,birthday', { locale: 'tr_TR' },
+                        function (response) {
+                            if (response.email != null) {
+                                kullaniciFbGiris(response);
+                            }
+                        }
+                    );
+                }
+            }
+        }
+
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: '640271859957164',
+                cookie: false,
+                xfbml: true,
+                version: 'v8.0'
+            });
+
+            FB.getLoginStatus(function (response) {
+                if (response.status == 'connected') {
+                    getFbUserData(true);
+                }
+            });
+        };
+
+        function kullaniciCikis() {
+            $.ajax({
+                url: "/Kullanici/KullaniciCikis",
+                type: "POST",
+                dataType: 'json',
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                success: function (data) {
+                    if (!data) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'İşlem sırasında bir hata oluştu.',
+                            text: data.Code
+                        })
+                    }
+                    if (data) {
+                        if (sessionStorage.getItem("RefreshToken") != null) {
+                            if (sessionStorage.getItem("GoogleGirisMi") == 'true') {
+                                gapi.load('auth2', function () {
+                                    gapi.auth2.init();
+                                    var auth2 = gapi.auth2.getAuthInstance();
+                                    auth2.signOut();
+                                });
+                            }
+                            else {
+                                FB.getLoginStatus(function (response) {
+                                    FB.logout();
+                                });
+                            }
+
+                            sessionStorage.clear();
+                            localStorage.clear();
+                        }
+
+                        setTimeout(function () {
+                            window.location = '/';
+                        }, 200);
+
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    console.log("hata!");
+                }
+            });
+        }
+
+        function uyelikSozlesmesiGetir() {
+            var popupModalContent = $('#popupModalContent');
+            popupModalContent.html('');
+            popupModalContent.load('@Url.Action("UyelikSozlesmesiPartial", "Bilgi")', function () {
+                var popupModal = $("#popupModal");
+                popupModal.modal('show');
+            });
+        }
+
+        function showRightMenuLoading() {
+            $('#fixed-sidebar').loadingModal({ text: 'Lütfen Bekleyin...' });
+            $('#fixed-sidebar').loadingModal('animation', 'cubeGrid');
+        };
+
+        function hideRightMenuLoading(id) {
+            $('#fixed-sidebar').loadingModal('destroy');
+        };
+    </script>
+</body>
+</html>

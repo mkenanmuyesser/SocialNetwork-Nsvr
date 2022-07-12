@@ -1,0 +1,27 @@
+﻿@model List<NeSever.Common.Models.Sayfa.BlogKategoriIcerikVM>
+
+<section class="blog-post-wrap">
+    <div class="container">
+        <div class="row sorting-container" id="posts-grid-1" data-layout="masonry">
+            @foreach (var item in Model)
+            {
+                <div class="col col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 sorting-item community">
+                    <div class="ui-block">
+                        <article class="hentry blog-post blog-post-v2">
+                            <div class="post-thumb">
+                                <a href="/Blog/Ara/@item.BlogKategoriAttribute">
+                                    <img src="@item.ResimBase64" alt="photo">
+                                </a>
+                            </div>
+                            <div class="post-content">
+                                <a href="/Blog/Ara/@item.BlogKategoriAttribute" class="post-category bg-dribbble">@Html.Raw(item.Aciklama)</a>
+                                <a href="/Blog/Ara/@item.BlogKategoriAttribute" class="h4 post-title">@Html.Raw(item.BlogKategoriAdi)</a>
+                                @*<div class="sharethis-inline-share-buttons"></div>*@
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>

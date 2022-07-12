@@ -1,0 +1,151 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+a.navbar-brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+}
+
+/* Provide sufficient contrast against white background */
+a {
+  color: #0366d6;
+}
+
+.fb-login-button {
+    width: 100%;
+}
+
+
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  font-size: 14px;
+}
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.border-top {
+  border-top: 1px solid #e5e5e5;
+}
+.border-bottom {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  line-height: 60px; /* Vertically center the text there */
+}
+
+.tagify {
+    width: 100%;
+    max-width: 700px;
+}
+
+/* Suggestions items */
+.tagify__dropdown.users-list .tagify__dropdown__item {
+    padding: .5em .7em;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0 1em;
+    grid-template-areas: "avatar name" "avatar email";
+}
+
+    .tagify__dropdown.users-list .tagify__dropdown__item:hover .tagify__dropdown__item__avatar-wrap {
+        transform: scale(1.2);
+    }
+
+.tagify__dropdown.users-list .tagify__dropdown__item__avatar-wrap {
+    grid-area: avatar;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #EEE;
+    transition: .1s ease-out;
+}
+
+.tagify__dropdown.users-list img {
+    width: 100%;
+    vertical-align: top;
+}
+
+.tagify__dropdown.users-list strong {
+    grid-area: name;
+    width: 100%;
+    align-self: center;
+}
+
+.tagify__dropdown.users-list span {
+    grid-area: email;
+    width: 100%;
+    font-size: .9em;
+    opacity: .6;
+}
+
+.tagify__dropdown.users-list .addAll {
+    border-bottom: 1px solid #DDD;
+    gap: 0;
+}
+
+
+/* Tags items */
+#users-list .tagify__tag {
+    white-space: nowrap;
+}
+
+    #users-list .tagify__tag:hover .tagify__tag__avatar-wrap {
+        transform: scale(1.6) translateX(-10%);
+    }
+
+    #users-list .tagify__tag .tagify__tag__avatar-wrap {
+        width: 16px;
+        height: 16px;
+        white-space: normal;
+        border-radius: 50%;
+        margin-right: 5px;
+        transition: .12s ease-out;
+    }
+
+    #users-list .tagify__tag img {
+        width: 100%;
+        vertical-align: top;
+    }

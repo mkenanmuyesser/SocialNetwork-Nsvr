@@ -1,0 +1,159 @@
+﻿@model NeSever.Common.Models.FrontEnd.HediyeKartlariVM
+@inject IHttpContextAccessor HttpContextAccessor
+@using  NeSever.Common.Models.FrontEnd;
+
+
+
+<style type="text/css">
+    .scroll {
+        max-height: 400px;
+        overflow-y: scroll;
+    }
+</style>
+
+<div id="ToplamMesajSayisi" hidden>@Model.HediyeKartList.Count</div>
+
+@if (!Model.HediyeKartList.Any())
+{
+    <div class="ui-block-title">
+        <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 align-center pb80 pt80">
+            <p>
+                <h3>Hediye Kart Kutunuz Boş</h3>
+            </p>
+        </div>
+        <a href="javascript:;" class="more" title="Yenile" onclick="MesajYenile();"><svg class="olymp-little-delete"><use xlink:href="#olymp-weather-refresh-icon" xlink:title="Yenile"></use></svg></a>
+        @*<a href="javascript:;" class="more" title="Sil"><svg class="olymp-little-delete"><use xlink:href="#olymp-little-delete" xlink:title="Sil"></use></svg></a>*@
+    </div>
+}
+else
+{
+    <div class="ui-block-title">
+        <h6 class="title">
+            @Model.KullaniciAd
+        </h6>
+        <a href="javascript:;" class="more" title="Yenile" onclick="MesajYenile();"><svg class="olymp-little-delete"><use xlink:href="#olymp-weather-refresh-icon" xlink:title="Yenile"></use></svg></a>
+    </div>
+
+    <div id="MesajScroll" class="scroll" data-mcs-theme="dark">
+        <ul class="notification-list chat-message chat-message-field">
+
+            @foreach (var mesaj in Model.HediyeKartList)
+            {
+            <li>
+                <div id="AliciId" hidden>@mesaj.AliciKullanici.KullaniciId</div>
+                <div id="GondrenId" hidden>@mesaj.GonderenKullanici.KullaniciId</div>
+                @if (Model.KullaniciAd == @mesaj.GonderenKullanici.KullaniciAdi)
+                {
+                    <div class="author-thumb">
+                        <svg class="olymp-little-delete"><use xlink:href="#olymp-popup-left-arrow"></use></svg>
+                    </div>
+                }
+                else
+                {
+                    <div class="author-thumb">
+                        <svg class="olymp-little-delete"><use xlink:href="#olymp-popup-right-arrow"></use></svg>
+
+                    </div>
+                }
+                <div class="notification-event">
+                    <div class="event-info-wrap">
+                        <a href="#" class="h6 notification-friend">@mesaj.GonderenKullanici.Adi  @mesaj.GonderenKullanici.Soyadi</a>
+                        <span style="position:absolute; right:20px;" class="notification-date"><time class="entry-date updated">@mesaj.KayitTarihi.ToString("dd/MM/yyyy HH:mm")</time></span>
+                    </div>
+                    <span class="chat-message-item">
+                        <a data-toggle="modal" href="javascript:;" onclick="hediyeKartGetir('@mesaj.HediyeKartId','@mesaj.GonderenKullanici.KullaniciId');" data-target="#public-event">
+                            <img src="data:image/jpg;base64,@mesaj.HediyeKart.Resim" height="100" width="100" />
+                        </a>
+
+                    </span>
+
+                    <span class="chat-message-item">@mesaj.Aciklama</span>
+                </div>
+                <div class="more">
+                    <a href="javascript:;" id="@mesaj.HediyeKartId" name="MesajSil">
+                        <svg class="olymp-little-delete"><use xlink:href="#olymp-little-delete"></use></svg>
+                    </a>
+                </div>
+            </li>
+            }
+        </ul>
+    </div>
+    <div class="modal fade" id="HediyeKartGonder" tabindex="-1" role="dialog" aria-labelledby="public-event" aria-hidden="true">
+        <div class="modal-dialog window-popup event-private-public public-event" role="document">
+            <div class="modal-content">
+                <a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
+                    <svg class="olymp-close-icon"><use xlink:href="#olymp-close-icon"></use></svg>
+                </a>
+                <div class="modal-body" id="hediyeKartIcerikModalBody">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+<script>
+    function hediyeKartGetir(id,gonderenKullaniciId) {
+        var middleContent = $('#hediyeKartIcerikModalBody');
+        middleContent.html('');
+        middleContent.load('/Home/HediyeKartMesajIcerikPartial/?id=' + id + '&&gonderenKullaniciId='+gonderenKullaniciId);
+        $('#HediyeKartGonder').modal('show');
+    }
+    $(document).ready(function () {
+      
+        $("a").click(function (event) {
+            var clickedItem = $(this);
+            var id = $(this)[0].id;
+            if ($(this)[0].name === "MesajSil") {
+                MesajSil(id);
+            }
+        });
+
+    });
+
+    function MesajSil(id) {
+
+        $.ajax({
+            url: "/Arkadas/HediyeKartSil",
+            type: "POST",
+            data: { "hediyeKartId": id },
+            success: function (data) {
+                var alici = $('#AliciId');
+                alicId = alici.text();
+                $.ajax({
+                    url: "/Arkadas/HediyeKartDetayGetir",
+                    type: "POST",
+                    data: { "gonderenKullaniciId": alicId },
+                    success: function (data) {
+                        var modelCount = $(data).filter('#ToplamMesajSayisi').text();
+
+                        if (parseInt(modelCount) > 0) {
+                            var middleContent = $('#MesajDetayContainer');
+                            middleContent.html('');
+                            middleContent.html(data);
+                            $('#MesajScroll').scrollTop($('#MesajScroll')[0].scrollHeight);
+                            $('#MesajBox').removeAttr('hidden');
+                        }
+                        else {
+                            var middleContent = $('#middleContent');
+                            middleContent.html('');
+                            $('#middleContent').html(data);
+                        }
+
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        console.log("hata!");
+                    }
+                });
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log("hata!");
+            }
+        });
+    }
+
+</script>
+
+
+

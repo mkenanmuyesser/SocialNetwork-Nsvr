@@ -1,0 +1,83 @@
+﻿@model NeSever.Common.Models.FrontEnd.BlogAramaSayfaSonucVM
+@{
+    ViewData["Title"] = "Ara";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <ul class="cat-list-bg-style align-left sorting-menu" style="margin:10px;">
+                <li class="cat-list__item active"><a href="/" class="">ANASAYFA</a></li>
+            </ul>
+
+            <div class="ui-block responsive-flex1200">
+                <div class="ui-block-title">
+                    <div class="w-select">
+                        <div class="title">Kategoriler :</div>
+                        <fieldset class="form-group">
+                            <select id="id" name="id" class="selectpicker form-control">
+                                @foreach (var blogKategoriIcerik in Model.BlogKategoriIcerikList)
+                                {
+                                    <option value="@blogKategoriIcerik.BlogKategoriAttribute" selected="@(Model.BlogKategoriAttribute == blogKategoriIcerik.BlogKategoriAttribute ? "selected" :null)">@blogKategoriIcerik.BlogKategoriAdi</option>
+                                }
+                            </select>
+                        </fieldset>
+                    </div>
+
+                    <div class="w-select">
+                        <form class="w-search" style="width:100%;">
+                            <div class="form-group">
+                                <input id="q" name="q" class="form-control" type="text" placeholder="Ara..." value="@(Context.Request.Query["q"])" style="height:40px;">
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="w-select">
+                        <fieldset class="form-group">
+                            <select id="s" name="s" class="selectpicker form-control">
+                                <option value="TEY" selected="@(Model.BlogSiralama == "TEY" || Model.BlogSiralama == "" ? "selected" :null)">Tarih (En Yeni)</option>
+                                <option value="TEE" selected="@(Model.BlogSiralama == "TEE" ? "selected" :null)">Tarih (En Eski)</option>
+                            </select>
+                        </fieldset>
+                    </div>
+
+                    <a href="javascript:ara();" class="btn btn-primary btn-md-2">Filtrele</a>
+                    <a href="javascript:temizle();" class="btn btn-secondary btn-md-2">Temizle</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="blog-post-wrap pt-1">
+    <div class="container">
+        <div class="row">
+            <div class="col col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12">
+                <partial name="~/Views/Blog/Partials/BlogIcerik.cshtml" model="@Model.BlogIcerikList" />
+            </div>
+
+            <div class="col col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">
+                <partial name="~/Views/Blog/Partials/OneCikanBlogIcerik.cshtml" model="@Model.OneCikanBlogIcerikList" />
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts{
+    <script type="text/javascript">
+        function ara() {
+            var id = $('#id').children("option:selected").val();
+            var s = $('#s').children("option:selected").val();
+            var q = $('#q').val();
+            var location = "/Blog/Ara/" + id + "?s=" + s + (q == "" || q == '' || q == null ? "" : ("&q=" + q));
+            window.location = location;
+        }
+
+        function temizle() {
+            var id = $('#id').children("option:selected").val();           
+            var location = "/Blog/Ara/" + id;
+            window.location = location;
+        }
+    </script>
+}

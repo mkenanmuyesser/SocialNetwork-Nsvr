@@ -1,0 +1,640 @@
+﻿@{
+    ViewData["Title"] = "Kayit";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@model NeSever.Common.Models.Sayfa.BlogKayitVM
+
+
+<div class="d-flex flex-row flex-column-fluid container">
+    <div class="main d-flex flex-column flex-row-fluid">
+        <div class="subheader py-2 py-lg-4 subheader-transparent" id="kt_subheader">
+            <div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+                <div class="d-flex align-items-center flex-wrap mr-1">
+                    <div class="d-flex align-items-baseline flex-wrap mr-5">
+                        <h5 class="text-dark font-weight-bold my-1 mr-5">Blog Kayıt</h5>
+
+                        <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
+                            <li class="breadcrumb-item">
+                                <a href="/Admin/Icerik" class="text-muted">İçerik</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="Admin/Blog" class="text-muted">Blog</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="/Admin/Blog/Kayit" class="text-muted">Kayit</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center">
+                    <a href="#" class="btn btn-icon btn-circle btn-sm btn-light-success mr-1" data-card-tool="reload" onclick="loadPage()">
+                        <i class="ki ki-reload icon-nm"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="content flex-column-fluid" id="kt_content">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card card-custom gutter-b example example-compact">
+                        <div class="card-header">
+                            <h3 class="card-title">Kayıt Alanları</h3>
+                            <div class="card-toolbar">
+                                <div class="example-tools justify-content-center">
+                                    <span class="example-copy" data-toggle="tooltip" title="" style="visibility:hidden"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <form id="_form" method="post" enctype="multipart/form-data">
+                            <input id="hdnBlogId" type="hidden" value="@Model.BlogId" />
+                            <input id="secilenUrunIdleri" type="hidden" value="@Model.secilenUrunIdleri" />
+                            <div asp-validation-summary="ModelOnly"></div>
+                            <div class="alert alert-danger " style="display: none;" id="divAlert">
+                                <button class="close" data-close="alert"></button> <label id="errorMesage"></label>
+                            </div>
+
+                            <div class="card-body">
+                                <div class="form-group row">
+                                    <div class="col-lg-6">
+                                        <label><span class="text-danger">* </span>Kategori:</label>
+                                        <div class="input-group">
+                                            <select asp-for="BlogKategoriId" asp-items="@(new SelectList(Model.BlogKategoriTipleri,"BlogKategoriId","BlogKategoriAdi"))" class="form-control selectpicker"></select>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label><span class="text-danger">* </span>Başlık:</label>
+                                        <div class="input-group">
+                                            <input asp-for="Baslik" class="form-control" placeholder="" type="text" required />
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">
+                                                    <i class="la la-bookmark-o"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-lg-6">
+                                        <label><span class="text-danger">* </span>Kısa İçerik:</label>
+                                        <div class="input-group">
+                                            <textarea id="KisaIcerik" asp-for="KisaIcerik"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label><span class="text-danger">* </span>İçerik:</label>
+                                        <div class="input-group">
+                                            <textarea id="Icerik" asp-for="Icerik"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-lg-6">
+                                        <label>Etiketler:</label>
+                                        <div class="input-group">
+                                            <input asp-for="Etiketler" class="form-control" placeholder='Etiketleri yazın' pattern='^[A-Za-z_✲ ]{1,15}$' />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <label>Öne Çıkan Gönderi:</label>
+                                        <div class="input-group">
+                                            <label class="checkbox checkbox-lg">
+                                                <input asp-for="OneCikanGonderi" type="checkbox"  id="OneCikanGonderi">
+                                                <span></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <label>Aktif Mi?:</label>
+                                        <div class="input-group">
+                                            <input asp-for="AktifMi" data-switch="true" type="checkbox" data-on-color="success" data-off-color="danger" data-on-text="Evet" data-off-text="Hayır" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-lg-6">
+                                        <label><span class="text-danger">* </span>Yayın Tarihi:</label>
+                                        <div class="input-daterange input-group" id="kt_datepicker3">
+                                            <div class="input-group date">
+                                                <input type="text" class="form-control" asp-for="YayinTarihi" data-date-format="dd.mm.yyyy" data-provide="datepicker" required />
+
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text">
+                                                        <i class="la la-calendar"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label>Başlangıç-Bitiş Tarihi:</label>
+                                        <div class="input-daterange input-group" id="kt_datepicker_5" data-date-format="dd.mm.yyyy" data-provide="datepicker">
+                                            <input type="text" class="form-control" placeholder="Başlangıç" asp-for="BaslangicTarihi" />
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">
+                                                    <i class="la la-ellipsis-h"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control" placeholder="Bitiş" asp-for="BitisTarihi" data-date-format="dd.mm.yyyy" data-provide="datepicker" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-lg-4">
+                                        <label>Meta Keywords:</label>
+                                        <div class="input-group">
+                                            <input type="text" asp-for="MetaKeywords" class="form-control" placeholder="" />
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">
+                                                    <i class="la la-map-marker"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <label>Meta Description:</label>
+                                        <div class="input-group">
+                                            <input type="text" asp-for="MetaDescription" class="form-control" placeholder="" />
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">
+                                                    <i class="la la-map-marker"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <label>Meta Title:</label>
+                                        <div class="input-group">
+                                            <input type="text" asp-for="MetaTitle" class="form-control" placeholder="" />
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">
+                                                    <i class="la la-map-marker"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-lg-12">
+                                        <div class="fileinput fileinput-new" data-provides="fileinput">
+                                            <div class="fileinput-preview fileinput-exists thumbnail" style=" max-height: 200px;float:left"> </div>
+                                            <div class="fileinput-new thumbnail" style="height: auto; float:left;max-width:300px" id="fileInputDiv">
+
+                                                @if (Model.BlogResimListesi == null || Model.BlogResimListesi.Count == 0)
+                                                {
+
+                                                    <img src="~/Themes/Admin/design/noimage.png" id="emptyFile" style="max-height:200px;max-width:150px" />
+
+                                                }
+                                                else
+                                                {
+                                                    @foreach (var item in Model.BlogResimListesi)
+
+                                                    {<ul>
+                                                            <li>
+                                                                <img style="max-height:200px;max-width:150px" src="data:image/png;base64,@Convert.ToBase64String(item.Resim)" />
+                                                                <button class="btn btn-lg purple" type="button" onclick="ResimSil(@item.BlogResimId)"><i class="fa fa-times"></i></button>
+                                                            </li>
+
+
+
+
+                                                        </ul>
+                                                    }
+
+
+                                                }
+                                            </div>
+
+                                            <div style="float:left">
+                                                <span class="btn default btn-file">
+
+                                                    <input id="file" name="file" type="file" multiple>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-lg-12">
+
+                                    </div>
+                                </div>
+                               
+
+                                <a href="#" class="btn btn-primary mr-2" data-toggle="modal" data-target="#m_modal" onclick="UrunBulEkle()">Ürün Seç</a>
+                                <!--begin::Modal-->
+                                <div class="modal fade" id="m_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Ürün Bul/Ekle</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--end::Modal-->
+                                <div class="form-group row">
+                         
+                                    <div id="urunTableDiv" class="portlet-body flip-scroll">
+                                        <table class="table table-bordered table-striped table-condensed flip-content" id="urunTable" style="margin: 10%;">
+                                            <tr>
+                                                <th>Sku</th>
+                                                <th>Urun Adi</th>
+
+                                                <th></th>
+                                            </tr>
+                                            @if (Model.SecilenUrunListesi.Count() > 0)
+                                            {
+                                                @foreach (var item in Model.SecilenUrunListesi)
+                                                {
+                                        <tr>
+                                            <td>@item.Sku</td>
+                                            <td>@item.UrunAdi</td>
+
+                                            <td><input type="button" onclick="UrunSil(@item.UrunId)" class="btn btn-warning" value="Sil"></td>
+                                        </tr>
+                                                }
+                                            }
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                                <div class="card-footer">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            @if (Model.BlogId > 0)
+                                            {
+                                                <button id="btnGuncelle" type="submit" class="btn btn-success mr-2">Güncelle</button>
+                                            }
+                                            else
+                                            {
+                                                <button id="btnKaydet" type="submit" class="btn btn-primary mr-2">Kaydet</button>
+                                            }
+                                            <button type="button" class="btn btn-secondary" onclick='location.reload();'>İptal</button>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+</form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+    <script src="/Themes/Admin/dist/assets/plugins/custom/ckeditor/ckeditor-classic.bundle.js?v=7.0.5"></script>
+    <script src="/Themes/Admin/dist/assets/js/pages/crud/forms/widgets/bootstrap-switch.js?v=7.0.5"></script>
+    <script src="/Themes/Admin/dist/assets/js/pages/crud/forms/widgets/bootstrap-datepicker.js?v=7.0.5"></script>
+
+    <script type="text/javascript">
+        function UrunBulEkle() {
+
+        var url = '@Url.Action("UrunBulPartial", "Blog")';
+        $(".modal-body").load(url);
+    }
+        function showLoading(id) {
+            KTApp.block(document.getElementById(id), {
+                overlayColor: '#000000',
+                state: 'danger',
+                message: 'Lütfen bekleyin...'
+            });
+        };
+        function hideLoading(id) {
+            KTApp.unblock(document.getElementById(id));
+        };
+        function ResimSil(resimId) {
+            $.ajax({
+                    url: '/Admin/Blog/ResimSil',
+                data: { Id: resimId },
+                    dataType: "json",
+                    type: "Get",
+                success: function (resultData) {
+                    if (resultData.length == 0) {
+                        $('#fileInputDiv').empty();
+                    }
+                    else {
+                        $('#fileInputDiv ul').remove();
+
+                        $('#fileInputDiv').append('<ul style="list-style-type:circle"');
+                        $.each(resultData, function (key, value) {
+                            var resim = value.ResimBase64;
+                            var blogResimId = value.BlogResimId;
+                            $('#fileInputDiv').append('<li class="deneme"><img  style="max-height:200px;max-width:150px" src="data:image/png;base64,' + resim + '"></img><button class="btn btn-lg purple" type="button" onclick="ResimSil(' + blogResimId + ')"><i class="fa fa-times"></i></button></li >');
+
+                        })
+                        $('#fileInputDiv').append('</ul');
+
+                    }
+
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert(xhr.status);
+                        alert(thrownError);
+                    }
+                });
+        }
+        function UrunSil(urunId) {
+            $.ajax({
+                url: '/Admin/Blog/UrunSil',
+                data: { Id: urunId },
+                traditional: true,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                type: "Get",
+                beforeSend: function () {
+                    showLoading('_form');
+                },
+                complete: function () {
+                    hideLoading('_form');
+                },
+                error: function (error) {
+                    hideLoading('_form');
+                },
+                success: function (result) {
+                    $('#UrunListesi option').remove();
+                    $('#UrunListesi').selectpicker('refresh');
+
+                    var tbl = $('#urunTable');
+                    $('#urunTable tr').remove();
+                    var rowBaslik = $('<tr></tr>').attr({ class: ["class1", "class2", "class3"].join(' ') }).appendTo(tbl);
+                    $('<th>SKU</th><th>Urun Adi</th><th></th>').appendTo(rowBaslik);
+                    for (var i = 0; i < result.length; i++) {
+                        var row = $('<tr></tr>').attr({ class: ["class1", "class2", "class3"].join(' ') }).appendTo(tbl);
+
+                        $('<td></td>').text(result[i].Sku).appendTo(row);
+                        $('<td></td>').text(result[i].UrunAdi).appendTo(row);
+                        $('<td><input type="button" onclick="UrunSil(' + result[i].UrunId + ')" class="btn btn-warning" value="Sil"></button></td>').appendTo(row);
+                    }
+
+                    tbl.appendTo($("#urunTableDiv"));
+                    $($('.filter-option-inner-inner').last()).html("Lütfen aradığınız ürünün SKU numarasını giriniz...");
+
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status);
+                    alert(thrownError);
+                }
+            });
+        }
+        function readURL(input) {
+            $('#emptyFile').remove();
+            $('#fileInputDiv').empty();
+            $('#fileInputDiv').append('<ul style="list-style-type:circle"');
+
+
+            for (var i = 0; i < input.files.length; i++)
+            {
+                if (input.files[i] && input.files[i]) {
+                    var reader = new FileReader();
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+
+                        $('#fileInputDiv').append('<li><img  style="max-height:200px;max-width:150px" src="' + e.target.result + '"></img></li>');
+                    }
+                    reader.readAsDataURL(input.files[i]);
+                }
+
+            }
+            $('#fileInputDiv').append('</ul');
+
+        }
+        $("#file").change(function () {
+            readURL(this);
+        });
+        var KTCkeditor1 = function () {
+            //Private functions
+            var demos = function () {
+                ClassicEditor
+                    .create(document.querySelector('#KisaIcerik'))
+                    .then(editor => {
+                        KisaIcerikEditor = editor;
+                    })
+                    .catch(err => {
+                        console.error(err.stack);
+                    });
+            }
+
+            return {
+                // public functions
+                init: function () {
+                    demos();
+                }
+            };
+        }();
+        var KTCkeditor2 = function () {
+            // Private functions
+            var demos = function () {
+                ClassicEditor
+
+                    .create(document.querySelector('#Icerik'))
+                    .then(editor => {
+                        IcerikEditor = editor;
+                    })
+                    .catch(err => {
+                        console.error(err.stack);
+                    });
+            }
+
+            return {
+                // public functions
+                init: function () {
+                    demos();
+                }
+            };
+        }();
+        var KTTagify = function () {
+            var demo4 = function () {
+                var input = document.getElementById('Etiketler');
+                var tagify = new Tagify(input, {
+                    pattern: /^.{0,20}$/, // Validate typed tag(s) by Regex. Here maximum chars length is defined as "20"
+                    delimiters: ", ", // add new tags when a comma or a space character is entered
+                    maxTags: 6,
+                    blacklist: ["fuck", "shit", "pussy"],
+                    keepInvalidTags: true, // do not remove invalid tags (but keep them marked as invalid)
+                    whitelist: ["temple", "stun", "detective", "sign", "passion", "routine", "deck", "discriminate", "relaxation", "fraud", "attractive", "soft", "forecast", "point", "thank", "stage", "eliminate", "effective", "flood", "passive", "skilled", "separation", "contact", "compromise", "reality", "district", "nationalist", "leg", "porter", "conviction", "worker", "vegetable", "commerce", "conception", "particle", "honor", "stick", "tail", "pumpkin", "core", "mouse", "egg", "population", "unique", "behavior", "onion", "disaster", "cute", "pipe", "sock", "dialect", "horse", "swear", "owner", "cope", "global", "improvement", "artist", "shed", "constant", "bond", "brink", "shower", "spot", "inject", "bowel", "homosexual", "trust", "exclude", "tough", "sickness", "prevalence", "sister", "resolution", "cattle", "cultural", "innocent", "burial", "bundle", "thaw", "respectable", "thirsty", "exposure", "team", "creed", "facade", "calendar", "filter", "utter", "dominate", "predator", "discover", "theorist", "hospitality", "damage", "woman", "rub", "crop", "unpleasant", "halt", "inch", "birthday", "lack", "throne", "maximum", "pause", "digress", "fossil", "policy", "instrument", "trunk", "frame", "measure", "hall", "support", "convenience", "house", "partnership", "inspector", "looting", "ranch", "asset", "rally", "explicit", "leak", "monarch", "ethics", "applied", "aviation", "dentist", "great", "ethnic", "sodium", "truth", "constellation", "lease", "guide", "break", "conclusion", "button", "recording", "horizon", "council", "paradox", "bride", "weigh", "like", "noble", "transition", "accumulation", "arrow", "stitch", "academy", "glimpse", "case", "researcher", "constitutional", "notion", "bathroom", "revolutionary", "soldier", "vehicle", "betray", "gear", "pan", "quarter", "embarrassment", "golf", "shark", "constitution", "club", "college", "duty", "eaux", "know", "collection", "burst", "fun", "animal", "expectation", "persist", "insure", "tick", "account", "initiative", "tourist", "member", "example", "plant", "river", "ratio", "view", "coast", "latest", "invite", "help", "falsify", "allocation", "degree", "feel", "resort", "means", "excuse", "injury", "pupil", "shaft", "allow", "ton", "tube", "dress", "speaker", "double", "theater", "opposed", "holiday", "screw", "cutting", "picture", "laborer", "conservation", "kneel", "miracle", "primary", "nomination", "characteristic", "referral", "carbon", "valley", "hot", "climb", "wrestle", "motorist", "update", "loot", "mosquito", "delivery", "eagle", "guideline", "hurt", "feedback", "finish", "traffic", "competence", "serve", "archive", "feeling", "hope", "seal", "ear", "oven", "vote", "ballot", "study", "negative", "declaration", "particular", "pattern", "suburb", "intervention", "brake", "frequency", "drink", "affair", "contemporary", "prince", "dry", "mole", "lazy", "undermine", "radio", "legislation", "circumstance", "bear", "left", "pony", "industry", "mastermind", "criticism", "sheep", "failure", "chain", "depressed", "launch", "script", "green", "weave", "please", "surprise", "doctor", "revive", "banquet", "belong", "correction", "door", "image", "integrity", "intermediate", "sense", "formal", "cane", "gloom", "toast", "pension", "exception", "prey", "random", "nose", "predict", "needle", "satisfaction", "establish", "fit", "vigorous", "urgency", "X-ray", "equinox", "variety", "proclaim", "conceive", "bulb", "vegetarian", "available", "stake", "publicity", "strikebreaker", "portrait", "sink", "frog", "ruin", "studio", "match", "electron", "captain", "channel", "navy", "set", "recommend", "appoint", "liberal", "missile", "sample", "result", "poor", "efflux", "glance", "timetable", "advertise", "personality", "aunt", "dog"],
+                    transformTag: transformTag,
+
+                    dropdown: {
+                        enabled: 3,
+                    }
+                });
+
+                function transformTag(tagData) {
+                    var states = [
+                        'success',
+                        'primary',
+                        'danger',
+                        'success',
+                        'warning',
+                        'dark',
+                        'primary',
+                        'info'];
+
+                    tagData.class = 'tagify__tag tagify__tag--' + states[KTUtil.getRandomInt(0, 7)];
+
+                    if (tagData.value.toLowerCase() == 'shit') {
+                        tagData.value = 's✲✲t'
+                    }
+                }
+
+                tagify.on('add', function (e) {
+                    console.log(e.detail)
+                });
+
+                tagify.on('invalid', function (e) {
+                    console.log(e, e.detail);
+                });
+            }
+            return {
+                init: function () {
+                    demo4();
+                }
+            };
+        }();
+        function loadPage() {
+            location.reload();
+        }
+        jQuery(document).ready(function () {
+        
+            if ($('#hdnBlogId').val() == 0) {
+                $('#AktifMi').bootstrapSwitch('state', true);
+               
+            }
+                   
+
+
+
+ 
+
+
+    KTCkeditor1.init();
+    KTCkeditor2.init();
+    KTTagify.init();
+    FormValidation.formValidation(document.getElementById('_form'),
+        {
+         
+            fields: {
+                Baslik: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Zorunlu Alan.'
+                        }
+                    }
+                },
+
+                YayinTarihi: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Zorunlu Alan.'
+                        }
+                    }
+                },
+            
+               
+            },
+            plugins: {
+                submitButton: new FormValidation.plugins.SubmitButton(),
+                bootstrap: new FormValidation.plugins.Bootstrap({
+                    eleInvalidClass: '',
+                    eleValidClass: '',
+                })
+            }
+        }
+    ).on('core.form.valid', function () {
+        var data = new FormData($('#_form')[0]);
+        if ($('#Etiketler').val() != "") {
+            var arrayEtiket = JSON.parse($('#Etiketler').val());
+            var etiketler = "";
+            for (var k in arrayEtiket) {
+                etiketler += arrayEtiket[k].value + ',';
+            }
+            etiketler = etiketler.substring(0, etiketler.length - 1);
+            data.append('Etiketler', etiketler);
+
+        }
+
+        data.append('BlogId', $('#hdnBlogId').val());
+        data.append('AktifMi', $('#AktifMi').prop('checked'));
+        data.append('OneCikanGonderi', $('#OneCikanGonderi').prop('checked'));
+        data.append('KisaIcerikContent', KisaIcerikEditor.getData());
+        data.append('IcerikContent', IcerikEditor.getData());
+        $.ajax({
+            type: "post",
+            url: "/Admin/Blog/Kayit",
+            data: data,
+            contentType: false,
+            processData: false,
+            beforeSend: function () {
+                showLoading('_form');
+            },
+            success: function (result) {
+                hideLoading('_form');
+
+
+                if (result.id > 0) {
+                    $('#hdnBlogId').val(result.id);
+
+                    if (result.operation == "insert") {
+                        $("#btnKaydet").removeClass('btn-primary');
+                        $("#btnKaydet").addClass('btn-success');
+                        $("#btnKaydet").html('Güncelle');
+                        window.history.pushState("", "", "Kayit/" + result.id);
+                    }
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'İşlem Başarılı!',
+                        text: '',
+                        showCloseButton: true,
+                        confirmButtonText: "Tamam",
+                        cancelButtonText: "İptal",
+                    });
+                }
+                else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'İşlem Sırasında Hata Oluştu!',
+                        text: '',
+                        showCloseButton: true,
+                        confirmButtonText: "Tamam",
+                        cancelButtonText: "İptal",
+                    });
+                }
+            },
+
+            error: function (err) {
+                hideLoading('_form');
+
+                Swal.fire(
+                    "Hata",
+                    "İşlem sırasında hata oluştu. " + err,
+                    "error"
+                )
+            }
+        });
+
+    }
+
+
+    );
+
+
+
+});
+    </script>
+}

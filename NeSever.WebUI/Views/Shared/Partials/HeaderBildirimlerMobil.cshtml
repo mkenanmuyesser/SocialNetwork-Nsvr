@@ -1,0 +1,101 @@
+﻿@model IEnumerable<NeSever.Common.Models.Uyelik.KullaniciBildirimVM>
+
+<div class="mCustomScrollbar" data-mcs-theme="dark">
+    <div class="ui-block-title ui-block-title-small">
+        <h6 class="title">BİLDİRİMLER</h6>
+        @if (Model.Count() > 0)
+        {
+            <a href="javascript:;" onclick="hepsiMobilOkundu();" style="float:right;">Hepsini okundu işaretle</a>
+        }
+    </div>
+
+    <div id="bildirimMobilIcerik">
+        <ul class="notification-list">
+            @if (Model.Count() == 0)
+            {
+                <li class="un-read">
+                    <div class="notification-event">
+                        <div>Bildiriminiz yoktur. </div>
+                    </div>
+                </li>
+            }
+            else
+            {
+                @if (Model.Count() < 4)
+                {
+
+                    @foreach (var bildirim in Model)
+                    {
+                        <li class="un-read">
+                            <div class="notification-event" style="width:100%;max-width:100%;">
+                                <div>@Html.Raw(@bildirim.BildirimIcerik)</div>
+                                <span class="notification-date"><time class="entry-date updated" datetime="@bildirim.KayitTarihi">@bildirim.KayitTarihi</time></span>
+                            </div>
+                        </li>
+                    }
+                }
+                else
+                {
+                    var donus = 0;
+                    @foreach (var bildirim in Model)
+                    {
+                        if (donus < 3)
+                        {
+                            <li id="bildirimMobilIcerik" class="un-read">
+                                <div class="notification-event" style="width:100%;max-width:100%;">
+                                    <div>@Html.Raw(@bildirim.BildirimIcerik)</div>
+                                    <span class="notification-date"><time class="entry-date updated" datetime="@bildirim.KayitTarihi">@bildirim.KayitTarihi</time></span>
+                                </div>
+                            </li>
+                            donus++;
+                        }
+
+                    }
+                }
+
+            }
+
+            <!--<li>
+               <div class="author-thumb">
+                   <img src="/Uploads/ProfilePictureSmall/avatar50-sm.jpg" alt="author">
+               </div>
+               <div class="notification-event">
+                   <div><a href="#" class="h6 notification-friend">Ad Soyad</a> profilini <a href="#" class="notification-link">ziyaret etti</a>.</div>
+                   <span class="notification-date"><time class="entry-date updated" datetime="01.01.2020 01:00">01.01.2020 01:00</time></span>
+               </div>
+               <span class="notification-icon">
+                   <svg class="olymp-comments-post-icon"><use xlink:href="#olymp-comments-post-icon"></use></svg>
+               </span>
+
+               <div class="more">
+                   <a href="#">
+                       <svg class="olymp-little-delete"><use xlink:href="#olymp-check-icon"></use></svg>
+                   </a>
+               </div>
+           </li>-->
+        </ul>
+    </div>
+
+    @if (Model.Count() > 3)
+    {
+        <span onclick="bildirimlereGit();" class="notification-icon" style="text-align:center; padding:50%; font-size:18px; font-weight:bold; cursor:pointer">...</span>
+    }
+    <a href="javascript:;" onclick="bildirimlereMobilGit();" class="view-all bg-primary">Bildirimlere Git</a>
+
+</div>
+
+<script type="text/javascript">
+    function hepsiMobilOkundu() {
+        $('#bildirimMobilIcerik').empty();
+        $('#bildirimMobilIcerik').html('<li class="un-read"><div class="notification-event"><div>Bildiriminiz yoktur.</div></div></li>');
+        $('#headerMobilBildirimlerSayisi').empty();
+        $('#headerMobilBildirimlerSayisi').html('0');
+    }
+
+    function bildirimlereMobilGit() {
+        window.history.pushState('Object', 'Title', '/Kullanici/Profil/#bildirim');
+        window.location.reload();
+
+        return false;
+    }
+</script>

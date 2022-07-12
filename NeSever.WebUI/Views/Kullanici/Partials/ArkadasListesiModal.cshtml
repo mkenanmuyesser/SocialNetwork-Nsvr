@@ -1,0 +1,248 @@
+﻿@model NeSever.Common.Models.FrontEnd.ArkadasListesiModalVM
+
+    <style>
+        a {
+            color: black;
+            background-color: transparent;
+            text-decoration: none;
+            font-weight:bold;
+        }     
+    </style>
+ 
+@if (Model.ArkadasList.Any())
+{
+    @foreach (var item in Model.ArkadasList)
+    {
+
+    <div class="inline-items" style="margin-bottom:8px; position:relative;">
+        <div class="author-thumb">
+            <a href="/Kullanici/Profil/@item.KullaniciAdi">
+                <img src="@item.ProfilResmiBase64" style="width:40px; height:40px;" alt="author">
+            </a>
+        </div>
+        <div class="h6 author-title" style="position:absolute; top:10%">
+            <a href="/Kullanici/Profil/@item.KullaniciAdi">
+                <div>@item.KullaniciAdi</div>
+            </a>
+            <div style="float:left; color:black; font-weight:400;">@item.Adi @item.Soyadi</div>
+        </div>
+        <div style="float:right; margin-top: 6px;">
+            @if (item.ArkadaslikIstekTalepleriDurum != 2)
+            {
+                @switch (item.ArkadaslikIstekDurum)
+                {
+                    default:
+                    case 0:
+                        <a id="@item.KullaniciId" name="ArkadasEkleModal" href="javascript:;" class="accept-request">
+                            <span class="icon-add without-text">
+                                <svg class="olymp-happy-face-icon" style="position: static; fill:white; width:14px; height:14px;"><use xlink:href="#olymp-happy-face-icon"></use></svg>
+                            </span>
+                        </a>
+                        break;
+                    case 1:
+                        <a id="@item.KullaniciId" name="ArkadaslikIstekGonderildiModal" href="javascript:;" class="accept-request">
+                            İstek Gönderildi
+                        </a>
+                        break;
+                    case 2:
+                        <a id="@item.KullaniciId" name="ArkadasKabulEdildiModal" href="javascript:;" class="accept-request">
+                            Zaten Arkadaşsınız
+                        </a>
+                        break;
+                    case 3:
+                        <a id="@item.KullaniciId" name="ArkadaslikIstekBanaGonderildiModal" href="javascript:;" class="accept-request">
+                            Size İstek Gönderildi
+                        </a>
+                        break;
+                    case 4:
+
+                        break;
+                }
+            }
+        </div>
+        </div>
+            
+    }
+
+    <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 align-center">
+        <nav aria-label="Page navigation">
+            @Html.PagedListPager((IPagedList)Model.ArkadasList, page => Url.Action("ArkadasListesiModalPartial",
+            new NeSever.Common.Models.Uyelik.ArkadasListesiModalPartialVM
+            {
+                p = page,
+                ap = Model.KullaniciAdi
+            }),
+            PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(
+            new PagedListRenderOptions
+            {
+                UlElementClasses = new string[] { "pagination justify-content-center" },
+                LiElementClasses = new string[] { "page-item" },
+                ActiveLiElementClass = "page-item active",
+                PageClasses = new string[] { "page-link" },
+                EllipsesFormat = "<a class='page-link' style='padding:12px 0px 0px 0px; border:none;'>...</a>",
+                Display = PagedListDisplayMode.Always,
+                DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+                DisplayLinkToLastPage = PagedListDisplayMode.Always,
+                DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+                DisplayLinkToNextPage = PagedListDisplayMode.Always,
+                MaximumPageNumbersToDisplay = 5,
+                ContainerDivClasses = null,
+            },
+            new AjaxOptions
+            {
+                HttpMethod = "POST",
+                UpdateTargetId = "targetElement",
+                OnBegin = "onAjaxBaslat",
+                OnSuccess = "onAjaxBasarili",
+                OnFailure = "onAjaxHata"
+            }))
+        </nav>
+    </div>
+}
+
+<script type="text/javascript">
+    function onAjaxBaslat(data, status, xhr) {
+        yuklenirkenGoster();
+    }
+
+    function onAjaxBasarili(data, status, xhr) {
+        yuklemeyiBitir();
+
+        var arkadasListesi = $('#arkadasListesi');
+        arkadasListesi.html('');
+        arkadasListesi.html(data);
+    }
+
+    function onAjaxHata(xhr, status, error) {
+        $("#targetElement").html("<strong>İşlem sırasında bir hata oluştu:" + error + "<br/>.</strong>");
+    }
+
+    $(document).ready(function () {
+        $("a").click(function (event) {
+            var clickedItem = $(this);
+            var id = $(this)[0].id;
+
+            if ($(this)[0].name === "ArkadasEkleModal") {
+                $.ajax({
+                    url: "/Arkadas/ArkadaslikIsteginiGonder",
+                    type: "POST",
+                    dataType: 'json',
+                    data: { "kullaniciId": id },
+                    success: function (data) {
+                        if (data == false) {
+                            Swal.fire({
+                                title: '',
+                                text: "Giriş yapılmadı!.",
+                                icon: 'warning',
+                                confirmButtonColor: '#d33',
+                                cancelButtonColor: '#3085d6',
+                            })
+                        }
+                        else if (data.Data == false && data.ErrorMessage == "istekVar") {
+                            clickedItem.empty();
+                            clickedItem.addClass("accept-request")
+                                .append(
+                                    '<span class="icon-add without-text"><svg class= "olymp-happy-face-icon" style = "position: static; fill:white; width:14px; height:14px;"><use xlink: href="#olymp-happy-face-icon"></use></svg></span >'
+                                ).fadeIn('slow');
+                        }
+                        else if (data.Data == false && data.ErrorMessage == "arkadaslikVar") {
+                            Swal.fire({
+                                title: '',
+                                text: "Zaten arkadaşsınız.",
+                                icon: 'warning',
+                                confirmButtonColor: '#d33',
+                                cancelButtonColor: '#3085d6',
+                            })
+                        }
+                        else if (data.Data == false && data.ErrorMessage == "banaIstekVar") {
+                            clickedItem.empty();
+                            clickedItem.addClass("accept-request")
+                                .append(
+                                    'Size İstek Gönderildi'
+                                ).fadeIn('slow');
+                        }
+                        else if (data.Data == false && data.ErrorMessage == "ArkadasiminArkadasiDegil") {
+                            Swal.fire({
+                                title: '',
+                                text: "Sadece Arkadaşlarının Arkadaşları İstek Yollayabilir!",
+                                icon: 'warning',
+                                confirmButtonColor: '#d33',
+                                cancelButtonColor: '#3085d6',
+                                confirmButtonText: "Tamam",
+                            })
+                        }
+                        else {
+                            clickedItem.empty();
+                            clickedItem.addClass("accept-request")
+                                .append(
+                                    'İstek Gönderildi'
+                                ).fadeIn('slow');
+                        }
+
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        console.log("hata!");
+                    }
+                });
+            }
+            else if ($(this)[0].name === "ArkadaslikIstekGonderildiModal") {
+                $.ajax({
+                    url: "/Arkadas/ArkadaslikIstekGonderildiMi",
+                    type: "POST",
+                    dataType: 'json',
+                    data: { "kullaniciId": id },
+                    success: function (data) {
+                        if (data == false) {
+                            ShowModal();
+                        }
+                        else {
+                            if (data.Data == false && data.ErrorMessage == "ArkadaslikTalebiSilindi") {
+                                clickedItem.empty();
+                                clickedItem.addClass("accept-request")
+                                    .append(
+                                        '<span class="icon-add without-text"><svg class= "olymp-happy-face-icon" style = "position: static; fill:white; width:14px; height:14px;"><use xlink: href="#olymp-happy-face-icon"></use></svg></span >'
+                                    ).fadeIn('slow');
+                            }
+                            else {
+                                clickedItem.empty();
+                                clickedItem.addClass("accept-request")
+                                    .append(
+                                        'İstek Gönderildi'
+                                    ).fadeIn('slow');
+                            }
+
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        console.log("hata!");
+                    }
+                });
+            }
+            else if ($(this)[0].name === "ArkadaslikIstekBanaGonderildiModal") {
+                $.ajax({
+                    url: "/Arkadas/ArkadaslikIstekBanaGonderildiMi",
+                    type: "POST",
+                    dataType: 'json',
+                    data: { "kullaniciId": id },
+                    success: function (data) {
+                        if (data == false) {
+                            ShowModal();
+                        }
+                        else {
+                            Swal.fire({
+                                title: '',
+                                text: "Zaten üye tarafından size arkadaşlık talebi yapılmıştır.",
+                                icon: 'warning',
+                                confirmButtonColor: '#d33',
+                                cancelButtonColor: '#3085d6',
+                            })
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        console.log("hata!");
+                    }
+                });
+            }           
+        });
+    });
+</script>

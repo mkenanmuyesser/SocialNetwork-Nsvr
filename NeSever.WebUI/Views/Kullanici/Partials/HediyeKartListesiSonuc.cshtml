@@ -1,0 +1,314 @@
+﻿@model IPagedList<NeSever.Common.Models.Uyelik.HediyeKartKonusmaListesiVM>
+
+@inject IHttpContextAccessor HttpContextAccessor
+@using  NeSever.Common.Models.FrontEnd;
+
+@{
+    ProfilVM profil = new ProfilVM();
+
+    if (Context.Session.GetString("ArkadasProfil") != null)
+    {
+        profil = Newtonsoft.Json.JsonConvert.DeserializeObject<ProfilVM>(Context.Session.GetString("ArkadasProfil"));
+    }
+}
+
+<style type="text/css">
+    .olymp-little-delete {
+        width: 12px;
+        height: 12px;
+    }
+</style>
+
+
+<div id="ToplamMesajSayisi" hidden>0</div>
+<div class="row">
+    <div id="AliciId" hidden></div>
+    @if (!Model.Any())
+    {
+        <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 align-center pb80 pt80">
+            <p>
+                <h3>Hediye Kart Listeniz Boş</h3>
+            </p>
+        </div>
+    }
+    else
+    {
+        <div class="col col-xl-5 col-lg-6 col-md-12 col-sm-12 col-12 padding-r-0">
+            <ul class="notification-list chat-message">
+                @foreach (var mesaj in Model)
+                {
+                <li>
+                    <div class="author-thumb">
+                        <img src="@mesaj.ProfilResmiBase64" alt="author" style="max-height:16px; max-height:16px;">
+                    </div>
+                    <div class="notification-event">
+                        @if (mesaj.OkunduMu)
+                        {
+                            <a href="javascript:;" id="@mesaj.KullaniciId" name="MesajDetay" class="h6 notification-friend" style="font-weight:400">@mesaj.Adi @mesaj.Soyadi</a>
+                        }
+                        else
+                        {
+                            <a href="javascript:;" id="@mesaj.KullaniciId" name="MesajDetay" class="h6 notification-friend">@mesaj.Adi @mesaj.Soyadi</a>
+                        }
+                        <span class="chat-message-item">@mesaj.Aciklama ...</span>
+                        <span class="notification-date"><time class="entry-date updated">@mesaj.SonKonusmaTarihi.ToString("dd/MM/yyyy HH:mm")</time></span>
+                    </div>
+                    <span class="notification-icon">
+                        <a href="javascript:;" id="@mesaj.KullaniciId" name="MesajDetay">
+                            <svg class="olymp-chat---messages-icon"><use xlink:href="#olymp-chat---messages-icon"></use></svg>
+                        </a>
+                    </span>
+                    <div class="more" style="opacity:50 !important">
+                        <a href="javascript:;" id="@mesaj.KullaniciId" name="KonusmaSil">
+                            <svg class="olymp-little-delete"><use xlink:href="#olymp-little-delete"></use></svg>
+                        </a>
+                    </div>
+                </li>
+                }
+            </ul>
+        </div>
+
+        <div class="col col-xl-7 col-lg-6 col-md-12 col-sm-12 col-12 padding-l-0">
+            <div class="chat-field">
+                <div id="MesajDetayContainer">
+
+                </div>
+            </div>
+      
+        </div>
+    }
+</div>
+
+@*<div class="modal fade" id="MesajGonder" tabindex="-1" role="dialog" aria-labelledby="fav-page-popup" aria-hidden="true">
+    <div class="modal-dialog window-popup fav-page-popup" role="document">
+        <div class="modal-content">
+            <a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
+                <svg class="olymp-close-icon"><use xlink:href="#olymp-close-icon"></use></svg>
+            </a>
+            <div class="modal-header">
+                <h6 class="title">Mesaj Gönder</h6>
+            </div>
+
+            <div id="MesajGonderModalBody" class="modal-body">
+
+            </div>
+        </div>
+    </div>
+</div>*@
+
+
+@if (Model.Any())
+{
+    <nav aria-label="Page navigation">
+        @Html.PagedListPager((IPagedList)Model, page => Url.Action("HediyeKartiPartial", new
+        {
+            p = page,
+            q = Context.Request.Query["q"],
+        }),
+                    PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(
+                    new PagedListRenderOptions
+                    {
+                        UlElementClasses = new string[] { "pagination justify-content-center" },
+                        LiElementClasses = new string[] { "page-item" },
+                        ActiveLiElementClass = "page-item active",
+                        PageClasses = new string[] { "page-link" },
+                        EllipsesFormat = "<a class='page-link' style='padding:12px 0px 0px 0px; border:none;'>...</a>",
+                        Display = PagedListDisplayMode.Always,
+                        DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+                        DisplayLinkToLastPage = PagedListDisplayMode.Always,
+                        DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+                        DisplayLinkToNextPage = PagedListDisplayMode.Always,
+                        MaximumPageNumbersToDisplay = 5,
+                        ContainerDivClasses = null,
+                    },
+                    new AjaxOptions
+                    {
+                        HttpMethod = "GET",
+                        UpdateTargetId = "targetElement",
+                        OnBegin = "onAjaxBegin",
+                        OnSuccess = "onAjaxSuccess",
+                        OnFailure = "onAjaxFailure"
+                    }))
+    </nav>
+}
+<script src="/js/ajax-bootstrap-select.js"></script>
+<script src="/js/ajax-bootstrap-select.tr-TR.js"></script>
+<script>
+
+    $(document).ready(function () {
+
+        $.ajax({
+            url: "/Kullanici/MenuDegerleri",
+            type: "POST",
+            dataType: 'json',
+            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+            success: function (data) {
+                if (data == false) {
+                    location.reload();
+                }
+
+                $('#ArkadasSayisi').text("(" + data.ArkadasSayisi + ")");
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log("hata!");
+            }
+        });
+
+        var options = {
+            ajax: {
+                url: '/Arkadas/ArkadasAra',
+                dataType: 'json',
+                data: {
+                    query: '{{{q}}}'
+                }
+            },
+            locale: {
+                emptyTitle: 'Arkadaş Ara...'
+            },
+            log: 3,
+            preprocessData: function (data) {
+                var i, l = data.length, array = [];
+                if (l) {
+                    for (i = 0; i < l; i++) {
+                        array.push($.extend(true, data[i], {
+                            text: data[i].Adi + " " + data[i].Soyadi,
+                            value: data[i].ArkadasKullaniciId
+                        }));
+                    }
+                }
+
+                return array;
+            }
+        };
+
+        $(".selectpicker")
+            .selectpicker()
+            .filter(".with-ajax")
+            .ajaxSelectPicker(options);
+        $("select").trigger("change");
+
+
+
+        $("a").click(function (event) {
+            var clickedItem = $(this);
+            var id = $(this)[0].id;
+            if (id.length) {
+                $('#AliciId').text(id);
+            }
+            if ($(this)[0].name === "MesajDetay") {
+                document.getElementById(id).style.fontWeight = 400;
+                MesajlarListesiPartialGetir(id);
+            }
+
+            if ($(this)[0].name === "KonusmaSil") {
+
+                KonusmaSil(id);
+
+            }
+
+        });
+
+        //document.addEventListener("keypress", function onEvent(event) {
+        //    if (event.key === "Enter") {
+        //        MesajGonder();
+        //    }
+        //});
+    });
+
+
+    function MesajYenile() {
+        var alici = $('#AliciId');
+
+        if (alici != null) {
+            var id = alici.text();
+            MesajlarListesiPartialGetir(id);
+        }
+    }
+
+    function KonusmaSil(id) {
+        $.ajax({
+            url: "/Arkadas/HediyeKartKonusmaSil",
+            type: "POST",
+            data: { "gonderenKullaniciId": id },
+            success: function (data) {
+                if (data.ErrorMessage != null) {
+                    var hediyeKartSayisi = $('#hediyeKartiSayi').html();
+                    var hediyeKartSayisiInt = parseInt(hediyeKartSayisi);
+                    var silinenHediyeKartSayisi = parseInt(data.ErrorMessage);
+                    hediyeKartSayisiInt -= silinenHediyeKartSayisi;
+                    $('#hediyeKartiSayi').html(hediyeKartSayisiInt);
+                    $('#hediyeKartiSayiMobil').html(hediyeKartSayisiInt);                 
+                }
+                $.ajax({
+                    url: "/Kullanici/HediyeKartiPartial/?q=",
+                    type: 'GET',
+                    cache: false,
+                    success: function (result) {
+                        var middleContent = $('#middleContent');
+                        middleContent.html('');
+                        $('#middleContent').html(result);
+                    }
+                });
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log("hata!");
+            }
+        });
+    }
+
+    function MesajlarListesiPartialGetir(id) {
+        $.ajax({
+            url: "/Arkadas/HediyeKartDetayGetir",
+            type: "POST",
+            data: { "gonderenKullaniciId": id },
+            success: function (data) {
+                var middleContent = $('#MesajDetayContainer');
+                middleContent.html('');
+                middleContent.html(data);
+                $('#MesajScroll').scrollTop($('#MesajScroll')[0].scrollHeight);
+                $('#MesajBox').removeAttr('hidden');
+                $.ajax({
+                    url: "/Arkadas/HediyeKartOkunduIsaretle",
+                    type: "POST",
+                    data: { "gonderenKullaniciId": id },
+                    success: function (data) {
+                        var hediyeKartSayisi = $('#hediyeKartiSayi').html();
+                        var hediyeKartSayisiInt = parseInt(hediyeKartSayisi);
+                        hediyeKartSayisiInt -= data;
+                        $('#hediyeKartiSayi').html(hediyeKartSayisiInt);
+                        $('#hediyeKartiSayiMobil').html(hediyeKartSayisiInt); 
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        console.log("hata!");
+                    }
+                });
+                
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log("hata!");
+            }
+        });
+    }
+
+</script>
+
+<script>
+
+    function onAjaxBegin(data, status, xhr) {
+        showLoading();
+    }
+
+    function onAjaxSuccess(data, status, xhr) {
+        hideLoading();
+
+        var middleContent = $('#middleContent');
+        middleContent.html('');
+        middleContent.html(data);
+    }
+
+    function onAjaxFailure(xhr, status, error) {
+        $("#targetElement").html("<strong>İşlem sırasında bir hata oluştu:" + error + "<br />.</strong>");
+    }
+
+</script>
+

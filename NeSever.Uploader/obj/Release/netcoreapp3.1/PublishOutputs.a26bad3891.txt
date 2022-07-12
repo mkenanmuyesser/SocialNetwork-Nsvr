@@ -1,0 +1,11 @@
+C:\NeSeverUploader\NeSever.Uploader.exe
+C:\NeSeverUploader\NeSever.Uploader.dll
+C:\NeSeverUploader\NeSever.Uploader.deps.json
+C:\NeSeverUploader\NeSever.Uploader.runtimeconfig.json
+C:\NeSeverUploader\NeSever.Uploader.pdb
+C:\NeSeverUploader\System.Data.SqlClient.dll
+C:\NeSeverUploader\runtimes\win-arm64\native\sni.dll
+C:\NeSeverUploader\runtimes\win-x64\native\sni.dll
+C:\NeSeverUploader\runtimes\win-x86\native\sni.dll
+C:\NeSeverUploader\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
+C:\NeSeverUploader\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll

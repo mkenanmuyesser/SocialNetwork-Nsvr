@@ -1,0 +1,249 @@
+﻿@model NeSever.Common.Models.Satis.OdemeSonucVM
+
+@{
+    ViewData["Title"] = "OdemeSonuc";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section>
+    <div class="container">
+        <div class="row">
+            @if (Model == null || Model.KullaniciId == Guid.Empty)
+            {
+                <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 align-center pb80 pt80">
+                    <p>
+                        <h3>Sipariş bilgisine ulaşılamamıştır.</h3>
+                    </p>
+                </div>
+            }
+            else if (Model.SiparisBasariliMi)
+            {
+                <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 align-center pb-5 pt5">
+                    <p>
+                        <h3>Teşekkürler. Siparişiniz başarılı bir şekilde alınmıştır.</h3>
+                    </p>
+                </div>
+
+                <div id="divPrintable" class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="crumina-module crumina-heading with-title-decoration">
+                        <h2 class="heading-title">Müşteri Bilgileri</h2>
+                    </div>
+
+                    <div class="row">
+                        <div class="col col-xl-4 col-lg-4 col-md-4 col-sm-4">
+                            <div class="ui-block">
+                                <div class="ui-block-content">
+                                    <ul class="statistics-list-count">
+                                        <li>
+                                            <div class="points">
+                                                <span>
+                                                    Sipariş No
+                                                </span>
+                                            </div>
+                                            <div class="count-stat">
+                                                <strong>#@Model.SiparisId</strong>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col col-xl-4 col-lg-4 col-md-4 col-sm-4">
+                            <div class="ui-block">
+                                <div class="ui-block-content">
+                                    <ul class="statistics-list-count">
+                                        <li>
+                                            <div class="points">
+                                                <span>
+                                                    Ad Soyad
+                                                </span>
+                                            </div>
+                                            <div class="count-stat" style="word-wrap: break-word;">
+                                                <strong>@Html.Raw(Model.Ad + " " + Model.Soyad)</strong>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col col-xl-4 col-lg-4 col-md-4 col-sm-4">
+                            <div class="ui-block">
+                                <div class="ui-block-content">
+                                    <ul class="statistics-list-count">
+                                        <li>
+                                            <div class="points">
+                                                <span>
+                                                    E-posta
+                                                </span>
+                                            </div>
+                                            <div class="count-stat" style="word-wrap: break-word;">
+                                                <strong>@Model.Eposta</strong>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="crumina-module crumina-heading with-title-decoration">
+                        <h2 class="heading-title">Sipariş Bilgileri</h2>
+                    </div>
+
+                    <div class="row">                        
+                        <div class="col col-xl-4 col-lg-4 col-md-4 col-sm-4">
+                            <div class="ui-block">
+                                <div class="ui-block-content">
+                                    <ul class="statistics-list-count">
+                                        <li>
+                                            <div class="points">
+                                                <span>
+                                                    Tarih
+                                                </span>
+                                            </div>
+                                            <div class="count-stat">
+                                                <strong>@Model.SiparisTarihi.ToString("dd.MM.yyyy HH:mm")</strong>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col col-xl-4 col-lg-4 col-md-4 col-sm-4">
+                            <div class="ui-block">
+                                <div class="ui-block-content">
+                                    <ul class="statistics-list-count">
+                                        <li>
+                                            <div class="points">
+                                                <span>
+                                                    Ödeme Yöntemi
+                                                </span>
+                                            </div>
+                                            <div class="count-stat">
+                                                <strong>@Model.OdemeTipi</strong>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col col-xl-4 col-lg-4 col-md-4 col-sm-4">
+                            <div class="ui-block">
+                                <div class="ui-block-content">
+                                    <ul class="statistics-list-count">
+                                        <li>
+                                            <div class="points">
+                                                <span>
+                                                    Toplam
+                                                </span>
+                                            </div>
+                                            <div class="count-stat">
+                                                <strong>@string.Format("{0:N}", Model.OdenecekTutar)&nbsp;TL</strong>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="crumina-module crumina-heading with-title-decoration">
+                        <h2 class="heading-title">Adres ve Fatura Bilgileri</h2>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6">
+                            <h3 class="subtitle">Fatura Adresi</h3>
+                            <address>
+                                @Model.FaturaAdres.Ad<br>
+                                @Model.FaturaAdres.Soyad<br>
+                                @Model.FaturaAdres.FirmaUnvan<br>
+                                @Model.FaturaAdres.AdresBilgi<br>
+                                @Model.FaturaAdres.AdresIlceAdi<br>
+                                @Model.FaturaAdres.AdresIlAdi<br>
+                                @Model.FaturaAdres.Telefon1
+                            </address>
+                        </div>
+
+                        <div class="col-sm-6 col-md-6">
+                            <h3 class="subtitle">Gönderim Adresi</h3>
+                            <address>
+                                @Model.GonderimAdres.Ad<br>
+                                @Model.GonderimAdres.Soyad<br>
+                                @Model.GonderimAdres.FirmaUnvan<br>
+                                @Model.GonderimAdres.AdresBilgi<br>
+                                @Model.GonderimAdres.AdresIlceAdi<br>
+                                @Model.GonderimAdres.AdresIlAdi<br>
+                                @Model.GonderimAdres.Telefon1
+                            </address>
+                        </div>
+                    </div>
+
+                    <div class="pb-5 pt5">
+                        <div class="crumina-module crumina-heading with-title-decoration">
+                            <h2 class="heading-title">Sipariş Detaylarınız</h2>
+                        </div>
+
+                        <partial name="~/Views/Sepet/Partials/SepettekiUrunler.cshtml" model="Model.SepetIcerik.SepetUrunList" />
+                    </div>
+                </div>
+
+                <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="row justify-content-md-center">
+                        <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                            <a href="javascript:;" onclick="javascript: yazdir();" class="btn btn-secondary btn-lg full-width">Yazdır</a>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row justify-content-md-center">
+                        <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                            <a href="/" class="btn btn-success btn-lg full-width">Anasayfaya Git</a>
+                        </div>
+                    </div>
+                    <br />
+                </div>
+            }
+            else
+            {
+                <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 align-center pb-5 pt5">
+                    <p>
+                        <h3>Ödeme başarısız oldu. Lütfen tekrar deneyiniz.</h3>
+                    </p>
+                    <img src="/Uploads/Site/warning2.png" />
+                    <br />
+                    <div class="row justify-content-md-center">
+                        <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                            <a href="/Sepet/Odeme" class="btn btn-secondary btn-lg full-width">Ödeme sayfasına geri dönmek için tıklayınız.</a>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row justify-content-md-center">
+                        <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                            <a href="/" class="btn btn-success btn-lg full-width">Anasayfaya gitmek için tıklayınız.</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<script type="text/javascript">
+    function yazdir() {
+        var divToPrint = document.getElementById('divPrintable');
+        var WindowObject = window.open('', 'Print-Window', 'width=750,height=650,top=50,left=50,toolbars=no,scrollbars=yes,status=no,resizable=yes');
+
+        WindowObject.document.writeln('<html>' + '<body onload="window.print()">' + divToPrint.innerHTML + '</body>' + '</html>');
+        WindowObject.document.close();
+
+        setTimeout(function () {
+            WindowObject.focus();
+            WindowObject.print();
+            WindowObject.close();
+        }, 300);
+    }
+</script>

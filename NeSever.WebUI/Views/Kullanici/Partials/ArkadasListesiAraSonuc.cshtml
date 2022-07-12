@@ -1,0 +1,449 @@
+﻿@model IPagedList<NeSever.Common.Models.Uyelik.ArkadasListesiKullaniciArkadasVM>
+
+<div class="row">
+    @if (!Model.Any())
+    {
+        <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 align-center pb80 pt80">
+            <p>
+                <h3>Arkadaş listenizde henüz bir arkadaş bulunmuyor.</h3>
+            </p>
+            <p>
+                <h3>Arkadaş eklemek için <a href="/Arkadas/Ara/?q">tıklayınız.</a></h3>
+            </p>
+        </div>
+    }
+    else
+    {
+        foreach (var arkadas in Model)
+        {
+            <div class="col col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
+                <div class="ui-block">
+                    <div class="friend-item">
+                        <div class="friend-header-thumb">
+                            <img src="@arkadas.DuvarResimBase64" alt="" height="292" width="112" />
+                        </div>
+                        <div class="friend-item-content">
+                            <div class="more">
+                                <svg class="olymp-three-dots-icon"><use xlink:href="#olymp-three-dots-icon"></use></svg>
+                                <ul class="more-dropdown">
+                                    <li>
+                                        <a id="@arkadas.KullaniciAdi" name="ProfileGit" href="javascript:;">Profile Git</a>
+                                    </li>
+                                    <li>
+                                        <a id="@arkadas.KullaniciId" name="ProfiliSikayetEt" href="javascript:;">Profili Şikayet Et</a>
+                                    </li>
+                                    <li>
+                                        <a id="@arkadas.KullaniciId" name="ProfiliEngelle" href="javascript:;">Profili Engelle</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="friend-avatar" style="margin-bottom:0px;">
+                                <div class="author-thumb" style="height:auto; width:auto;">
+                                    <a href="/Kullanici/Profil/@arkadas.KullaniciAdi">
+                                        <img src="@arkadas.ProfilResmiBase64" alt="author" style="max-height:120px; max-width:120px;" />
+                                    </a>
+                                </div>
+                                <div class="author-content" style="margin-top:4%">
+                                    <a href="/Kullanici/Profil/@arkadas.KullaniciAdi" class="h5 author-name">@arkadas.KullaniciAdi</a>
+                                    <br />
+                                    <a href="/Kullanici/Profil/@arkadas.KullaniciAdi" class="h6 author-name">@arkadas.Adi @arkadas.Soyadi</a>
+                                    @if (string.IsNullOrEmpty(arkadas.Sehir))
+                                    {
+                                        <div class="country">TR</div>
+                                        <div class="country">&nbsp;</div>
+                                    }
+                                    else
+                                    {
+                                        <div class="country">TR</div>
+                                        <div class="country">@arkadas.Sehir</div>
+                                    }
+                                    <br />
+                                </div>
+                            </div>
+
+                            <div class="swiper-container" data-slide="fade">
+                                <div class="swiper-wrapper">
+                                    <div class="swiper-slide">
+                                        <div class="friend-count" data-swiper-parallax="-500">
+                                            <a class="friend-count-item">
+                                                <div class="h6">@arkadas.ArkadasSayisi</div>
+                                                <div class="title">Arkadaş</div>
+                                            </a>
+                                            <a class="friend-count-item">
+                                                <div class="h6">@arkadas.HediyeSepetiUrunSayisi</div>
+                                                <div class="title">Hediye</div>
+                                            </a>
+                                        </div>
+
+                                        <div class="friend-since" data-swiper-parallax="-100">
+                                            <span>Doğum Tarihi</span>
+                                            @switch (arkadas.DogumTarihi.Month)
+                                            {
+                                                case 1:
+                                                    <div class="h6">@arkadas.DogumTarihi.Day Ocak</div>
+                                                    break;
+                                                case 2:
+                                                    <div class="h6">@arkadas.DogumTarihi.Day Şubat</div>
+                                                    break;
+                                                case 3:
+                                                    <div class="h6">@arkadas.DogumTarihi.Day Mart</div>
+                                                    break;
+                                                case 4:
+                                                    <div class="h6">@arkadas.DogumTarihi.Day Nisan</div>
+                                                    break;
+                                                case 5:
+                                                    <div class="h6">@arkadas.DogumTarihi.Day Mayıs</div>
+                                                    break;
+                                                case 6:
+                                                    <div class="h6">@arkadas.DogumTarihi.Day Haziran</div>
+                                                    break;
+                                                case 7:
+                                                    <div class="h6">@arkadas.DogumTarihi.Day Temmuz</div>
+                                                    break;
+                                                case 8:
+                                                    <div class="h6">@arkadas.DogumTarihi.Day Ağustos</div>
+                                                    break;
+                                                case 9:
+                                                    <div class="h6">@arkadas.DogumTarihi.Day Eylül</div>
+                                                    break;
+                                                case 10:
+                                                    <div class="h6">@arkadas.DogumTarihi.Day Ekim</div>
+                                                    break;
+                                                case 11:
+                                                    <div class="h6">@arkadas.DogumTarihi.Day Kasım</div>
+                                                    break;
+                                                case 12:
+                                                    <div class="h6">@arkadas.DogumTarihi.Day Aralık</div>
+                                                    break;
+                                                default:
+                                                    break;
+                                            }
+
+                                        </div>
+
+                                        <div class="control-block-button" data-swiper-parallax="-100">
+                                            <a href="javascript:;" id="@arkadas.KullaniciId" name="MesajGonder" class="btn btn-control bg-purple">
+                                                <svg class="olymp-chat---messages-icon"><use xlink:href="#olymp-chat---messages-icon"></use></svg>
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <div class="swiper-slide">
+                                        <div class="friend-count" data-swiper-parallax="-500">
+                                            <a class="friend-count-item">
+                                                <div class="h6">@arkadas.ArkadasSayisi</div>
+                                                <div class="title">Arkadaş</div>
+                                            </a>
+                                            <a class="friend-count-item">
+                                                <div class="h6">@arkadas.HediyeSepetiUrunSayisi</div>
+                                                <div class="title">Hediye</div>
+                                            </a>
+                                        </div>
+
+                                        <div class="friend-since" data-swiper-parallax="-100">
+                                            <span>Doğum Tarihi</span>
+                                            @switch (arkadas.DogumTarihi.Month)
+                                            {
+                                                case 1:
+                                                    <div class="h6">@arkadas.DogumTarihi.Day Ocak</div>
+                                                    break;
+                                                case 2:
+                                                    <div class="h6">@arkadas.DogumTarihi.Day Şubat</div>
+                                                    break;
+                                                case 3:
+                                                    <div class="h6">@arkadas.DogumTarihi.Day Mart</div>
+                                                    break;
+                                                case 4:
+                                                    <div class="h6">@arkadas.DogumTarihi.Day Nisan</div>
+                                                    break;
+                                                case 5:
+                                                    <div class="h6">@arkadas.DogumTarihi.Day Mayıs</div>
+                                                    break;
+                                                case 6:
+                                                    <div class="h6">@arkadas.DogumTarihi.Day Haziran</div>
+                                                    break;
+                                                case 7:
+                                                    <div class="h6">@arkadas.DogumTarihi.Day Temmuz</div>
+                                                    break;
+                                                case 8:
+                                                    <div class="h6">@arkadas.DogumTarihi.Day Ağustos</div>
+                                                    break;
+                                                case 9:
+                                                    <div class="h6">@arkadas.DogumTarihi.Day Eylül</div>
+                                                    break;
+                                                case 10:
+                                                    <div class="h6">@arkadas.DogumTarihi.Day Ekim</div>
+                                                    break;
+                                                case 11:
+                                                    <div class="h6">@arkadas.DogumTarihi.Day Kasım</div>
+                                                    break;
+                                                case 12:
+                                                    <div class="h6">@arkadas.DogumTarihi.Day Aralık</div>
+                                                    break;
+                                                default:
+                                                    break;
+                                            }
+
+                                        </div>
+
+                                        <div class="control-block-button" data-swiper-parallax="-100">
+                                            <a href="javascript:;" id="@arkadas.KullaniciId" name="ArkadasSil" class="btn btn-control bg-red">
+                                                <svg class="olymp-little-delete"><use xlink:href="#olymp-little-delete"></use></svg>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="swiper-pagination"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+<div class="modal fade" id="MesajGonder" tabindex="-1" role="dialog" aria-labelledby="fav-page-popup" aria-hidden="true">
+    <div class="modal-dialog window-popup fav-page-popup" role="document">
+        <div class="modal-content">
+            <a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
+                <svg class="olymp-close-icon"><use xlink:href="#olymp-close-icon"></use></svg>
+            </a>
+            <div class="modal-header">
+                <h6 class="title">Mesaj Gönder</h6>
+            </div>
+
+            <div id="MesajGonderModalBody" class="modal-body">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (Model.Any())
+{
+    <nav aria-label="Page navigation">
+        @Html.PagedListPager((IPagedList)Model, page => Url.Action("ArkadasListesiPartial", new
+        {
+            p = page,
+            q = Context.Request.Query["q"],
+        }),
+                    PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(
+                    new PagedListRenderOptions
+                    {
+                        UlElementClasses = new string[] { "pagination justify-content-center" },
+                        LiElementClasses = new string[] { "page-item" },
+                        ActiveLiElementClass = "page-item active",
+                        PageClasses = new string[] { "page-link" },
+                        EllipsesFormat = "<a class='page-link' style='padding:12px 0px 0px 0px; border:none;'>...</a>",
+                        Display = PagedListDisplayMode.Always,
+                        DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+                        DisplayLinkToLastPage = PagedListDisplayMode.Always,
+                        DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+                        DisplayLinkToNextPage = PagedListDisplayMode.Always,
+                        MaximumPageNumbersToDisplay = 5,
+                        ContainerDivClasses = null,
+                    },
+                    new AjaxOptions
+                    {
+                        HttpMethod = "GET",
+                        UpdateTargetId = "targetElement",
+                        OnBegin = "onAjaxBegin",
+                        OnSuccess = "onAjaxSuccess",
+                        OnFailure = "onAjaxFailure"
+                    }))
+    </nav>
+}
+
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script>
+    $(document).ready(function () {
+        $("a").click(function (event) {
+            var clickedItem = $(this);
+            var id = $(this)[0].id;
+            if ($(this)[0].name === "ProfileGit" || $(this)[0].name === "KullaniciProfil") {
+                $.ajax({
+                    url: "/Arkadas/ArkadasProfil",
+                    type: "POST",
+                    dataType: 'json',
+                    data: { "kullaniciId": id },
+                    success: function (data) {
+                        if (data == false) {
+                            ShowModal();
+                        }
+                        else {
+                            window.location.href = "/Kullanici/Profil/" + id
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        console.log("hata!");
+                    }
+                });
+            }
+            else if ($(this)[0].name === "ProfiliSikayetEt") {
+                profilSikayet(id);
+            }
+            else if ($(this)[0].name === "ProfiliEngelle") {
+                profilEngel(id);
+            }
+            else if ($(this)[0].name === "MesajGonder") {
+                $.ajax({
+                    url: "/Arkadas/MesajGonder",
+                    type: "POST",
+                    data: { "kullaniciId": id },
+                    success: function (data) {
+                        if (data == false) {
+                            debugger;
+                            ShowModal();
+                        } else {
+                            debugger;
+                            $('#MesajGonderModalBody').html(data);
+                            $('#MesajGonder').modal('show');
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        console.log("hata!");
+                        console.log(textStatus);
+                        console.log(errorThrown);
+                    }
+                });
+            }
+            else if ($(this)[0].name === "ArkadasSil") {
+
+                Swal.fire({
+                    title: '',
+                    text: "Arkadaşlarından çıkarmak istediğine emin misin?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Evet, Çıkar!',
+                    cancelButtonText: 'Hayır'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        debugger;
+                        $.ajax({
+                            url: "/Kullanici/ArkadasSil",
+                            type: "POST",
+                            data: { "kullaniciId": id },
+                            success: function (data) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Başarılı!',
+                                    text: "Arkadaş listenizden çıkarılmıştır.",
+                                    confirmButtonText: "Tamam"
+                                }).then(function () {
+
+                                    var arkadasSayisi = $('#arkadasSayisi').text();
+                                    $('#arkadasSayisi').text(parseInt(arkadasSayisi) - 1);
+
+                                    var arkadasSayisiMobil = $('#arkadasSayisiMobil').text();
+                                    $('#arkadasSayisiMobil').text(parseInt(arkadasSayisiMobil) - 1);
+
+                                    $.ajax({
+                                        url: "/Kullanici/ArkadasListesiPartial/?q=",
+                                        type: 'GET',
+                                        cache: false,
+                                        success: function (result) {
+                                            var middleContent = $('#middleContent');
+                                            middleContent.html('');
+                                            $('#middleContent').html(result);
+                                        }
+                                    });
+                                });
+                            },
+                            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                console.log("hata!");
+                                console.log(textStatus);
+                                console.log(errorThrown);
+                            }
+                        });
+                    }
+                })
+            }
+        });
+    });
+
+    function ShowModal() {
+        $('#loginlink').modal('show');
+    }
+
+    function onAjaxBegin(data, status, xhr) {
+        showLoading();
+    }
+
+    function onAjaxSuccess(data, status, xhr) {
+        hideLoading();
+
+        var middleContent = $('#middleContent');
+        middleContent.html('');
+        middleContent.html(data);
+    }
+
+    function onAjaxFailure(xhr, status, error) {
+        $("#targetElement").html("<strong>İşlem sırasında bir hata oluştu:" + error + "<br/>.</strong>");
+    }
+
+    function profilSikayet(id) {
+        $.get("/Kullanici/ProfilSikayetPartial/" + id, function (data) {
+            $('#ProfilSikayetModalBody').html(data);
+            $('#ProfilSikayetModal').modal('show');
+        });
+    };
+
+    function profilEngel(id) {
+        Swal.fire({
+            title: '',
+            text: "Engellemek istediğine emin misin?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Evet, engelle!',
+            cancelButtonText: 'Hayır'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "/Kullanici/ProfilEngelKaydet",
+                    type: "POST",
+                    data: { ProfilEngellenenKullaniciId: id },
+                    success: function (data) {
+                        if (data.error == true && data.message == "Bu Profil Zaten Engel Listenizde") {
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Uyarı!',
+                                text: data.message,
+                                confirmButtonText: "Tamam"
+                            });
+                        }
+                        else if (data.error == true) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Hata!',
+                                text: data.message,
+                                confirmButtonText: "Tamam"
+                            });
+                        }
+                        else {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Başarılı!',
+                                text: "Seçtiğiniz kişi engellenmiştir.",
+                                confirmButtonText: "Tamam"
+                            });
+                            var profilEngelSayisi = $('#profilEngelSayisi').text();
+                            $('#profilEngelSayisi').text(parseInt(profilEngelSayisi) + 1);
+
+                            var profilEngelSayisiMobil = $('#profilEngelSayisiMobil').text();
+                            $('#profilEngelSayisiMobil').text(parseInt(profilEngelSayisiMobil) + 1);
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        console.log("hata!");
+                        console.log(textStatus);
+                        console.log(errorThrown);
+                    }
+                });
+            }
+        })
+    };
+</script>

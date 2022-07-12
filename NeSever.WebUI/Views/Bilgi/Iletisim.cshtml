@@ -1,0 +1,118 @@
+﻿@model NeSever.Common.Models.Program.IletisimVM
+@{
+    ViewData["Title"] = "Iletisim";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (!string.IsNullOrEmpty(Model.SirketMapCode))
+{
+    <section class="mt-0">
+        <div class="section">
+            @*<div id="map" style="height: 480px"></div>*@
+            <div style="height: 480px">
+                @Html.Raw(Model.SirketMapCode)
+            </div>
+        </div>
+    </section>
+}
+
+<section class="medium-padding80">
+    <div class="container">
+        <div class="row">
+            <div class="col col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+                <div class="contact-item-wrap">
+                    <h3 class="contact-title">Adres/Telefon</h3>
+                    <div class="contact-item">
+                        <a href="javascript:;">@Model.SirketAdres</a>
+                    </div>
+                    <div class="contact-item">
+                        <h6 class="sub-title">E-posta:</h6>
+                        <a href="mailto:@Model.SirketEposta">@Model.SirketEposta</a>
+                    </div>
+                    @if (!string.IsNullOrEmpty(Model.SirketTelefon1))
+                    {
+                        <div class="contact-item">
+                            <h6 class="sub-title">Tel:</h6>
+                            <a href="tel:@Model.SirketTelefon1">@Model.SirketTelefon1</a>
+                        </div>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.SirketTelefon2))
+                    {
+                        <div class="contact-item">
+                            <h6 class="sub-title">Tel:</h6>
+                            <a href="tel:@Model.SirketTelefon2">@Model.SirketTelefon2</a>
+                        </div>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.SirketFax1))
+                    {
+                        <div class="contact-item">
+                            <h6 class="sub-title">Fax 1:</h6>
+                            <a href="javascript:;">@Model.SirketFax1</a>
+                        </div>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.SirketFax2))
+                    {
+                        <div class="contact-item">
+                            <h6 class="sub-title">Fax 2:</h6>
+                            <a href="javascript:;">@Model.SirketFax2</a>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="col col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+                <div class="contact-item-wrap">
+                    <h3 class="contact-title">Şirket Bilgileri</h3>
+                    <div class="contact-item">
+                        <h6 class="sub-title">Marka Adı:</h6>
+                        <a href="javascript:;">Ne Sever</a>
+                    </div>
+                    <div class="contact-item">
+                        <h6 class="sub-title">Ticaret Sicil No:</h6>
+                        <a href="javascript:;">452340</a>
+                    </div>
+                    <div class="contact-item">
+                        <h6 class="sub-title">Mersis No:</h6>
+                        <a href="javascript:;">0631148844400001</a>
+                    </div>
+                    <div class="contact-item">
+                        <h6 class="sub-title">Kayıtlı Elektronik Posta Adresi:</h6>
+                        <a href="javascript:;">neseveryazilim@hs02.kep.tr</a>
+                    </div>
+                    <div class="contact-item">
+                        <h6 class="sub-title">Bağlı Olduğu Meslek Odası:</h6>
+                        <a href="javascript:;">Ankara Ticaret Odası - ATO</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+                <div class="contact-item-wrap">
+                    <h3 class="contact-title">Sosyal Ağ Hesapları</h3>
+                    @if (!string.IsNullOrEmpty(Model.FacebookHesapUrl))
+                    {
+                        <div class="contact-item">
+                            <h6 class="sub-title">Facebook:</h6>
+                            <a href="@Model.FacebookHesapUrl" target="_blank">@Model.FacebookHesapUrl</a>
+                        </div>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.TwitterHesapUrl))
+                    {
+                        <div class="contact-item">
+                            <h6 class="sub-title">Twitter:</h6>
+                            <a href="@Model.TwitterHesapUrl" target="_blank">@Model.TwitterHesapUrl</a>
+                        </div>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.InstagramHesapUrl))
+                    {
+                        <div class="contact-item">
+                            <h6 class="sub-title">Instagram:</h6>
+                            <a href="@Model.InstagramHesapUrl" target="_blank">@Model.InstagramHesapUrl</a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<partial name="~/Views/Bilgi/Partials/IletisimTalep.cshtml" model="@Model.IletisimTalep" />

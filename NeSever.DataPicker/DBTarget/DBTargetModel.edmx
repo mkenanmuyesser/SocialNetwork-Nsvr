@@ -1,0 +1,1374 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DBTargetModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="DataHataLog">
+          <Key>
+            <PropertyRef Name="ErrorLogID" />
+          </Key>
+          <Property Name="ErrorLogID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="WebSiteID" Type="int" Nullable="false" />
+          <Property Name="ProcessName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="ErrorLogContent" Type="varchar" MaxLength="5000" Nullable="false" />
+          <Property Name="LastModifiedDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DataKategori">
+          <Key>
+            <PropertyRef Name="CategoryID" />
+          </Key>
+          <Property Name="CategoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="WebSiteID" Type="int" Nullable="false" />
+          <Property Name="OriginalCategoryID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ParentOriginalCategoryID" Type="varchar" MaxLength="50" />
+          <Property Name="TargetCategoryID" Type="int" />
+          <Property Name="CategoryName" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="LastModifiedDate" Type="datetime" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DataMarka">
+          <Key>
+            <PropertyRef Name="DataMarkaID" />
+          </Key>
+          <Property Name="DataMarkaID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="WebSiteID" Type="int" Nullable="false" />
+          <Property Name="MarkaAdi" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="LastModifiedDate" Type="datetime" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DataUrun">
+          <Key>
+            <PropertyRef Name="DataUrunID" />
+          </Key>
+          <Property Name="DataUrunID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="WebSiteID" Type="int" Nullable="false" />
+          <Property Name="BrandID" Type="int" Nullable="false" />
+          <Property Name="OriginalID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="SKU" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="OldPrice" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Url" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Description" Type="varchar(max)" />
+          <Property Name="LastModifiedDate" Type="datetime" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DataUrunFiyatTarihce">
+          <Key>
+            <PropertyRef Name="DataUrunFiyatTarihceId" />
+          </Key>
+          <Property Name="DataUrunFiyatTarihceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductID" Type="int" Nullable="false" />
+          <Property Name="OldPrice" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="LastModifiedDate" Type="datetime" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DataUrunKategori">
+          <Key>
+            <PropertyRef Name="ProductCategoryID" />
+          </Key>
+          <Property Name="ProductCategoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductID" Type="int" Nullable="false" />
+          <Property Name="CategoryID" Type="int" Nullable="false" />
+          <Property Name="LastModifiedDate" Type="datetime" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DataUrunLink">
+          <Key>
+            <PropertyRef Name="ProductLinkHistoryID" />
+          </Key>
+          <Property Name="ProductLinkHistoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="WebSiteID" Type="int" Nullable="false" />
+          <Property Name="ProductLink" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="LastModifiedDate" Type="datetime" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DataUrunResim">
+          <Key>
+            <PropertyRef Name="DataUrunResimID" />
+          </Key>
+          <Property Name="DataUrunResimID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductID" Type="int" Nullable="false" />
+          <Property Name="ImagePath" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="OriginalImagePath" Type="varchar" MaxLength="200" />
+          <Property Name="OrderNumber" Type="int" Nullable="false" />
+          <Property Name="LastModifiedDate" Type="datetime" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="WebSite">
+          <Key>
+            <PropertyRef Name="WebSiteId" />
+          </Key>
+          <Property Name="WebSiteId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="WebSiteAdi" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="SiteUrl" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="ResimYolu" Type="varchar" MaxLength="200" />
+          <Property Name="Resim" Type="image" />
+          <Property Name="KayitTarih" Type="datetime" Nullable="false" />
+          <Property Name="GuncellemeTarih" Type="datetime" />
+          <Property Name="AktifMi" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Kategori">
+          <Key>
+            <PropertyRef Name="KategoriId" />
+          </Key>
+          <Property Name="KategoriId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UstKategoriId" Type="int" />
+          <Property Name="KategoriAdi" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Aciklama" Type="varchar" MaxLength="500" />
+          <Property Name="ResimUrl" Type="varchar" MaxLength="500" />
+          <Property Name="Resim" Type="image" />
+          <Property Name="AnasayfadaGoster" Type="bit" Nullable="false" />
+          <Property Name="SabitKategori" Type="bit" Nullable="false" />
+          <Property Name="Parametre" Type="varchar" MaxLength="50" />
+          <Property Name="MetaKeywords" Type="varchar" MaxLength="500" />
+          <Property Name="MetaDescription" Type="varchar" MaxLength="500" />
+          <Property Name="MetaTitle" Type="varchar" MaxLength="500" />
+          <Property Name="OlusturmaTarihi" Type="datetime" Nullable="false" />
+          <Property Name="GuncellemeTarihi" Type="datetime" Nullable="false" />
+          <Property Name="Sira" Type="int" Nullable="false" />
+          <Property Name="AktifMi" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Marka">
+          <Key>
+            <PropertyRef Name="MarkaId" />
+          </Key>
+          <Property Name="MarkaId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="WebSiteId" Type="int" Nullable="false" />
+          <Property Name="MarkaAdi" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Aciklama" Type="varchar" MaxLength="500" />
+          <Property Name="ResimUrl" Type="varchar" MaxLength="250" />
+          <Property Name="Resim" Type="image" />
+          <Property Name="AnasayfadaGosterilsin" Type="bit" Nullable="false" />
+          <Property Name="MetaKeywords" Type="varchar" MaxLength="500" />
+          <Property Name="MetaDescription" Type="varchar" MaxLength="500" />
+          <Property Name="MetaTitle" Type="varchar" MaxLength="500" />
+          <Property Name="KayitTarih" Type="datetime" Nullable="false" />
+          <Property Name="Sira" Type="int" Nullable="false" />
+          <Property Name="AktifMi" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Nitelik">
+          <Key>
+            <PropertyRef Name="NitelikId" />
+          </Key>
+          <Property Name="NitelikId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NitelikAdi" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="Aciklama" Type="nvarchar" MaxLength="500" />
+          <Property Name="OlusturmaTarihi" Type="datetime" Nullable="false" />
+          <Property Name="GuncellemeTarihi" Type="datetime" Nullable="false" />
+          <Property Name="Sira" Type="int" Nullable="false" />
+          <Property Name="AktifMi" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Urun">
+          <Key>
+            <PropertyRef Name="UrunId" />
+          </Key>
+          <Property Name="UrunId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OriginalId" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="MarkaId" Type="int" Nullable="false" />
+          <Property Name="WebSiteId" Type="int" />
+          <Property Name="Sku" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="UrunAdi" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="KisaAciklama" Type="varchar" MaxLength="250" />
+          <Property Name="Aciklama" Type="varchar(max)" />
+          <Property Name="Fiyat" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Etiketler" Type="varchar" MaxLength="500" />
+          <Property Name="AdresUrl" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="AnasayfadaGoster" Type="bit" Nullable="false" />
+          <Property Name="GoruntulenmeSayisi" Type="int" Nullable="false" />
+          <Property Name="MetaKeywords" Type="varchar" MaxLength="500" />
+          <Property Name="MetaDescription" Type="varchar" MaxLength="500" />
+          <Property Name="MetaTitle" Type="varchar" MaxLength="500" />
+          <Property Name="KayitTarih" Type="datetime" Nullable="false" />
+          <Property Name="GuncellemeTarih" Type="datetime" />
+          <Property Name="Sira" Type="int" Nullable="false" />
+          <Property Name="AktifMi" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UrunKategori">
+          <Key>
+            <PropertyRef Name="UrunKategoriId" />
+          </Key>
+          <Property Name="UrunKategoriId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UrunId" Type="int" Nullable="false" />
+          <Property Name="KategoriId" Type="int" Nullable="false" />
+          <Property Name="Sira" Type="int" Nullable="false" />
+          <Property Name="AktifMi" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UrunNitelik">
+          <Key>
+            <PropertyRef Name="UrunNitelikId" />
+          </Key>
+          <Property Name="UrunNitelikId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UrunId" Type="int" Nullable="false" />
+          <Property Name="NitelikId" Type="int" Nullable="false" />
+          <Property Name="NitelikDegeri" Type="varchar" MaxLength="1000" Nullable="false" />
+          <Property Name="Sira" Type="int" Nullable="false" />
+          <Property Name="AktifMi" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UrunResim">
+          <Key>
+            <PropertyRef Name="UrunResimId" />
+          </Key>
+          <Property Name="UrunResimId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UrunId" Type="int" Nullable="false" />
+          <Property Name="OrjinalResimUrl" Type="varchar" MaxLength="200" />
+          <Property Name="ResimUrl" Type="varchar" MaxLength="200" />
+          <Property Name="Resim" Type="image" />
+          <Property Name="Sira" Type="int" Nullable="false" />
+          <Property Name="KayitTarih" Type="datetime" Nullable="false" />
+          <Property Name="AktifMi" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_DataHataLog_WebSite">
+          <End Role="WebSite" Type="Self.WebSite" Multiplicity="1" />
+          <End Role="DataHataLog" Type="Self.DataHataLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WebSite">
+              <PropertyRef Name="WebSiteId" />
+            </Principal>
+            <Dependent Role="DataHataLog">
+              <PropertyRef Name="WebSiteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DataKategori_WebSite">
+          <End Role="WebSite" Type="Self.WebSite" Multiplicity="1" />
+          <End Role="DataKategori" Type="Self.DataKategori" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WebSite">
+              <PropertyRef Name="WebSiteId" />
+            </Principal>
+            <Dependent Role="DataKategori">
+              <PropertyRef Name="WebSiteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DataMarka_WebSite">
+          <End Role="WebSite" Type="Self.WebSite" Multiplicity="1" />
+          <End Role="DataMarka" Type="Self.DataMarka" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WebSite">
+              <PropertyRef Name="WebSiteId" />
+            </Principal>
+            <Dependent Role="DataMarka">
+              <PropertyRef Name="WebSiteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DataUrun_DataMarka">
+          <End Role="DataMarka" Type="Self.DataMarka" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="DataUrun" Type="Self.DataUrun" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DataMarka">
+              <PropertyRef Name="DataMarkaID" />
+            </Principal>
+            <Dependent Role="DataUrun">
+              <PropertyRef Name="BrandID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DataUrun_WebSite">
+          <End Role="WebSite" Type="Self.WebSite" Multiplicity="1" />
+          <End Role="DataUrun" Type="Self.DataUrun" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WebSite">
+              <PropertyRef Name="WebSiteId" />
+            </Principal>
+            <Dependent Role="DataUrun">
+              <PropertyRef Name="WebSiteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DataUrunFiyatTarihce_DataUrun">
+          <End Role="DataUrun" Type="Self.DataUrun" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="DataUrunFiyatTarihce" Type="Self.DataUrunFiyatTarihce" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DataUrun">
+              <PropertyRef Name="DataUrunID" />
+            </Principal>
+            <Dependent Role="DataUrunFiyatTarihce">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DataUrunKategori_DataKategori">
+          <End Role="DataKategori" Type="Self.DataKategori" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="DataUrunKategori" Type="Self.DataUrunKategori" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DataKategori">
+              <PropertyRef Name="CategoryID" />
+            </Principal>
+            <Dependent Role="DataUrunKategori">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DataUrunKategori_DataUrun">
+          <End Role="DataUrun" Type="Self.DataUrun" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="DataUrunKategori" Type="Self.DataUrunKategori" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DataUrun">
+              <PropertyRef Name="DataUrunID" />
+            </Principal>
+            <Dependent Role="DataUrunKategori">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DataUrunLink_WebSite">
+          <End Role="WebSite" Type="Self.WebSite" Multiplicity="1" />
+          <End Role="DataUrunLink" Type="Self.DataUrunLink" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WebSite">
+              <PropertyRef Name="WebSiteId" />
+            </Principal>
+            <Dependent Role="DataUrunLink">
+              <PropertyRef Name="WebSiteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DataUrunResim_DataUrun">
+          <End Role="DataUrun" Type="Self.DataUrun" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="DataUrunResim" Type="Self.DataUrunResim" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DataUrun">
+              <PropertyRef Name="DataUrunID" />
+            </Principal>
+            <Dependent Role="DataUrunResim">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HediyeNitelik_Nitelik">
+          <End Role="Nitelik" Type="Self.Nitelik" Multiplicity="1" />
+          <End Role="UrunNitelik" Type="Self.UrunNitelik" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Nitelik">
+              <PropertyRef Name="NitelikId" />
+            </Principal>
+            <Dependent Role="UrunNitelik">
+              <PropertyRef Name="NitelikId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Kategori_Kategori">
+          <End Role="Kategori" Type="Self.Kategori" Multiplicity="0..1" />
+          <End Role="Kategori1" Type="Self.Kategori" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kategori">
+              <PropertyRef Name="KategoriId" />
+            </Principal>
+            <Dependent Role="Kategori1">
+              <PropertyRef Name="UstKategoriId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Marka_WebSite">
+          <End Role="WebSite" Type="Self.WebSite" Multiplicity="1" />
+          <End Role="Marka" Type="Self.Marka" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WebSite">
+              <PropertyRef Name="WebSiteId" />
+            </Principal>
+            <Dependent Role="Marka">
+              <PropertyRef Name="WebSiteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Urun_Marka">
+          <End Role="Marka" Type="Self.Marka" Multiplicity="1" />
+          <End Role="Urun" Type="Self.Urun" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Marka">
+              <PropertyRef Name="MarkaId" />
+            </Principal>
+            <Dependent Role="Urun">
+              <PropertyRef Name="MarkaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UrunKategori_Kategori">
+          <End Role="Kategori" Type="Self.Kategori" Multiplicity="1" />
+          <End Role="UrunKategori" Type="Self.UrunKategori" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kategori">
+              <PropertyRef Name="KategoriId" />
+            </Principal>
+            <Dependent Role="UrunKategori">
+              <PropertyRef Name="KategoriId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UrunKategori_Urun1">
+          <End Role="Urun" Type="Self.Urun" Multiplicity="1" />
+          <End Role="UrunKategori" Type="Self.UrunKategori" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Urun">
+              <PropertyRef Name="UrunId" />
+            </Principal>
+            <Dependent Role="UrunKategori">
+              <PropertyRef Name="UrunId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UrunNitelik_Urun">
+          <End Role="Urun" Type="Self.Urun" Multiplicity="1" />
+          <End Role="UrunNitelik" Type="Self.UrunNitelik" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Urun">
+              <PropertyRef Name="UrunId" />
+            </Principal>
+            <Dependent Role="UrunNitelik">
+              <PropertyRef Name="UrunId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UrunResim_Urun">
+          <End Role="Urun" Type="Self.Urun" Multiplicity="1" />
+          <End Role="UrunResim" Type="Self.UrunResim" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Urun">
+              <PropertyRef Name="UrunId" />
+            </Principal>
+            <Dependent Role="UrunResim">
+              <PropertyRef Name="UrunId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DBTargetModelStoreContainer">
+          <EntitySet Name="DataHataLog" EntityType="Self.DataHataLog" Schema="DataAktarim" store:Type="Tables" />
+          <EntitySet Name="DataKategori" EntityType="Self.DataKategori" Schema="DataAktarim" store:Type="Tables" />
+          <EntitySet Name="DataMarka" EntityType="Self.DataMarka" Schema="DataAktarim" store:Type="Tables" />
+          <EntitySet Name="DataUrun" EntityType="Self.DataUrun" Schema="DataAktarim" store:Type="Tables" />
+          <EntitySet Name="DataUrunFiyatTarihce" EntityType="Self.DataUrunFiyatTarihce" Schema="DataAktarim" store:Type="Tables" />
+          <EntitySet Name="DataUrunKategori" EntityType="Self.DataUrunKategori" Schema="DataAktarim" store:Type="Tables" />
+          <EntitySet Name="DataUrunLink" EntityType="Self.DataUrunLink" Schema="DataAktarim" store:Type="Tables" />
+          <EntitySet Name="DataUrunResim" EntityType="Self.DataUrunResim" Schema="DataAktarim" store:Type="Tables" />
+          <EntitySet Name="WebSite" EntityType="Self.WebSite" Schema="DataAktarim" store:Type="Tables" />
+          <EntitySet Name="Kategori" EntityType="Self.Kategori" Schema="Urun" store:Type="Tables" />
+          <EntitySet Name="Marka" EntityType="Self.Marka" Schema="Urun" store:Type="Tables" />
+          <EntitySet Name="Nitelik" EntityType="Self.Nitelik" Schema="Urun" store:Type="Tables" />
+          <EntitySet Name="Urun" EntityType="Self.Urun" Schema="Urun" store:Type="Tables" />
+          <EntitySet Name="UrunKategori" EntityType="Self.UrunKategori" Schema="Urun" store:Type="Tables" />
+          <EntitySet Name="UrunNitelik" EntityType="Self.UrunNitelik" Schema="Urun" store:Type="Tables" />
+          <EntitySet Name="UrunResim" EntityType="Self.UrunResim" Schema="Urun" store:Type="Tables" />
+          <AssociationSet Name="FK_DataHataLog_WebSite" Association="Self.FK_DataHataLog_WebSite">
+            <End Role="WebSite" EntitySet="WebSite" />
+            <End Role="DataHataLog" EntitySet="DataHataLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DataKategori_WebSite" Association="Self.FK_DataKategori_WebSite">
+            <End Role="WebSite" EntitySet="WebSite" />
+            <End Role="DataKategori" EntitySet="DataKategori" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DataMarka_WebSite" Association="Self.FK_DataMarka_WebSite">
+            <End Role="WebSite" EntitySet="WebSite" />
+            <End Role="DataMarka" EntitySet="DataMarka" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DataUrun_DataMarka" Association="Self.FK_DataUrun_DataMarka">
+            <End Role="DataMarka" EntitySet="DataMarka" />
+            <End Role="DataUrun" EntitySet="DataUrun" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DataUrun_WebSite" Association="Self.FK_DataUrun_WebSite">
+            <End Role="WebSite" EntitySet="WebSite" />
+            <End Role="DataUrun" EntitySet="DataUrun" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DataUrunFiyatTarihce_DataUrun" Association="Self.FK_DataUrunFiyatTarihce_DataUrun">
+            <End Role="DataUrun" EntitySet="DataUrun" />
+            <End Role="DataUrunFiyatTarihce" EntitySet="DataUrunFiyatTarihce" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DataUrunKategori_DataKategori" Association="Self.FK_DataUrunKategori_DataKategori">
+            <End Role="DataKategori" EntitySet="DataKategori" />
+            <End Role="DataUrunKategori" EntitySet="DataUrunKategori" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DataUrunKategori_DataUrun" Association="Self.FK_DataUrunKategori_DataUrun">
+            <End Role="DataUrun" EntitySet="DataUrun" />
+            <End Role="DataUrunKategori" EntitySet="DataUrunKategori" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DataUrunLink_WebSite" Association="Self.FK_DataUrunLink_WebSite">
+            <End Role="WebSite" EntitySet="WebSite" />
+            <End Role="DataUrunLink" EntitySet="DataUrunLink" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DataUrunResim_DataUrun" Association="Self.FK_DataUrunResim_DataUrun">
+            <End Role="DataUrun" EntitySet="DataUrun" />
+            <End Role="DataUrunResim" EntitySet="DataUrunResim" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HediyeNitelik_Nitelik" Association="Self.FK_HediyeNitelik_Nitelik">
+            <End Role="Nitelik" EntitySet="Nitelik" />
+            <End Role="UrunNitelik" EntitySet="UrunNitelik" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Kategori_Kategori" Association="Self.FK_Kategori_Kategori">
+            <End Role="Kategori" EntitySet="Kategori" />
+            <End Role="Kategori1" EntitySet="Kategori" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Marka_WebSite" Association="Self.FK_Marka_WebSite">
+            <End Role="WebSite" EntitySet="WebSite" />
+            <End Role="Marka" EntitySet="Marka" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Urun_Marka" Association="Self.FK_Urun_Marka">
+            <End Role="Marka" EntitySet="Marka" />
+            <End Role="Urun" EntitySet="Urun" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UrunKategori_Kategori" Association="Self.FK_UrunKategori_Kategori">
+            <End Role="Kategori" EntitySet="Kategori" />
+            <End Role="UrunKategori" EntitySet="UrunKategori" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UrunKategori_Urun1" Association="Self.FK_UrunKategori_Urun1">
+            <End Role="Urun" EntitySet="Urun" />
+            <End Role="UrunKategori" EntitySet="UrunKategori" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UrunNitelik_Urun" Association="Self.FK_UrunNitelik_Urun">
+            <End Role="Urun" EntitySet="Urun" />
+            <End Role="UrunNitelik" EntitySet="UrunNitelik" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UrunResim_Urun" Association="Self.FK_UrunResim_Urun">
+            <End Role="Urun" EntitySet="Urun" />
+            <End Role="UrunResim" EntitySet="UrunResim" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DBTargetModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="DBTargetEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Kategori" EntityType="DBTargetModel.Kategori" />
+          <EntitySet Name="Nitelik" EntityType="DBTargetModel.Nitelik" />
+          <EntitySet Name="UrunKategori" EntityType="DBTargetModel.UrunKategori" />
+          <EntitySet Name="UrunNitelik" EntityType="DBTargetModel.UrunNitelik" />
+          <EntitySet Name="UrunResim" EntityType="DBTargetModel.UrunResim" />
+          <AssociationSet Name="FK_Kategori_Kategori" Association="DBTargetModel.FK_Kategori_Kategori">
+            <End Role="Kategori" EntitySet="Kategori" />
+            <End Role="Kategori1" EntitySet="Kategori" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UrunKategori_Kategori" Association="DBTargetModel.FK_UrunKategori_Kategori">
+            <End Role="Kategori" EntitySet="Kategori" />
+            <End Role="UrunKategori" EntitySet="UrunKategori" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HediyeNitelik_Nitelik" Association="DBTargetModel.FK_HediyeNitelik_Nitelik">
+            <End Role="Nitelik" EntitySet="Nitelik" />
+            <End Role="UrunNitelik" EntitySet="UrunNitelik" />
+          </AssociationSet>
+          <EntitySet Name="Urun" EntityType="DBTargetModel.Urun" />
+          <AssociationSet Name="FK_UrunKategori_Urun1" Association="DBTargetModel.FK_UrunKategori_Urun1">
+            <End Role="Urun" EntitySet="Urun" />
+            <End Role="UrunKategori" EntitySet="UrunKategori" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UrunNitelik_Urun" Association="DBTargetModel.FK_UrunNitelik_Urun">
+            <End Role="Urun" EntitySet="Urun" />
+            <End Role="UrunNitelik" EntitySet="UrunNitelik" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UrunResim_Urun" Association="DBTargetModel.FK_UrunResim_Urun">
+            <End Role="Urun" EntitySet="Urun" />
+            <End Role="UrunResim" EntitySet="UrunResim" />
+          </AssociationSet>
+          <EntitySet Name="Marka" EntityType="DBTargetModel.Marka" />
+          <AssociationSet Name="FK_Urun_Marka" Association="DBTargetModel.FK_Urun_Marka">
+            <End Role="Marka" EntitySet="Marka" />
+            <End Role="Urun" EntitySet="Urun" />
+          </AssociationSet>
+          <EntitySet Name="DataHataLog" EntityType="DBTargetModel.DataHataLog" />
+          <EntitySet Name="DataKategori" EntityType="DBTargetModel.DataKategori" />
+          <EntitySet Name="DataMarka" EntityType="DBTargetModel.DataMarka" />
+          <EntitySet Name="DataUrun" EntityType="DBTargetModel.DataUrun" />
+          <EntitySet Name="DataUrunFiyatTarihce" EntityType="DBTargetModel.DataUrunFiyatTarihce" />
+          <EntitySet Name="DataUrunKategori" EntityType="DBTargetModel.DataUrunKategori" />
+          <EntitySet Name="DataUrunLink" EntityType="DBTargetModel.DataUrunLink" />
+          <EntitySet Name="DataUrunResim" EntityType="DBTargetModel.DataUrunResim" />
+          <EntitySet Name="WebSite" EntityType="DBTargetModel.WebSite" />
+          <AssociationSet Name="FK_DataHataLog_WebSite" Association="DBTargetModel.FK_DataHataLog_WebSite">
+            <End Role="WebSite" EntitySet="WebSite" />
+            <End Role="DataHataLog" EntitySet="DataHataLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DataKategori_WebSite" Association="DBTargetModel.FK_DataKategori_WebSite">
+            <End Role="WebSite" EntitySet="WebSite" />
+            <End Role="DataKategori" EntitySet="DataKategori" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DataUrunKategori_DataKategori" Association="DBTargetModel.FK_DataUrunKategori_DataKategori">
+            <End Role="DataKategori" EntitySet="DataKategori" />
+            <End Role="DataUrunKategori" EntitySet="DataUrunKategori" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DataMarka_WebSite" Association="DBTargetModel.FK_DataMarka_WebSite">
+            <End Role="WebSite" EntitySet="WebSite" />
+            <End Role="DataMarka" EntitySet="DataMarka" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DataUrun_DataMarka" Association="DBTargetModel.FK_DataUrun_DataMarka">
+            <End Role="DataMarka" EntitySet="DataMarka" />
+            <End Role="DataUrun" EntitySet="DataUrun" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DataUrun_WebSite" Association="DBTargetModel.FK_DataUrun_WebSite">
+            <End Role="WebSite" EntitySet="WebSite" />
+            <End Role="DataUrun" EntitySet="DataUrun" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DataUrunFiyatTarihce_DataUrun" Association="DBTargetModel.FK_DataUrunFiyatTarihce_DataUrun">
+            <End Role="DataUrun" EntitySet="DataUrun" />
+            <End Role="DataUrunFiyatTarihce" EntitySet="DataUrunFiyatTarihce" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DataUrunKategori_DataUrun" Association="DBTargetModel.FK_DataUrunKategori_DataUrun">
+            <End Role="DataUrun" EntitySet="DataUrun" />
+            <End Role="DataUrunKategori" EntitySet="DataUrunKategori" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DataUrunResim_DataUrun" Association="DBTargetModel.FK_DataUrunResim_DataUrun">
+            <End Role="DataUrun" EntitySet="DataUrun" />
+            <End Role="DataUrunResim" EntitySet="DataUrunResim" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DataUrunLink_WebSite" Association="DBTargetModel.FK_DataUrunLink_WebSite">
+            <End Role="WebSite" EntitySet="WebSite" />
+            <End Role="DataUrunLink" EntitySet="DataUrunLink" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Marka_WebSite" Association="DBTargetModel.FK_Marka_WebSite">
+            <End Role="WebSite" EntitySet="WebSite" />
+            <End Role="Marka" EntitySet="Marka" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="Kategori">
+          <Key>
+            <PropertyRef Name="KategoriId" />
+          </Key>
+          <Property Name="KategoriId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UstKategoriId" Type="Int32" />
+          <Property Name="KategoriAdi" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Aciklama" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="ResimUrl" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Resim" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="AnasayfadaGoster" Type="Boolean" Nullable="false" />
+          <Property Name="SabitKategori" Type="Boolean" Nullable="false" />
+          <Property Name="MetaKeywords" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="MetaDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="MetaTitle" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="OlusturmaTarihi" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="GuncellemeTarihi" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Sira" Type="Int32" Nullable="false" />
+          <Property Name="AktifMi" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Kategori1" Relationship="DBTargetModel.FK_Kategori_Kategori" FromRole="Kategori" ToRole="Kategori1" />
+          <NavigationProperty Name="Kategori2" Relationship="DBTargetModel.FK_Kategori_Kategori" FromRole="Kategori1" ToRole="Kategori" />
+          <NavigationProperty Name="UrunKategori" Relationship="DBTargetModel.FK_UrunKategori_Kategori" FromRole="Kategori" ToRole="UrunKategori" />
+          <Property Name="Parametre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Nitelik">
+          <Key>
+            <PropertyRef Name="NitelikId" />
+          </Key>
+          <Property Name="NitelikId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NitelikAdi" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Aciklama" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="OlusturmaTarihi" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="GuncellemeTarihi" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Sira" Type="Int32" Nullable="false" />
+          <Property Name="AktifMi" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="UrunNitelik" Relationship="DBTargetModel.FK_HediyeNitelik_Nitelik" FromRole="Nitelik" ToRole="UrunNitelik" />
+        </EntityType>
+        <EntityType Name="UrunKategori">
+          <Key>
+            <PropertyRef Name="UrunKategoriId" />
+          </Key>
+          <Property Name="UrunKategoriId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UrunId" Type="Int32" Nullable="false" />
+          <Property Name="KategoriId" Type="Int32" Nullable="false" />
+          <Property Name="Sira" Type="Int32" Nullable="false" />
+          <Property Name="AktifMi" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Kategori" Relationship="DBTargetModel.FK_UrunKategori_Kategori" FromRole="UrunKategori" ToRole="Kategori" />
+          <NavigationProperty Name="Urun" Relationship="DBTargetModel.FK_UrunKategori_Urun1" FromRole="UrunKategori" ToRole="Urun" />
+        </EntityType>
+        <EntityType Name="UrunNitelik">
+          <Key>
+            <PropertyRef Name="UrunNitelikId" />
+          </Key>
+          <Property Name="UrunNitelikId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UrunId" Type="Int32" Nullable="false" />
+          <Property Name="NitelikId" Type="Int32" Nullable="false" />
+          <Property Name="NitelikDegeri" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="Sira" Type="Int32" Nullable="false" />
+          <Property Name="AktifMi" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Nitelik" Relationship="DBTargetModel.FK_HediyeNitelik_Nitelik" FromRole="UrunNitelik" ToRole="Nitelik" />
+          <NavigationProperty Name="Urun" Relationship="DBTargetModel.FK_UrunNitelik_Urun" FromRole="UrunNitelik" ToRole="Urun" />
+        </EntityType>
+        <EntityType Name="UrunResim">
+          <Key>
+            <PropertyRef Name="UrunResimId" />
+          </Key>
+          <Property Name="UrunResimId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UrunId" Type="Int32" Nullable="false" />
+          <Property Name="OrjinalResimUrl" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ResimUrl" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Resim" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Sira" Type="Int32" Nullable="false" />
+          <Property Name="KayitTarih" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="AktifMi" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Urun" Relationship="DBTargetModel.FK_UrunResim_Urun" FromRole="UrunResim" ToRole="Urun" />
+        </EntityType>
+        <Association Name="FK_Kategori_Kategori">
+          <End Type="DBTargetModel.Kategori" Role="Kategori" Multiplicity="0..1" />
+          <End Type="DBTargetModel.Kategori" Role="Kategori1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kategori">
+              <PropertyRef Name="KategoriId" />
+            </Principal>
+            <Dependent Role="Kategori1">
+              <PropertyRef Name="UstKategoriId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UrunKategori_Kategori">
+          <End Type="DBTargetModel.Kategori" Role="Kategori" Multiplicity="1" />
+          <End Type="DBTargetModel.UrunKategori" Role="UrunKategori" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kategori">
+              <PropertyRef Name="KategoriId" />
+            </Principal>
+            <Dependent Role="UrunKategori">
+              <PropertyRef Name="KategoriId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HediyeNitelik_Nitelik">
+          <End Type="DBTargetModel.Nitelik" Role="Nitelik" Multiplicity="1" />
+          <End Type="DBTargetModel.UrunNitelik" Role="UrunNitelik" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Nitelik">
+              <PropertyRef Name="NitelikId" />
+            </Principal>
+            <Dependent Role="UrunNitelik">
+              <PropertyRef Name="NitelikId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Urun">
+          <Key>
+            <PropertyRef Name="UrunId" />
+          </Key>
+          <Property Name="UrunId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OriginalId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MarkaId" Type="Int32" Nullable="false" />
+          <Property Name="WebSiteId" Type="Int32" />
+          <Property Name="Sku" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="UrunAdi" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="KisaAciklama" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Aciklama" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Fiyat" Type="Decimal" Nullable="false" Precision="18" Scale="4" />
+          <Property Name="Etiketler" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="AdresUrl" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="AnasayfadaGoster" Type="Boolean" Nullable="false" />
+          <Property Name="GoruntulenmeSayisi" Type="Int32" Nullable="false" />
+          <Property Name="MetaKeywords" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="MetaDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="MetaTitle" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="KayitTarih" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="GuncellemeTarih" Type="DateTime" Precision="3" />
+          <Property Name="Sira" Type="Int32" Nullable="false" />
+          <Property Name="AktifMi" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="UrunKategori" Relationship="DBTargetModel.FK_UrunKategori_Urun1" FromRole="Urun" ToRole="UrunKategori" />
+          <NavigationProperty Name="UrunNitelik" Relationship="DBTargetModel.FK_UrunNitelik_Urun" FromRole="Urun" ToRole="UrunNitelik" />
+          <NavigationProperty Name="UrunResim" Relationship="DBTargetModel.FK_UrunResim_Urun" FromRole="Urun" ToRole="UrunResim" />
+          <NavigationProperty Name="Marka" Relationship="DBTargetModel.FK_Urun_Marka" FromRole="Urun" ToRole="Marka" />
+        </EntityType>
+        <Association Name="FK_UrunKategori_Urun1">
+          <End Type="DBTargetModel.Urun" Role="Urun" Multiplicity="1" />
+          <End Type="DBTargetModel.UrunKategori" Role="UrunKategori" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Urun">
+              <PropertyRef Name="UrunId" />
+            </Principal>
+            <Dependent Role="UrunKategori">
+              <PropertyRef Name="UrunId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UrunNitelik_Urun">
+          <End Type="DBTargetModel.Urun" Role="Urun" Multiplicity="1" />
+          <End Type="DBTargetModel.UrunNitelik" Role="UrunNitelik" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Urun">
+              <PropertyRef Name="UrunId" />
+            </Principal>
+            <Dependent Role="UrunNitelik">
+              <PropertyRef Name="UrunId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UrunResim_Urun">
+          <End Type="DBTargetModel.Urun" Role="Urun" Multiplicity="1" />
+          <End Type="DBTargetModel.UrunResim" Role="UrunResim" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Urun">
+              <PropertyRef Name="UrunId" />
+            </Principal>
+            <Dependent Role="UrunResim">
+              <PropertyRef Name="UrunId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Marka">
+          <Key>
+            <PropertyRef Name="MarkaId" />
+          </Key>
+          <Property Name="MarkaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="WebSiteId" Type="Int32" Nullable="false" />
+          <Property Name="MarkaAdi" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Aciklama" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="ResimUrl" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Resim" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="AnasayfadaGosterilsin" Type="Boolean" Nullable="false" />
+          <Property Name="MetaKeywords" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="MetaDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="MetaTitle" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="KayitTarih" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Sira" Type="Int32" Nullable="false" />
+          <Property Name="AktifMi" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Urun" Relationship="DBTargetModel.FK_Urun_Marka" FromRole="Marka" ToRole="Urun" />
+          <NavigationProperty Name="WebSite" Relationship="DBTargetModel.FK_Marka_WebSite" FromRole="Marka" ToRole="WebSite" />
+        </EntityType>
+        <Association Name="FK_Urun_Marka">
+          <End Type="DBTargetModel.Marka" Role="Marka" Multiplicity="1" />
+          <End Type="DBTargetModel.Urun" Role="Urun" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Marka">
+              <PropertyRef Name="MarkaId" />
+            </Principal>
+            <Dependent Role="Urun">
+              <PropertyRef Name="MarkaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="DataHataLog">
+          <Key>
+            <PropertyRef Name="ErrorLogID" />
+          </Key>
+          <Property Name="ErrorLogID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="WebSiteID" Type="Int32" Nullable="false" />
+          <Property Name="ProcessName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ErrorLogContent" Type="String" Nullable="false" MaxLength="5000" FixedLength="false" Unicode="false" />
+          <Property Name="LastModifiedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="WebSite" Relationship="DBTargetModel.FK_DataHataLog_WebSite" FromRole="DataHataLog" ToRole="WebSite" />
+        </EntityType>
+        <EntityType Name="DataKategori">
+          <Key>
+            <PropertyRef Name="CategoryID" />
+          </Key>
+          <Property Name="CategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="WebSiteID" Type="Int32" Nullable="false" />
+          <Property Name="OriginalCategoryID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ParentOriginalCategoryID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TargetCategoryID" Type="Int32" />
+          <Property Name="CategoryName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="LastModifiedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="WebSite" Relationship="DBTargetModel.FK_DataKategori_WebSite" FromRole="DataKategori" ToRole="WebSite" />
+          <NavigationProperty Name="DataUrunKategori" Relationship="DBTargetModel.FK_DataUrunKategori_DataKategori" FromRole="DataKategori" ToRole="DataUrunKategori" />
+        </EntityType>
+        <EntityType Name="DataMarka">
+          <Key>
+            <PropertyRef Name="DataMarkaID" />
+          </Key>
+          <Property Name="DataMarkaID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="WebSiteID" Type="Int32" Nullable="false" />
+          <Property Name="MarkaAdi" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="LastModifiedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="WebSite" Relationship="DBTargetModel.FK_DataMarka_WebSite" FromRole="DataMarka" ToRole="WebSite" />
+          <NavigationProperty Name="DataUrun" Relationship="DBTargetModel.FK_DataUrun_DataMarka" FromRole="DataMarka" ToRole="DataUrun" />
+        </EntityType>
+        <EntityType Name="DataUrun">
+          <Key>
+            <PropertyRef Name="DataUrunID" />
+          </Key>
+          <Property Name="DataUrunID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="WebSiteID" Type="Int32" Nullable="false" />
+          <Property Name="BrandID" Type="Int32" Nullable="false" />
+          <Property Name="OriginalID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="SKU" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="OldPrice" Type="Decimal" Nullable="false" Precision="18" Scale="4" />
+          <Property Name="Price" Type="Decimal" Nullable="false" Precision="18" Scale="4" />
+          <Property Name="Url" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="LastModifiedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="DataMarka" Relationship="DBTargetModel.FK_DataUrun_DataMarka" FromRole="DataUrun" ToRole="DataMarka" />
+          <NavigationProperty Name="WebSite" Relationship="DBTargetModel.FK_DataUrun_WebSite" FromRole="DataUrun" ToRole="WebSite" />
+          <NavigationProperty Name="DataUrunFiyatTarihce" Relationship="DBTargetModel.FK_DataUrunFiyatTarihce_DataUrun" FromRole="DataUrun" ToRole="DataUrunFiyatTarihce" />
+          <NavigationProperty Name="DataUrunKategori" Relationship="DBTargetModel.FK_DataUrunKategori_DataUrun" FromRole="DataUrun" ToRole="DataUrunKategori" />
+          <NavigationProperty Name="DataUrunResim" Relationship="DBTargetModel.FK_DataUrunResim_DataUrun" FromRole="DataUrun" ToRole="DataUrunResim" />
+        </EntityType>
+        <EntityType Name="DataUrunFiyatTarihce">
+          <Key>
+            <PropertyRef Name="DataUrunFiyatTarihceId" />
+          </Key>
+          <Property Name="DataUrunFiyatTarihceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductID" Type="Int32" Nullable="false" />
+          <Property Name="OldPrice" Type="Decimal" Nullable="false" Precision="18" Scale="4" />
+          <Property Name="Price" Type="Decimal" Nullable="false" Precision="18" Scale="4" />
+          <Property Name="LastModifiedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="DataUrun" Relationship="DBTargetModel.FK_DataUrunFiyatTarihce_DataUrun" FromRole="DataUrunFiyatTarihce" ToRole="DataUrun" />
+        </EntityType>
+        <EntityType Name="DataUrunKategori">
+          <Key>
+            <PropertyRef Name="ProductCategoryID" />
+          </Key>
+          <Property Name="ProductCategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductID" Type="Int32" Nullable="false" />
+          <Property Name="CategoryID" Type="Int32" Nullable="false" />
+          <Property Name="LastModifiedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="DataKategori" Relationship="DBTargetModel.FK_DataUrunKategori_DataKategori" FromRole="DataUrunKategori" ToRole="DataKategori" />
+          <NavigationProperty Name="DataUrun" Relationship="DBTargetModel.FK_DataUrunKategori_DataUrun" FromRole="DataUrunKategori" ToRole="DataUrun" />
+        </EntityType>
+        <EntityType Name="DataUrunLink">
+          <Key>
+            <PropertyRef Name="ProductLinkHistoryID" />
+          </Key>
+          <Property Name="ProductLinkHistoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="WebSiteID" Type="Int32" Nullable="false" />
+          <Property Name="ProductLink" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="LastModifiedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="WebSite" Relationship="DBTargetModel.FK_DataUrunLink_WebSite" FromRole="DataUrunLink" ToRole="WebSite" />
+        </EntityType>
+        <EntityType Name="DataUrunResim">
+          <Key>
+            <PropertyRef Name="DataUrunResimID" />
+          </Key>
+          <Property Name="DataUrunResimID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductID" Type="Int32" Nullable="false" />
+          <Property Name="ImagePath" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="OriginalImagePath" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="OrderNumber" Type="Int32" Nullable="false" />
+          <Property Name="LastModifiedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="DataUrun" Relationship="DBTargetModel.FK_DataUrunResim_DataUrun" FromRole="DataUrunResim" ToRole="DataUrun" />
+        </EntityType>
+        <EntityType Name="WebSite">
+          <Key>
+            <PropertyRef Name="WebSiteId" />
+          </Key>
+          <Property Name="WebSiteId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="WebSiteAdi" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="SiteUrl" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ResimYolu" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Resim" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="KayitTarih" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="GuncellemeTarih" Type="DateTime" Precision="3" />
+          <Property Name="AktifMi" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="DataHataLog" Relationship="DBTargetModel.FK_DataHataLog_WebSite" FromRole="WebSite" ToRole="DataHataLog" />
+          <NavigationProperty Name="DataKategori" Relationship="DBTargetModel.FK_DataKategori_WebSite" FromRole="WebSite" ToRole="DataKategori" />
+          <NavigationProperty Name="DataMarka" Relationship="DBTargetModel.FK_DataMarka_WebSite" FromRole="WebSite" ToRole="DataMarka" />
+          <NavigationProperty Name="DataUrun" Relationship="DBTargetModel.FK_DataUrun_WebSite" FromRole="WebSite" ToRole="DataUrun" />
+          <NavigationProperty Name="DataUrunLink" Relationship="DBTargetModel.FK_DataUrunLink_WebSite" FromRole="WebSite" ToRole="DataUrunLink" />
+          <NavigationProperty Name="Marka" Relationship="DBTargetModel.FK_Marka_WebSite" FromRole="WebSite" ToRole="Marka" />
+        </EntityType>
+        <Association Name="FK_DataHataLog_WebSite">
+          <End Type="DBTargetModel.WebSite" Role="WebSite" Multiplicity="1" />
+          <End Type="DBTargetModel.DataHataLog" Role="DataHataLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WebSite">
+              <PropertyRef Name="WebSiteId" />
+            </Principal>
+            <Dependent Role="DataHataLog">
+              <PropertyRef Name="WebSiteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DataKategori_WebSite">
+          <End Type="DBTargetModel.WebSite" Role="WebSite" Multiplicity="1" />
+          <End Type="DBTargetModel.DataKategori" Role="DataKategori" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WebSite">
+              <PropertyRef Name="WebSiteId" />
+            </Principal>
+            <Dependent Role="DataKategori">
+              <PropertyRef Name="WebSiteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DataUrunKategori_DataKategori">
+          <End Type="DBTargetModel.DataKategori" Role="DataKategori" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DBTargetModel.DataUrunKategori" Role="DataUrunKategori" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DataKategori">
+              <PropertyRef Name="CategoryID" />
+            </Principal>
+            <Dependent Role="DataUrunKategori">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DataMarka_WebSite">
+          <End Type="DBTargetModel.WebSite" Role="WebSite" Multiplicity="1" />
+          <End Type="DBTargetModel.DataMarka" Role="DataMarka" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WebSite">
+              <PropertyRef Name="WebSiteId" />
+            </Principal>
+            <Dependent Role="DataMarka">
+              <PropertyRef Name="WebSiteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DataUrun_DataMarka">
+          <End Type="DBTargetModel.DataMarka" Role="DataMarka" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DBTargetModel.DataUrun" Role="DataUrun" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DataMarka">
+              <PropertyRef Name="DataMarkaID" />
+            </Principal>
+            <Dependent Role="DataUrun">
+              <PropertyRef Name="BrandID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DataUrun_WebSite">
+          <End Type="DBTargetModel.WebSite" Role="WebSite" Multiplicity="1" />
+          <End Type="DBTargetModel.DataUrun" Role="DataUrun" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WebSite">
+              <PropertyRef Name="WebSiteId" />
+            </Principal>
+            <Dependent Role="DataUrun">
+              <PropertyRef Name="WebSiteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DataUrunFiyatTarihce_DataUrun">
+          <End Type="DBTargetModel.DataUrun" Role="DataUrun" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DBTargetModel.DataUrunFiyatTarihce" Role="DataUrunFiyatTarihce" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DataUrun">
+              <PropertyRef Name="DataUrunID" />
+            </Principal>
+            <Dependent Role="DataUrunFiyatTarihce">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DataUrunKategori_DataUrun">
+          <End Type="DBTargetModel.DataUrun" Role="DataUrun" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DBTargetModel.DataUrunKategori" Role="DataUrunKategori" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DataUrun">
+              <PropertyRef Name="DataUrunID" />
+            </Principal>
+            <Dependent Role="DataUrunKategori">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DataUrunResim_DataUrun">
+          <End Type="DBTargetModel.DataUrun" Role="DataUrun" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DBTargetModel.DataUrunResim" Role="DataUrunResim" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DataUrun">
+              <PropertyRef Name="DataUrunID" />
+            </Principal>
+            <Dependent Role="DataUrunResim">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DataUrunLink_WebSite">
+          <End Type="DBTargetModel.WebSite" Role="WebSite" Multiplicity="1" />
+          <End Type="DBTargetModel.DataUrunLink" Role="DataUrunLink" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WebSite">
+              <PropertyRef Name="WebSiteId" />
+            </Principal>
+            <Dependent Role="DataUrunLink">
+              <PropertyRef Name="WebSiteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Marka_WebSite">
+          <End Type="DBTargetModel.WebSite" Role="WebSite" Multiplicity="1" />
+          <End Type="DBTargetModel.Marka" Role="Marka" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WebSite">
+              <PropertyRef Name="WebSiteId" />
+            </Principal>
+            <Dependent Role="Marka">
+              <PropertyRef Name="WebSiteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DBTargetModelStoreContainer" CdmEntityContainer="DBTargetEntities">
+          <EntitySetMapping Name="Kategori">
+            <EntityTypeMapping TypeName="DBTargetModel.Kategori">
+              <MappingFragment StoreEntitySet="Kategori">
+                <ScalarProperty Name="Parametre" ColumnName="Parametre" />
+                <ScalarProperty Name="AktifMi" ColumnName="AktifMi" />
+                <ScalarProperty Name="Sira" ColumnName="Sira" />
+                <ScalarProperty Name="GuncellemeTarihi" ColumnName="GuncellemeTarihi" />
+                <ScalarProperty Name="OlusturmaTarihi" ColumnName="OlusturmaTarihi" />
+                <ScalarProperty Name="MetaTitle" ColumnName="MetaTitle" />
+                <ScalarProperty Name="MetaDescription" ColumnName="MetaDescription" />
+                <ScalarProperty Name="MetaKeywords" ColumnName="MetaKeywords" />
+                <ScalarProperty Name="SabitKategori" ColumnName="SabitKategori" />
+                <ScalarProperty Name="AnasayfadaGoster" ColumnName="AnasayfadaGoster" />
+                <ScalarProperty Name="Resim" ColumnName="Resim" />
+                <ScalarProperty Name="ResimUrl" ColumnName="ResimUrl" />
+                <ScalarProperty Name="Aciklama" ColumnName="Aciklama" />
+                <ScalarProperty Name="KategoriAdi" ColumnName="KategoriAdi" />
+                <ScalarProperty Name="UstKategoriId" ColumnName="UstKategoriId" />
+                <ScalarProperty Name="KategoriId" ColumnName="KategoriId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Nitelik">
+            <EntityTypeMapping TypeName="DBTargetModel.Nitelik">
+              <MappingFragment StoreEntitySet="Nitelik">
+                <ScalarProperty Name="AktifMi" ColumnName="AktifMi" />
+                <ScalarProperty Name="Sira" ColumnName="Sira" />
+                <ScalarProperty Name="GuncellemeTarihi" ColumnName="GuncellemeTarihi" />
+                <ScalarProperty Name="OlusturmaTarihi" ColumnName="OlusturmaTarihi" />
+                <ScalarProperty Name="Aciklama" ColumnName="Aciklama" />
+                <ScalarProperty Name="NitelikAdi" ColumnName="NitelikAdi" />
+                <ScalarProperty Name="NitelikId" ColumnName="NitelikId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UrunKategori">
+            <EntityTypeMapping TypeName="DBTargetModel.UrunKategori">
+              <MappingFragment StoreEntitySet="UrunKategori">
+                <ScalarProperty Name="AktifMi" ColumnName="AktifMi" />
+                <ScalarProperty Name="Sira" ColumnName="Sira" />
+                <ScalarProperty Name="KategoriId" ColumnName="KategoriId" />
+                <ScalarProperty Name="UrunId" ColumnName="UrunId" />
+                <ScalarProperty Name="UrunKategoriId" ColumnName="UrunKategoriId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UrunNitelik">
+            <EntityTypeMapping TypeName="DBTargetModel.UrunNitelik">
+              <MappingFragment StoreEntitySet="UrunNitelik">
+                <ScalarProperty Name="AktifMi" ColumnName="AktifMi" />
+                <ScalarProperty Name="Sira" ColumnName="Sira" />
+                <ScalarProperty Name="NitelikDegeri" ColumnName="NitelikDegeri" />
+                <ScalarProperty Name="NitelikId" ColumnName="NitelikId" />
+                <ScalarProperty Name="UrunId" ColumnName="UrunId" />
+                <ScalarProperty Name="UrunNitelikId" ColumnName="UrunNitelikId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UrunResim">
+            <EntityTypeMapping TypeName="DBTargetModel.UrunResim">
+              <MappingFragment StoreEntitySet="UrunResim">
+                <ScalarProperty Name="AktifMi" ColumnName="AktifMi" />
+                <ScalarProperty Name="KayitTarih" ColumnName="KayitTarih" />
+                <ScalarProperty Name="Sira" ColumnName="Sira" />
+                <ScalarProperty Name="Resim" ColumnName="Resim" />
+                <ScalarProperty Name="ResimUrl" ColumnName="ResimUrl" />
+                <ScalarProperty Name="OrjinalResimUrl" ColumnName="OrjinalResimUrl" />
+                <ScalarProperty Name="UrunId" ColumnName="UrunId" />
+                <ScalarProperty Name="UrunResimId" ColumnName="UrunResimId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Urun">
+            <EntityTypeMapping TypeName="DBTargetModel.Urun">
+              <MappingFragment StoreEntitySet="Urun">
+                <ScalarProperty Name="AktifMi" ColumnName="AktifMi" />
+                <ScalarProperty Name="Sira" ColumnName="Sira" />
+                <ScalarProperty Name="GuncellemeTarih" ColumnName="GuncellemeTarih" />
+                <ScalarProperty Name="KayitTarih" ColumnName="KayitTarih" />
+                <ScalarProperty Name="MetaTitle" ColumnName="MetaTitle" />
+                <ScalarProperty Name="MetaDescription" ColumnName="MetaDescription" />
+                <ScalarProperty Name="MetaKeywords" ColumnName="MetaKeywords" />
+                <ScalarProperty Name="GoruntulenmeSayisi" ColumnName="GoruntulenmeSayisi" />
+                <ScalarProperty Name="AnasayfadaGoster" ColumnName="AnasayfadaGoster" />
+                <ScalarProperty Name="AdresUrl" ColumnName="AdresUrl" />
+                <ScalarProperty Name="Etiketler" ColumnName="Etiketler" />
+                <ScalarProperty Name="Fiyat" ColumnName="Fiyat" />
+                <ScalarProperty Name="Aciklama" ColumnName="Aciklama" />
+                <ScalarProperty Name="KisaAciklama" ColumnName="KisaAciklama" />
+                <ScalarProperty Name="UrunAdi" ColumnName="UrunAdi" />
+                <ScalarProperty Name="Sku" ColumnName="Sku" />
+                <ScalarProperty Name="WebSiteId" ColumnName="WebSiteId" />
+                <ScalarProperty Name="MarkaId" ColumnName="MarkaId" />
+                <ScalarProperty Name="OriginalId" ColumnName="OriginalId" />
+                <ScalarProperty Name="UrunId" ColumnName="UrunId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Marka">
+            <EntityTypeMapping TypeName="DBTargetModel.Marka">
+              <MappingFragment StoreEntitySet="Marka">
+                <ScalarProperty Name="AktifMi" ColumnName="AktifMi" />
+                <ScalarProperty Name="Sira" ColumnName="Sira" />
+                <ScalarProperty Name="KayitTarih" ColumnName="KayitTarih" />
+                <ScalarProperty Name="MetaTitle" ColumnName="MetaTitle" />
+                <ScalarProperty Name="MetaDescription" ColumnName="MetaDescription" />
+                <ScalarProperty Name="MetaKeywords" ColumnName="MetaKeywords" />
+                <ScalarProperty Name="AnasayfadaGosterilsin" ColumnName="AnasayfadaGosterilsin" />
+                <ScalarProperty Name="Resim" ColumnName="Resim" />
+                <ScalarProperty Name="ResimUrl" ColumnName="ResimUrl" />
+                <ScalarProperty Name="Aciklama" ColumnName="Aciklama" />
+                <ScalarProperty Name="MarkaAdi" ColumnName="MarkaAdi" />
+                <ScalarProperty Name="WebSiteId" ColumnName="WebSiteId" />
+                <ScalarProperty Name="MarkaId" ColumnName="MarkaId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DataHataLog">
+            <EntityTypeMapping TypeName="DBTargetModel.DataHataLog">
+              <MappingFragment StoreEntitySet="DataHataLog">
+                <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
+                <ScalarProperty Name="ErrorLogContent" ColumnName="ErrorLogContent" />
+                <ScalarProperty Name="ProcessName" ColumnName="ProcessName" />
+                <ScalarProperty Name="WebSiteID" ColumnName="WebSiteID" />
+                <ScalarProperty Name="ErrorLogID" ColumnName="ErrorLogID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DataKategori">
+            <EntityTypeMapping TypeName="DBTargetModel.DataKategori">
+              <MappingFragment StoreEntitySet="DataKategori">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="TargetCategoryID" ColumnName="TargetCategoryID" />
+                <ScalarProperty Name="ParentOriginalCategoryID" ColumnName="ParentOriginalCategoryID" />
+                <ScalarProperty Name="OriginalCategoryID" ColumnName="OriginalCategoryID" />
+                <ScalarProperty Name="WebSiteID" ColumnName="WebSiteID" />
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DataMarka">
+            <EntityTypeMapping TypeName="DBTargetModel.DataMarka">
+              <MappingFragment StoreEntitySet="DataMarka">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
+                <ScalarProperty Name="MarkaAdi" ColumnName="MarkaAdi" />
+                <ScalarProperty Name="WebSiteID" ColumnName="WebSiteID" />
+                <ScalarProperty Name="DataMarkaID" ColumnName="DataMarkaID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DataUrun">
+            <EntityTypeMapping TypeName="DBTargetModel.DataUrun">
+              <MappingFragment StoreEntitySet="DataUrun">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="OldPrice" ColumnName="OldPrice" />
+                <ScalarProperty Name="SKU" ColumnName="SKU" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="OriginalID" ColumnName="OriginalID" />
+                <ScalarProperty Name="BrandID" ColumnName="BrandID" />
+                <ScalarProperty Name="WebSiteID" ColumnName="WebSiteID" />
+                <ScalarProperty Name="DataUrunID" ColumnName="DataUrunID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DataUrunFiyatTarihce">
+            <EntityTypeMapping TypeName="DBTargetModel.DataUrunFiyatTarihce">
+              <MappingFragment StoreEntitySet="DataUrunFiyatTarihce">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="OldPrice" ColumnName="OldPrice" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="DataUrunFiyatTarihceId" ColumnName="DataUrunFiyatTarihceId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DataUrunKategori">
+            <EntityTypeMapping TypeName="DBTargetModel.DataUrunKategori">
+              <MappingFragment StoreEntitySet="DataUrunKategori">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="ProductCategoryID" ColumnName="ProductCategoryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DataUrunLink">
+            <EntityTypeMapping TypeName="DBTargetModel.DataUrunLink">
+              <MappingFragment StoreEntitySet="DataUrunLink">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
+                <ScalarProperty Name="ProductLink" ColumnName="ProductLink" />
+                <ScalarProperty Name="WebSiteID" ColumnName="WebSiteID" />
+                <ScalarProperty Name="ProductLinkHistoryID" ColumnName="ProductLinkHistoryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DataUrunResim">
+            <EntityTypeMapping TypeName="DBTargetModel.DataUrunResim">
+              <MappingFragment StoreEntitySet="DataUrunResim">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
+                <ScalarProperty Name="OrderNumber" ColumnName="OrderNumber" />
+                <ScalarProperty Name="OriginalImagePath" ColumnName="OriginalImagePath" />
+                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="DataUrunResimID" ColumnName="DataUrunResimID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WebSite">
+            <EntityTypeMapping TypeName="DBTargetModel.WebSite">
+              <MappingFragment StoreEntitySet="WebSite">
+                <ScalarProperty Name="AktifMi" ColumnName="AktifMi" />
+                <ScalarProperty Name="GuncellemeTarih" ColumnName="GuncellemeTarih" />
+                <ScalarProperty Name="KayitTarih" ColumnName="KayitTarih" />
+                <ScalarProperty Name="Resim" ColumnName="Resim" />
+                <ScalarProperty Name="ResimYolu" ColumnName="ResimYolu" />
+                <ScalarProperty Name="SiteUrl" ColumnName="SiteUrl" />
+                <ScalarProperty Name="WebSiteAdi" ColumnName="WebSiteAdi" />
+                <ScalarProperty Name="WebSiteId" ColumnName="WebSiteId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="DefaultDatabaseSchema" Value="Urun" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

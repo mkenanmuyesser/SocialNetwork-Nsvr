@@ -1,0 +1,10 @@
+D:\Programlar\NeSeverProject\NeSever.Common.Types\bin\Debug\netcoreapp3.1\NeSever.Common.Models.deps.json
+D:\Programlar\NeSeverProject\NeSever.Common.Types\bin\Debug\netcoreapp3.1\NeSever.Common.Models.dll
+D:\Programlar\NeSeverProject\NeSever.Common.Types\bin\Debug\netcoreapp3.1\NeSever.Common.Models.pdb
+D:\Programlar\NeSeverProject\NeSever.Common.Types\obj\Debug\netcoreapp3.1\NeSever.Common.Models.csproj.AssemblyReference.cache
+D:\Programlar\NeSeverProject\NeSever.Common.Types\obj\Debug\netcoreapp3.1\NeSever.Common.Models.GeneratedMSBuildEditorConfig.editorconfig
+D:\Programlar\NeSeverProject\NeSever.Common.Types\obj\Debug\netcoreapp3.1\NeSever.Common.Models.AssemblyInfoInputs.cache
+D:\Programlar\NeSeverProject\NeSever.Common.Types\obj\Debug\netcoreapp3.1\NeSever.Common.Models.AssemblyInfo.cs
+D:\Programlar\NeSeverProject\NeSever.Common.Types\obj\Debug\netcoreapp3.1\NeSever.Common.Models.csproj.CoreCompileInputs.cache
+D:\Programlar\NeSeverProject\NeSever.Common.Types\obj\Debug\netcoreapp3.1\NeSever.Common.Models.dll
+D:\Programlar\NeSeverProject\NeSever.Common.Types\obj\Debug\netcoreapp3.1\NeSever.Common.Models.pdb

@@ -1,0 +1,215 @@
+﻿@{
+    ViewData["Title"] = "UyeIslem";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@model NeSever.Common.Models.Admin.AramaVM.YonlendirilenUrunAramaVM
+
+<div class="d-flex flex-row flex-column-fluid container">
+    <div class="main d-flex flex-column flex-row-fluid">
+        <div class="subheader py-2 py-lg-4 subheader-transparent" id="kt_subheader">
+            <div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+                <div class="d-flex align-items-center flex-wrap mr-1">
+                    <div class="d-flex align-items-baseline flex-wrap mr-5">
+                        <h5 class="text-dark font-weight-bold my-1 mr-5">Yönlendirilen Ürün Raporları</h5>
+
+                        <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
+                            <li class="breadcrumb-item">
+                                <a href="/Admin/Rapor/" class="text-muted">Ürün Raporları</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="/Admin/Rapor/YonlendirilenUrunRaporu" class="text-muted">Yönlendirilen Ürün Raporları</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center">
+                    <a href="/Admin/Rapor/YonlendirilenUrunRaporu" class="btn btn-icon btn-circle btn-sm btn-light-success mr-1" data-card-tool="reload">
+                        <i class="ki ki-reload icon-nm"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="content flex-column-fluid" id="kt_content">
+            <div class="card card-custom">
+                <div class="card-header">
+                    <div class="card-title">
+                        <span class="card-icon">
+                            <i class="flaticon2-delivery-package text-primary"></i>
+                        </span>
+                        <h3 class="card-label">Filtreleme Kriterleri</h3>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form id="_form" class="kt-form kt-form--fit mb-15">
+                        <div class="row mb-6">
+                            <div class="col-lg-6">
+                                <label>Marka:</label>
+                                <div class="input-group">
+                                    <select asp-for="MarkaAdi" asp-items="@(new SelectList(Model.MarkaListesi.BenzersizMarkaIsimleri))" class="form-control selectpicker">
+                                        <option value="hepsi" selected>Hepsi</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 mb-lg-0 mb-6">
+                                <label>Aktif Mi?:</label>
+                                <div class="input-group">
+                                    <div class="radio-inline">
+                                        <label class="radio radio-lg">
+                                            <input asp-for="@Model.Aktiflik" type="radio" value="-1" />
+                                            <span></span>
+                                            Tümü
+                                        </label>
+                                        <label class="radio radio-lg">
+                                            <input asp-for="@Model.Aktiflik" type="radio" value="1" />
+                                            <span></span>
+                                            Aktif
+                                        </label>
+                                        <label class="radio radio-lg">
+                                            <input asp-for="@Model.Aktiflik" type="radio" value="0" />
+                                            <span></span>
+                                            Pasif
+                                        </label>
+                                    </div>
+                                </div>
+                            </div><br /><br /><br /><br /><br />
+                            <div class="col-lg-3 mb-lg-0 mb-6">
+                                <label>Kayıt Başlangıç-Bitiş Tarihi:</label>
+                                <div class="input-daterange input-group" id="kt_datepicker_5" data-date-format="dd/mm/yyyy" data-provide="datepicker">
+                                    <input type="text" class="form-control" placeholder="Başlangıç" asp-for="BaslangicTarihi" />
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">
+                                            <i class="la la-ellipsis-h"></i>
+                                        </span>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="Bitiş" asp-for="BitisTarihi" data-date-format="dd/mm/yyyy" data-provide="datepicker" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-8">
+                            <div class="col-lg-12">
+                                <button type="button" class="btn btn-primary btn-primary--icon" onclick="javascript: ara();">
+                                    <span>
+                                        <i class="la la-search"></i>
+                                        <span>Ara</span>
+                                    </span>
+                                </button>&#160;&#160;
+                                <button type="button" class="btn btn-secondary btn-secondary--icon" onclick='location.reload();'>
+                                    <span>
+                                        <i class="la la-close"></i>
+                                        <span>Temizle</span>
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div id="chartdiv" style="width:100%; height:500px;"></div><br />
+                <p style="font-weight:bold">Toplam Yönlendirme Sayısı: <div id="toplamYonlendirme"></div></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+@section Scripts{
+    <script src="/Themes/Admin/dist/assets/plugins/custom/datatables/datatables.bundle.js?v=7.0.5"></script>
+    <script src="/Themes/Admin/dist/assets/js/pages/crud/forms/widgets/bootstrap-switch.js?v=7.0.5"></script>
+    <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
+    <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
+    <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
+
+    <script type="text/javascript">
+        function ara() {
+            var data = $('#_form').serializeObject();
+            $.ajax({
+                url: '/Admin/Rapor/YonlendirilenUrunRaporu',
+                type: "POST",
+                dataType: "json",
+                data: data,
+                success: function (data) {
+                    if (data == null || data.length == 0) {
+                        Swal.fire({
+                            title: 'Uyarı!',
+                            text: "Yönlendirilen Ürün Bulunmamakta",
+                            icon: 'warning',
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Kapat'
+                        })
+                    }
+                    else {
+                        am4core.ready(function () {
+
+                            am4core.useTheme(am4themes_animated);
+
+                            var chart = am4core.create("chartdiv", am4charts.XYChart3D);
+
+                            var veri = [];
+
+                            for (i = 0; i < data.length; i++) {
+                                veri.push({ "urunadi": data[i].UrunAdi, "yonlendirme": data[i].YonlendirmeSayisi });
+                            }
+
+                            chart.data = veri;
+
+                            // Create axes
+                            var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+                            categoryAxis.dataFields.category = "urunadi";
+                            categoryAxis.renderer.grid.template.location = 0;
+                            categoryAxis.renderer.minGridDistance = 30;
+
+                            var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+                            valueAxis.title.text = "Yönlendirme";
+                            valueAxis.renderer.labels.template.adapter.add("text", function (text) {
+                                return text;
+                            });
+
+                            // Create series
+                            var series = chart.series.push(new am4charts.ColumnSeries3D());
+                            series.dataFields.valueY = "yonlendirme";
+                            series.dataFields.categoryX = "urunadi";
+                            series.name = "Urun Yonlendirme";
+                            series.clustered = false;
+                            series.columns.template.tooltipText = "Yönlendirme Sayısı: [bold]{valueY}[/]";
+                            series.columns.template.fillOpacity = 0.9;
+
+                            chart.exporting.menu = new am4core.ExportMenu();
+                        });
+
+                        $('#toplamYonlendirme').html(data[0].ToplamYonlendirme);
+                    }
+
+                },
+                error: function (error) {
+                    Swal.fire({
+                        title: 'Hata!',
+                        text: "Veri Çekerken Hata Oluştu",
+                        icon: 'error',
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Kapat'
+                    })
+                }
+            });
+        }
+
+        function showLoading(id) {
+            KTApp.block(document.getElementById(id), {
+                overlayColor: '#000000',
+                state: 'danger',
+                message: 'Lütfen bekleyin...'
+            });
+        };
+
+        function hideLoading(id) {
+            KTApp.unblock(document.getElementById(id));
+        };
+    </script>
+}
+

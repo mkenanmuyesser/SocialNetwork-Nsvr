@@ -1,0 +1,79 @@
+﻿@model List<NeSever.Common.Models.Urun.KategoriIcerikVM>
+
+<link rel="stylesheet" href="/Themes/FrontEnd/MegaDropDownMenu/css/reset.css">
+<link rel="stylesheet" href="/Themes/FrontEnd/MegaDropDownMenu/css/style.css">
+<style>
+
+    * {
+        scrollbar-width: 5px;
+        scrollbar-color: #ff5e3a;
+    }
+
+    ::-webkit-scrollbar {
+        width: 5px;
+    }
+
+    ::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 5px grey;
+        border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: #ff5e3a;
+        border-radius: 10px;
+    }      
+</style>
+<script src="/Themes/FrontEnd/MegaDropDownMenu/js/modernizr.js"></script>
+
+<header>
+    <div class="cd-dropdown-wrapper">
+        <a class="cd-dropdown-trigger" href="/Hediye/Ara">Tüm Kategoriler</a>
+        <nav class="cd-dropdown dropdown-is-active">
+            <ul class="cd-dropdown-content">
+                @{ var ustKategoriList = Model.Where(p => p.UstKategoriId == null);}
+
+                @foreach (var ustKategori in ustKategoriList)
+                {
+                    var kategoriList = Model.Where(p => p.UstKategoriId == ustKategori.KategoriId);
+
+                    <li class="has-children subCategory">
+                        <a href="#">@ustKategori.KategoriAdi</a>
+                        <ul class="cd-secondary-dropdown is-hidden" style="height: -webkit-fill-available;">
+                            <li class="go-back"><a href="#">@ustKategori.KategoriAdi</a></li>
+                            @if (string.IsNullOrEmpty(ustKategori.Parametre))
+                            { <li class="see-all"><a href="/Hediye/Ara?sk=@ustKategori.KategoriId&k=@ustKategori.KategoriId">Tüm @ustKategori.KategoriAdi</a></li> }
+                            else 
+                            { <li class="see-all"><a href="/Hediye/Ara?sk=@ustKategori.KategoriId&@ustKategori.Parametre">Tüm @ustKategori.KategoriAdi</a></li>}
+
+                            @foreach (var kategori in kategoriList)
+                            {
+                                var altKategoriList = Model.Where(p => p.UstKategoriId == kategori.KategoriId);
+                                <li class="has-children" >
+                                     @*<li class="has-children">*@
+                                    <a href="#">@kategori.KategoriAdi</a>
+                                    <ul class="is-hidden">
+                                        <li class="go-back"><a href="#">@kategori.KategoriAdi</a></li>
+                                        @if (string.IsNullOrEmpty(kategori.Parametre))
+                                        { <li class="see-all"><a href="/Hediye/Ara?sk=@kategori.KategoriId&k=@kategori.KategoriId">Tüm @kategori.KategoriAdi</a></li> }
+                                        else 
+                                        { <li class="see-all"><a href="/Hediye/Ara?sk=@kategori.KategoriId&@kategori.Parametre">Tüm @kategori.KategoriAdi</a></li>}
+                                        @*<li class="has-children">*@
+                                        <li class="">
+                                            @foreach (var altKategori in altKategoriList)
+                                            {
+                                                <a href="/Hediye/Ara?sk=@altKategori.KategoriId&@altKategori.Parametre">@altKategori.KategoriAdi</a>       
+                                            }
+                                        </li>
+                                    </ul>
+                                </li>
+                            }
+                        </ul>
+                    </li>
+                 }
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<script src="/Themes/FrontEnd/MegaDropDownMenu/js/jquery.menu-aim.js"></script>
+<script src="/Themes/FrontEnd/MegaDropDownMenu/js/main.js"></script>

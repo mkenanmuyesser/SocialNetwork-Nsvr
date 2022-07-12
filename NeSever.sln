@@ -1,0 +1,215 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30204.135
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.Client", "1.Client", "{BE1B6377-3116-43E0-8815-F004C5248C01}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2.Api", "2.Api", "{37665D02-C820-47A8-B96D-57FE0239E65E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3.Business", "3.Business", "{EDA3AA1B-3A47-423A-84A9-3E4F005B4FA3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4.Data", "4.Data", "{E98357C6-D959-41AA-862F-A50388E371FD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5.Common", "5.Common", "{857032D5-66CF-45C7-8622-6D73286B58A7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NeSever.Api", "NeSever.Api\NeSever.Api.csproj", "{B9A95BEA-C4B6-4357-B5BB-A9BC91ACAEB1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NeServer.Business", "NeServer.Business\NeServer.Business.csproj", "{D2FF8A12-5480-417A-A56B-AEEB17E87C05}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NeSever.BusinessDomain", "NeSever.BusinessDomain\NeSever.BusinessDomain.csproj", "{37D08F1F-A34C-4AC7-BE4C-6853257386B9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NeSever.Data.Config", "NeSever.Data.Config\NeSever.Data.Config.csproj", "{93627FD9-DF83-46C0-B4CF-38A70CCAD703}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NeSever.Data.Context", "NeSever.Data.Context\NeSever.Data.Context.csproj", "{064636EF-BA13-456E-A34D-5C8F195B9EC1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NeSever.Data.DataService", "NeSever.Data.DataService\NeSever.Data.DataService.csproj", "{A5C8639D-5105-449A-90E8-D1D290A05F4E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NeSever.Common.Commands", "NeSever.Common.Commands\NeSever.Common.Commands.csproj", "{6E4DD679-62C7-4C2A-AB54-346A66273D83}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NeSever.Common.Infra", "NeSever.Common.Infra\NeSever.Common.Infra.csproj", "{192AB21E-6DF6-4E14-88DE-861DF1DF7801}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NeSever.Common.Models", "NeSever.Common.Types\NeSever.Common.Models.csproj", "{DD04EE78-F5D5-478D-9B7C-5AE19473B22E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NeSever.Common.Utils", "NeSever.Common.Utils\NeSever.Common.Utils.csproj", "{7A67E9D0-0AB4-44F1-9011-A2B1A09CF841}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NeSever.Data.Entities", "NeSever.Data.Entities\NeSever.Data.Entities.csproj", "{CC9D5302-1726-487E-ABF0-67AE1D4EE46A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NeSever.WebUI", "NeSever.WebUI\NeSever.WebUI.csproj", "{D63FA011-16B4-4759-9596-A31D419D7F58}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "6.Tools", "6.Tools", "{D7BE4729-603F-4D1F-AAB1-058F58C7EFB7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeSever.DataPicker", "NeSever.DataPicker\NeSever.DataPicker.csproj", "{2FC3AB28-47A1-4094-BE62-BD991711ADCC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeSever.ImageCompressor", "NeSever.ImageCompressor\NeSever.ImageCompressor.csproj", "{0EE4912E-78A2-4133-B8C1-EFDD57887A48}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NeSever.Uploader", "NeSever.Uploader\NeSever.Uploader.csproj", "{85CEB19D-B2B9-4C8B-B5B7-928F9F72EABF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeSever.Test", "NeSever.Test\NeSever.Test.csproj", "{4BADED37-EE9F-41BF-8965-0067D385BEDA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B9A95BEA-C4B6-4357-B5BB-A9BC91ACAEB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9A95BEA-C4B6-4357-B5BB-A9BC91ACAEB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9A95BEA-C4B6-4357-B5BB-A9BC91ACAEB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9A95BEA-C4B6-4357-B5BB-A9BC91ACAEB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2FF8A12-5480-417A-A56B-AEEB17E87C05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2FF8A12-5480-417A-A56B-AEEB17E87C05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2FF8A12-5480-417A-A56B-AEEB17E87C05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2FF8A12-5480-417A-A56B-AEEB17E87C05}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37D08F1F-A34C-4AC7-BE4C-6853257386B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37D08F1F-A34C-4AC7-BE4C-6853257386B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37D08F1F-A34C-4AC7-BE4C-6853257386B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37D08F1F-A34C-4AC7-BE4C-6853257386B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93627FD9-DF83-46C0-B4CF-38A70CCAD703}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93627FD9-DF83-46C0-B4CF-38A70CCAD703}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93627FD9-DF83-46C0-B4CF-38A70CCAD703}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93627FD9-DF83-46C0-B4CF-38A70CCAD703}.Release|Any CPU.Build.0 = Release|Any CPU
+		{064636EF-BA13-456E-A34D-5C8F195B9EC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{064636EF-BA13-456E-A34D-5C8F195B9EC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{064636EF-BA13-456E-A34D-5C8F195B9EC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{064636EF-BA13-456E-A34D-5C8F195B9EC1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5C8639D-5105-449A-90E8-D1D290A05F4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5C8639D-5105-449A-90E8-D1D290A05F4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5C8639D-5105-449A-90E8-D1D290A05F4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5C8639D-5105-449A-90E8-D1D290A05F4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E4DD679-62C7-4C2A-AB54-346A66273D83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E4DD679-62C7-4C2A-AB54-346A66273D83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E4DD679-62C7-4C2A-AB54-346A66273D83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E4DD679-62C7-4C2A-AB54-346A66273D83}.Release|Any CPU.Build.0 = Release|Any CPU
+		{192AB21E-6DF6-4E14-88DE-861DF1DF7801}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{192AB21E-6DF6-4E14-88DE-861DF1DF7801}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{192AB21E-6DF6-4E14-88DE-861DF1DF7801}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{192AB21E-6DF6-4E14-88DE-861DF1DF7801}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD04EE78-F5D5-478D-9B7C-5AE19473B22E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD04EE78-F5D5-478D-9B7C-5AE19473B22E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD04EE78-F5D5-478D-9B7C-5AE19473B22E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD04EE78-F5D5-478D-9B7C-5AE19473B22E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A67E9D0-0AB4-44F1-9011-A2B1A09CF841}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A67E9D0-0AB4-44F1-9011-A2B1A09CF841}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A67E9D0-0AB4-44F1-9011-A2B1A09CF841}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A67E9D0-0AB4-44F1-9011-A2B1A09CF841}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC9D5302-1726-487E-ABF0-67AE1D4EE46A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC9D5302-1726-487E-ABF0-67AE1D4EE46A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC9D5302-1726-487E-ABF0-67AE1D4EE46A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC9D5302-1726-487E-ABF0-67AE1D4EE46A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D63FA011-16B4-4759-9596-A31D419D7F58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D63FA011-16B4-4759-9596-A31D419D7F58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D63FA011-16B4-4759-9596-A31D419D7F58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D63FA011-16B4-4759-9596-A31D419D7F58}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FC3AB28-47A1-4094-BE62-BD991711ADCC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FC3AB28-47A1-4094-BE62-BD991711ADCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FC3AB28-47A1-4094-BE62-BD991711ADCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FC3AB28-47A1-4094-BE62-BD991711ADCC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0EE4912E-78A2-4133-B8C1-EFDD57887A48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EE4912E-78A2-4133-B8C1-EFDD57887A48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EE4912E-78A2-4133-B8C1-EFDD57887A48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EE4912E-78A2-4133-B8C1-EFDD57887A48}.Release|Any CPU.Build.0 = Release|Any CPU
+		{85CEB19D-B2B9-4C8B-B5B7-928F9F72EABF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{85CEB19D-B2B9-4C8B-B5B7-928F9F72EABF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{85CEB19D-B2B9-4C8B-B5B7-928F9F72EABF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{85CEB19D-B2B9-4C8B-B5B7-928F9F72EABF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BADED37-EE9F-41BF-8965-0067D385BEDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BADED37-EE9F-41BF-8965-0067D385BEDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BADED37-EE9F-41BF-8965-0067D385BEDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BADED37-EE9F-41BF-8965-0067D385BEDA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B9A95BEA-C4B6-4357-B5BB-A9BC91ACAEB1} = {37665D02-C820-47A8-B96D-57FE0239E65E}
+		{D2FF8A12-5480-417A-A56B-AEEB17E87C05} = {EDA3AA1B-3A47-423A-84A9-3E4F005B4FA3}
+		{37D08F1F-A34C-4AC7-BE4C-6853257386B9} = {EDA3AA1B-3A47-423A-84A9-3E4F005B4FA3}
+		{93627FD9-DF83-46C0-B4CF-38A70CCAD703} = {E98357C6-D959-41AA-862F-A50388E371FD}
+		{064636EF-BA13-456E-A34D-5C8F195B9EC1} = {E98357C6-D959-41AA-862F-A50388E371FD}
+		{A5C8639D-5105-449A-90E8-D1D290A05F4E} = {E98357C6-D959-41AA-862F-A50388E371FD}
+		{6E4DD679-62C7-4C2A-AB54-346A66273D83} = {857032D5-66CF-45C7-8622-6D73286B58A7}
+		{192AB21E-6DF6-4E14-88DE-861DF1DF7801} = {857032D5-66CF-45C7-8622-6D73286B58A7}
+		{DD04EE78-F5D5-478D-9B7C-5AE19473B22E} = {857032D5-66CF-45C7-8622-6D73286B58A7}
+		{7A67E9D0-0AB4-44F1-9011-A2B1A09CF841} = {857032D5-66CF-45C7-8622-6D73286B58A7}
+		{CC9D5302-1726-487E-ABF0-67AE1D4EE46A} = {E98357C6-D959-41AA-862F-A50388E371FD}
+		{D63FA011-16B4-4759-9596-A31D419D7F58} = {BE1B6377-3116-43E0-8815-F004C5248C01}
+		{2FC3AB28-47A1-4094-BE62-BD991711ADCC} = {D7BE4729-603F-4D1F-AAB1-058F58C7EFB7}
+		{0EE4912E-78A2-4133-B8C1-EFDD57887A48} = {D7BE4729-603F-4D1F-AAB1-058F58C7EFB7}
+		{85CEB19D-B2B9-4C8B-B5B7-928F9F72EABF} = {D7BE4729-603F-4D1F-AAB1-058F58C7EFB7}
+		{4BADED37-EE9F-41BF-8965-0067D385BEDA} = {D7BE4729-603F-4D1F-AAB1-058F58C7EFB7}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {700F65E6-69A1-42E4-B58A-A57979350A24}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 17
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://kenanmuyesser.visualstudio.com/
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = NeSever.Api\\NeSever.Api.csproj
+		SccProjectTopLevelParentUniqueName1 = NeSever.sln
+		SccProjectName1 = NeSever.Api
+		SccLocalPath1 = NeSever.Api
+		SccProjectUniqueName2 = NeServer.Business\\NeServer.Business.csproj
+		SccProjectTopLevelParentUniqueName2 = NeSever.sln
+		SccProjectName2 = NeServer.Business
+		SccLocalPath2 = NeServer.Business
+		SccProjectUniqueName3 = NeSever.BusinessDomain\\NeSever.BusinessDomain.csproj
+		SccProjectTopLevelParentUniqueName3 = NeSever.sln
+		SccProjectName3 = NeSever.BusinessDomain
+		SccLocalPath3 = NeSever.BusinessDomain
+		SccProjectUniqueName4 = NeSever.Data.Config\\NeSever.Data.Config.csproj
+		SccProjectTopLevelParentUniqueName4 = NeSever.sln
+		SccProjectName4 = NeSever.Data.Config
+		SccLocalPath4 = NeSever.Data.Config
+		SccProjectUniqueName5 = NeSever.Data.Context\\NeSever.Data.Context.csproj
+		SccProjectTopLevelParentUniqueName5 = NeSever.sln
+		SccProjectName5 = NeSever.Data.Context
+		SccLocalPath5 = NeSever.Data.Context
+		SccProjectUniqueName6 = NeSever.Data.DataService\\NeSever.Data.DataService.csproj
+		SccProjectTopLevelParentUniqueName6 = NeSever.sln
+		SccProjectName6 = NeSever.Data.DataService
+		SccLocalPath6 = NeSever.Data.DataService
+		SccProjectUniqueName7 = NeSever.Common.Commands\\NeSever.Common.Commands.csproj
+		SccProjectTopLevelParentUniqueName7 = NeSever.sln
+		SccProjectName7 = NeSever.Common.Commands
+		SccLocalPath7 = NeSever.Common.Commands
+		SccProjectUniqueName8 = NeSever.Common.Infra\\NeSever.Common.Infra.csproj
+		SccProjectTopLevelParentUniqueName8 = NeSever.sln
+		SccProjectName8 = NeSever.Common.Infra
+		SccLocalPath8 = NeSever.Common.Infra
+		SccProjectUniqueName9 = NeSever.Common.Types\\NeSever.Common.Models.csproj
+		SccProjectTopLevelParentUniqueName9 = NeSever.sln
+		SccProjectName9 = NeSever.Common.Types
+		SccLocalPath9 = NeSever.Common.Types
+		SccProjectUniqueName10 = NeSever.Common.Utils\\NeSever.Common.Utils.csproj
+		SccProjectTopLevelParentUniqueName10 = NeSever.sln
+		SccProjectName10 = NeSever.Common.Utils
+		SccLocalPath10 = NeSever.Common.Utils
+		SccProjectUniqueName11 = NeSever.Data.Entities\\NeSever.Data.Entities.csproj
+		SccProjectTopLevelParentUniqueName11 = NeSever.sln
+		SccProjectName11 = NeSever.Data.Entities
+		SccLocalPath11 = NeSever.Data.Entities
+		SccProjectUniqueName12 = NeSever.WebUI\\NeSever.WebUI.csproj
+		SccProjectTopLevelParentUniqueName12 = NeSever.sln
+		SccProjectName12 = NeSever.WebUI
+		SccLocalPath12 = NeSever.WebUI
+		SccProjectUniqueName13 = NeSever.DataPicker\\NeSever.DataPicker.csproj
+		SccProjectTopLevelParentUniqueName13 = NeSever.sln
+		SccProjectName13 = NeSever.DataPicker
+		SccLocalPath13 = NeSever.DataPicker
+		SccProjectUniqueName14 = NeSever.ImageCompressor\\NeSever.ImageCompressor.csproj
+		SccProjectTopLevelParentUniqueName14 = NeSever.sln
+		SccProjectName14 = NeSever.ImageCompressor
+		SccLocalPath14 = NeSever.ImageCompressor
+		SccProjectUniqueName15 = NeSever.Uploader\\NeSever.Uploader.csproj
+		SccProjectTopLevelParentUniqueName15 = NeSever.sln
+		SccProjectName15 = NeSever.Uploader
+		SccLocalPath15 = NeSever.Uploader
+		SccProjectUniqueName16 = NeSever.Test\\NeSever.Test.csproj
+		SccProjectTopLevelParentUniqueName16 = NeSever.sln
+		SccProjectName16 = NeSever.Test
+		SccLocalPath16 = NeSever.Test
+	EndGlobalSection
+EndGlobal

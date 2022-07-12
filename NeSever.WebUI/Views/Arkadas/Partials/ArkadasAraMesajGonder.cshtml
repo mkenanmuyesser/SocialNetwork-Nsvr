@@ -1,0 +1,126 @@
+﻿<form id="ArkadasAraMesajGonderForm">
+    <div class="row">
+        <div class="col col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="form-group label-floating">
+                <textarea id="Mesaj" name="Mesaj" class="form-control count-chars" maxlength="160" data-chars-max="160" data-msg-color="danger" placeholder="Mesajınızı Buraya Yazınız..."></textarea>
+            </div>
+        </div>
+        <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="form-group label-floating">
+                <select id="ArkadasAra" name="ArkadasAra" class="selectpicker with-ajax" data-live-search="true" data-width="100%"></select>
+            </div>
+        </div>
+    </div>
+</form>
+<div class="row">
+    <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+        <button id="MesajGonderBtn" class="btn btn-primary btn-lg full-width">Gönder</button>
+    </div>
+</div>
+
+<script src="/js/ajax-bootstrap-select.js"></script>
+<script src="/js/ajax-bootstrap-select.tr-TR.js"></script>
+<script src="~/lib/jquery-validation/dist/additional-methods.js"></script>
+<script src="~/js/site.js"></script>
+<script>
+    $(document).ready(function () {
+        var options = {
+            ajax: {
+                url: '/Arkadas/ArkadasAra',
+                dataType: 'json',
+                data: {
+                    query: '{{{q}}}'
+                }
+            },
+            locale: {
+                emptyTitle: 'Arkadaş Ara...'
+            },
+            log: 3,
+            preprocessData: function (data) {
+                var i, l = data.length, array = [];
+                if (l) {
+                    for (i = 0; i < l; i++) {
+                        array.push($.extend(true, data[i], {
+                            text: data[i].Adi + " " + data[i].Soyadi,
+                            value: data[i].ArkadasKullaniciId
+                        }));
+                    }
+                }
+
+                return array;
+            }
+        };
+
+        $(".selectpicker")
+            .selectpicker()
+            .filter(".with-ajax")
+            .ajaxSelectPicker(options);
+        $("select").trigger("change");
+
+
+
+        $("#ArkadasAraMesajGonderForm").validate({
+            rules: {
+                Mesaj: {
+                    required: true,
+                    blankSpace: true,
+                },
+                ArkadasAra: {
+                    blankSpace: true,
+                },
+            },
+            messages: {
+                Mesaj: {
+                    required: "Mesaj alanı boş bırakılamaz",
+                    blankSpace: "Mesaj alanı boş bırakılamaz.",
+                },
+                ArkadasAra: {
+                    required: "Arkadaş seçmediniz.",
+                }
+            },
+        });
+
+
+        $("#MesajGonderBtn").click(function () {
+            if ($("#ArkadasAraMesajGonderForm").valid()) {
+                var userId = $('#ArkadasAra').val();
+                var vm = {
+                    alanKullanici: userId,
+                    gidenMesaj: $("#Mesaj").val()
+                };
+                $.ajax({
+                    url: "/Arkadas/KullaniciMesajGonder",
+                    type: "POST",
+                    dataType: 'json',
+                    data: vm,
+                    success: function (data) {
+                        debugger;
+                        if (data.Type == 1) {
+                            $('#MesajGonder').modal('hide');
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Başarılı!',
+                                text: data.ErrorMessage,
+                                confirmButtonText: "Tamam"
+                            })
+
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Upps',
+                                text: data.ErrorMessage,
+                                confirmButtonText: "Tamam"
+                            })
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        console.log("hata!");
+                    }
+                });
+            }
+            
+        });
+    });
+
+</script>
+<script src="/Themes/FrontEnd/src/js/libs-init/libs-init.js"></script>

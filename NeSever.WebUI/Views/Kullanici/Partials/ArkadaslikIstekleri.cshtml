@@ -1,0 +1,133 @@
+﻿@model List<NeSever.Common.Models.Uyelik.ArkadasIstekleriVM>
+
+<div class="ui-block">
+    <div class="ui-block-title">
+        <h6 class="title">Arkadaşlık istekleri</h6>
+        @*<a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="#olymp-three-dots-icon"></use></svg></a>*@
+    </div>
+
+    <ul class="notification-list friend-requests">
+
+        @if (Model.Count > 0)
+        {
+            @foreach (var arkadasIstek in Model)
+            {
+                <li id="@arkadasIstek.ArkadasIstekKullaniciId">
+                    <div class="author-thumb">
+                        <a href="/Kullanici/Profil/@arkadasIstek.KullaniciAdi">
+                            <img src="@arkadasIstek.ProfilResmiBase64" alt="author" style="max-width:32px; max-height:32px;">
+                        </a>                      
+                    </div>
+                    <div class="notification-event">
+                        <a href="/Kullanici/Profil/@arkadasIstek.KullaniciAdi" class="h6 notification-friend">@arkadasIstek.Ad @arkadasIstek.Soyad</a>
+                        <span class="chat-message-item">@arkadasIstek.OrtakArkadasSayisi Ortak Arkadaş</span>
+                    </div>
+                    <span class="notification-icon">
+                        <a href="javascript:;" id="@arkadasIstek.ArkadasIstekKullaniciId" name="acceptRequest" class="accept-request">
+                            <span class="icon-add">
+                                <svg class="olymp-happy-face-icon"><use xlink:href="#olymp-happy-face-icon"></use></svg>
+                            </span>
+                            Kabul Et
+                        </a>
+
+                        <a href="javascript:;" id="@arkadasIstek.ArkadasIstekKullaniciId" name="deleteRequest" class="accept-request request-del">
+                            <span class="icon-minus">
+                                <svg class="olymp-happy-face-icon"><use xlink:href="#olymp-happy-face-icon"></use></svg>
+                            </span>
+                        </a>
+                    </span>
+                </li>
+            }
+        }
+        else
+        {
+            <li>
+                <div class="notification-event">
+                    Arkadaşlık İstediğiniz Bulunmamaktadır...
+                </div>
+            </li>
+        }
+    </ul>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        $("a").click(function (event) {
+            var id = $(this)[0].id;
+            if ($(this)[0].name === "deleteRequest") {
+                $.ajax({
+                    url: "/Kullanici/ArkadaslikIsteginiReddet",
+                    type: "POST",
+                    dataType: 'json',
+                    data: { "kullaniciId": id },
+                    success: function (data) {
+                        $('#' + id).remove();
+                        if (data.HasError) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: data.ErrorMessage
+                            })
+                        }
+                        if (!data.HasError) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'İşleminiz Başarıyla Gerçekleşti',
+                                text: data.ErrorMessage,
+                                showConfirmButton: true,
+                                confirmButtonText: "Tamam"                                
+                            }).then(function () {
+                                
+                                var istek = $('#arkadaslikIstekleriSayi').html();
+                                var istekSayi = Number(istek);
+                                istekSayi -= 1;
+                                $('#arkadaslikIstekleriSayi').text(istekSayi);
+                                $('#arkadaslikIstekleriSayiMobil').text(istekSayi);
+                                //window.location = '@Url.Action("Arkadaslar", "Kullanici")';
+                            });
+
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        console.log("hata!");
+                    }
+                });
+            }
+            if ($(this)[0].name === "acceptRequest") {
+                $.ajax({
+                    url: "/Kullanici/ArkadaslikIsteginiKabulEt",
+                    type: "POST",
+                    dataType: 'json',
+                    data: { "kullaniciId": id },
+                    success: function (data) {
+                        if (data == false) {
+                            location.reload();
+                        }
+                        else {
+                            $('#' + id).empty();
+                            $('#' + id).addClass("accepted")
+                                .append('<div class="notification-event">' +
+                                    'Sen ve <a href="#" class="h6 notification-friend">' + data.Ad + " " + data.Soyad + '</a> artık arkadaşsınız. Profiline bakmak için <a href="/Kullanici/Profil/' + data.KullaniciAdi + '" class="notification-link">tıkla</a>.' +
+                                    '</div >' +
+                                    ' <span class="notification-icon">' +
+                                    '<svg class="olymp-happy-face-icon"><use xlink:href="#olymp-happy-face-icon"></use></svg>' +
+                                    '</span>'
+                                ).fadeIn('slow');
+                            var istek = $('#arkadaslikIstekleriSayi').html();
+                            var istekSayi = Number(istek);
+                            istekSayi -= 1;
+                            $('#arkadaslikIstekleriSayi').text(istekSayi);
+                            $('#arkadaslikIstekleriSayiMobil').text(istekSayi);
+                        }                     
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        console.log("hata!");
+                    }
+                });
+            }
+        });
+        //var mesajKutusuSayi = $('#mesajKutusuSayi').text();
+        
+    });
+</script>

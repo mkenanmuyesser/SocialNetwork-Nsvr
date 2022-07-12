@@ -1,0 +1,70 @@
+﻿@model NeSever.Common.Models.Program.BilgiVM
+@{
+    ViewData["Title"] = "KisiselVerilerinKorunmasi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="mb60">
+    <div class="container">
+        <div class="row">
+            <div class="col col-xl-8 m-auto col-lg-10 col-md-12 col-sm-12 col-12">
+                <div id="accordion" role="tablist" aria-multiselectable="false" class="accordion-faqs">
+                    <div class="card">
+                        <div class="card-header" role="tab" id="headingOne-1" style="padding:30px 0px 20px 0px;">
+                            <h3 class="mb-0">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne-1" aria-expanded="true" aria-controls="collapseOne">
+                                    Çerez Politikası
+                                    <span class="icons-wrap">
+                                        <svg class="olymp-plus-icon"><use xlink:href="#olymp-plus-icon"></use></svg>
+                                        <svg class="olymp-accordion-close-icon"><use xlink:href="#olymp-accordion-close-icon"></use></svg>
+                                    </span>
+                                </a>
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div id="collapseOne-1" class="collapse show" role="tabpanel" aria-labelledby="headingOne-1" style="max-height:300px; overflow-y:auto; margin-bottom:30px;">
+                            @Html.Raw(Model.CerezPolitikasi)
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header" role="tab" id="headingOne-2" style="padding:30px 0px 20px 0px;">
+                            <h3 class="mb-0">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne-2" aria-expanded="true" aria-controls="collapseOne">
+                                    Aydınlatma Metni
+                                    <span class="icons-wrap">
+                                        <svg class="olymp-plus-icon"><use xlink:href="#olymp-plus-icon"></use></svg>
+                                        <svg class="olymp-accordion-close-icon"><use xlink:href="#olymp-accordion-close-icon"></use></svg>
+                                    </span>
+                                </a>
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div id="collapseOne-2" class="collapse show" role="tabpanel" aria-labelledby="headingOne-2" style="max-height:300px; overflow-y:auto; margin-bottom:30px;">
+                            @Html.Raw(Model.AydinlatmaMetni)
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header" role="tab" id="headingOne-3" style="padding:30px 0px 20px 0px;">
+                            <h3 class="mb-0">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne-3" aria-expanded="true" aria-controls="collapseOne-3">
+                                    Başvuru Formu
+                                    <span class="icons-wrap">
+                                        <svg class="olymp-plus-icon"><use xlink:href="#olymp-plus-icon"></use></svg>
+                                        <svg class="olymp-accordion-close-icon"><use xlink:href="#olymp-accordion-close-icon"></use></svg>
+                                    </span>
+                                </a>
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div id="collapseOne-3" class="collapse show" role="tabpanel" aria-labelledby="headingOne" style="max-height:300px; overflow-y:auto; margin-bottom:30px;">
+                            @Html.Raw(Model.BasvuruFormu)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

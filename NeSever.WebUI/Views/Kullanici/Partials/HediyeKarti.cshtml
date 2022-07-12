@@ -1,0 +1,70 @@
+﻿@model NeSever.Common.Models.Uyelik.HediyeKartListesiSonucVM
+
+<style type="text/css">
+    .chat-message-field .notification-event {
+        width: 90%;
+    }
+</style>
+
+
+@if (Model.HediyeKartListSonuc.Any())
+{
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="ui-block responsive-flex">
+                <div class="ui-block-title">
+                    <div class="h6 title">Arkadaşlar <span id="ArkadasSayisi"></span></div>
+                    @*<form class="w-search">
+                        <div class="form-group">
+                            <select id="ArkadasAra" class="selectpicker with-ajax" data-live-search="true" data-width="100%"></select>
+                            <span class="material-input"></span>
+                        </div>
+                    </form>*@
+                    @*<a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="#olymp-three-dots-icon"></use></svg></a>*@
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+<div class="ui-block">
+    <div class="ui-block-title">
+        <h6 class="title">Hediye Kartları</h6>
+        @*<a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="#olymp-three-dots-icon"></use></svg></a>*@
+    </div>
+
+    <div class="container">
+        <partial name="~/Views/Kullanici/Partials/HediyeKartListesiSonuc.cshtml" model="@Model.HediyeKartListSonuc" />
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+        });
+
+    </script>
+
+    <script type="text/javascript">
+        function showLoading() {
+            $('#middleContent').loadingModal({ text: 'Lütfen Bekleyin...' });
+            $('#middleContent').loadingModal('animation', 'cubeGrid');
+        };
+
+        function hideLoading(id) {
+            $('#middleContent').loadingModal('destroy');
+        };
+    </script>
+
+    <script>
+        var url = "/Themes/FrontEnd/src/js/mainModified.js";
+        $.getScript(url);
+    </script>
+
+}
+
+<script src="/Themes/FrontEnd/src/js/libs-init/libs-init.js"></script>
+@*<script src="/Themes/FrontEnd/src/js/main.js"></script>*@

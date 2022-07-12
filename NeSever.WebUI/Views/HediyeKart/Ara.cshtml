@@ -1,0 +1,69 @@
+﻿
+@model NeSever.Common.Models.FrontEnd.HediyeKartAramaSayfaSonucVM
+@{
+    ViewData["Title"] = "Hediye Kart Ara";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">          
+            <div class="ui-block responsive-flex1200">
+                <div class="ui-block-title">
+                    <div class="w-select">
+                        <div class="title">Kategoriler :</div>
+                        <fieldset class="form-group">
+                            <select id="sk" name="sk" class="selectpicker form-control">                              
+                                    <option value="">TÜMÜ</option>                              
+                                    @foreach (var kategoriIcerik in Model.HediyeKartKategoriIcerikList)
+                                    {                                       
+                                         <option value="@kategoriIcerik.HediyeKartKategoriId" selected="@(Model.SayfaKategori.HasValue && Model.SayfaKategori.Value ==  kategoriIcerik.HediyeKartKategoriId?"selected":null)" style="font-weight:bolder;">@kategoriIcerik.HediyeKartKategoriAdi</option>                                                                             
+                                    }
+                               
+                            </select>
+                        </fieldset>
+                    </div>
+
+                    <div class="w-select">
+                        <form class="w-search" style="width:100%;" onsubmit="event.preventDefault(); hediyeKartAra();">
+                            <div class="form-group">
+                                <input id="q" name="q" class="form-control" type="text" placeholder="Ara..." value="@(Context.Request.Query["q"])" style="height:40px;">
+                            </div>
+                        </form>
+                    </div>
+
+                    <a href="javascript:hediyeKartAra();" class="btn btn-blue btn-md-2" style="display:block;">Filtrele</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<section class="pt-1">
+    <div class="container">
+        <div class="row">
+            <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                
+                <partial name="~/Views/HediyeKart/Partials/HediyeKartAramaIcerik.cshtml" model="@Model.HediyeKartIcerikList" />
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts{
+    <script type="text/javascript">
+        /*$("#sk").change(function () {
+            window.location = '/Hediye/HediyeKartAra?' + this.value;
+        });*/
+
+        function hediyeKartAra() {
+            var q = $('#q').val();
+            var x = document.getElementById("sk").selectedIndex;
+            var sk = document.getElementsByTagName("option")[x].value;
+            var location = "/HediyeKart/Ara" +  (sk == "" || sk == '' || sk == null ? "?sk=0" : ("?sk=" + sk)) + (q == "" || q == '' || q == null ? "" : ("&q=" + q)) ;
+            window.location = location;
+        }
+
+    </script>
+}

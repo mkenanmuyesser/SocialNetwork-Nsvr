@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup Label="Globals">
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Arkadas\**" />
+    <EmbeddedResource Remove="Arkadas\**" />
+    <None Remove="Arkadas\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+    <PackageReference Include="X.PagedList" Version="8.0.7" />
+    <PackageReference Include="X.PagedList.Mvc.Core" Version="8.0.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NeSever.BusinessDomain\NeSever.BusinessDomain.csproj" />
+    <ProjectReference Include="..\NeSever.Common.Commands\NeSever.Common.Commands.csproj" />
+    <ProjectReference Include="..\NeSever.Common.Types\NeSever.Common.Models.csproj" />
+    <ProjectReference Include="..\NeSever.Common.Utils\NeSever.Common.Utils.csproj" />
+    <ProjectReference Include="..\NeSever.Data.DataService\NeSever.Data.DataService.csproj" />
+  </ItemGroup>
+
+</Project>

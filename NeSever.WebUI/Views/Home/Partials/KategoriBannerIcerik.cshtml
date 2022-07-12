@@ -1,0 +1,22 @@
+﻿@model List<NeSever.Common.Models.Sayfa.KategoriBannerIcerikVM>
+
+<section class="blog-post-wrap pt-2">
+    <div class="container">
+        <div class="row sorting-container" id="posts-grid-1" data-layout="masonry">
+            @foreach (var kategoriBannerIcerik in Model)
+            {
+                <div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 sorting-item community">
+                    <div class="ui-block">
+                        <article class="hentry blog-post blog-post-v2">
+                            <div class="post-thumb">
+                                <a href="@kategoriBannerIcerik.Parametre">
+                                    <img class="lazy" src="/Uploads/Site/loading_800_300.gif" data-src="@kategoriBannerIcerik.Resim" alt="@kategoriBannerIcerik.Aciklama" title="@kategoriBannerIcerik.Aciklama">
+                                </a>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>

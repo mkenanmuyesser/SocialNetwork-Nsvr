@@ -1,0 +1,160 @@
+﻿@model NeSever.Common.Models.Uyelik.KullaniciHobiVeIlgiAlanVM
+
+<div class="ui-block">
+    <div class="ui-block-title">
+        <h6 class="title">Hobiler</h6>
+    </div>
+    <div class="ui-block-content">
+        <form id="HobilerForm">
+            <div class="row">
+                <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div class="form-group">
+                        <input asp-for="Hobiler" class="form-control" placeholder="Hobileriniz" name="hobbiler" >
+                    </div>                
+                </div>
+                <br />
+                <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+                    <button type="button" class="btn btn-secondary btn-lg full-width">İptal</button>
+
+                    <button class="btn btn-primary btn-lg full-width" onclick="hobiKaydet();">Kaydet</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        var hobilerInput = document.querySelector('input[name = "hobbiler"]');
+
+        var hobilerTagify = new Tagify(hobilerInput, {
+            enforceWhitelist: true,
+            skipInvalid: true,
+            dropdown: {
+                closeOnSelect: false,
+                enabled: 0,
+                classname: 'users-list',
+                searchKeys: ['value']
+            },
+            templates: {
+                tag: hobilerTagTemplate,
+                dropdownItem: hobilerSuggestionItemTemplate
+            },
+            whitelist: @Html.Raw(Model.Hobiler),
+        });     
+
+        hobilerTagify.on('input', async (e) => {
+            await onHobilerInput(e, hobilerTagify);
+        });
+
+    });
+
+    async function onHobilerInput(e, tagify) {
+
+        var value = e.detail.value;
+
+        if (!value) return;
+
+        if (this.fetchSuggestionsTimer) {
+            clearTimeout(this.fetchSuggestionsTimer);
+        }
+
+        this.fetchSuggestionsTimer = setTimeout(async () => {
+            tagify.settings.whitelist.length = 0; 
+
+            tagify.loading(true).dropdown.hide.call(tagify);
+            try {
+                var response = await axios.get(`/Kullanici/HobileriGetir?query=${value}`);
+                var content = response.data;
+            } finally {
+                tagify.settings.whitelist.push(...content, ...tagify.value)
+                tagify.loading(false).dropdown.show.call(tagify, e.detail.value);
+                console.log(value);
+            }
+        }, 800);
+    }
+
+    function onDropdownShow(e) {
+        var dropdownContentElm = e.detail.tagify.DOM.dropdown.content;
+    }
+
+    function onSelectSuggestion(e) {
+
+    }
+
+    function hobilerTagTemplate(tagData) {
+        return `
+        <tag title="${tagData.value}"
+                contenteditable='false'
+                spellcheck='false'
+                tabIndex="-1"
+                class="tagify__tag ${tagData.class ? tagData.class : ""}"
+                ${this.getAttributes(tagData)}>
+            <x title='' class='tagify__tag__removeBtn' role='button' aria-label='remove tag'></x>
+            <div>
+                <span class='tagify__tag-text'>${tagData.value}</span>
+            </div>
+        </tag>
+    `
+    }
+
+    function hobilerSuggestionItemTemplate(tagData) {
+        return `
+        <div ${this.getAttributes(tagData)}
+            class='tagify__dropdown__item ${tagData.class ? tagData.class : ""}'
+            tabindex="0"
+            role="option">
+            <strong>${tagData.value}</strong>
+        </div>
+    `
+    }                 
+    
+    function hobiKaydet() {
+        $("#HobilerForm").validate({
+            submitHandler: function (form) {
+                var kullaniciHobiler = "{'hobiler': " + $('#Hobiler').val() + "}";
+
+                if ($('#Hobiler').val() == "") {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Uyarı!',
+                        text: "Böyle Bir Hobi Bulunamadı Veya Hepsi Kaldırıldı!",
+                        confirmButtonText: "Tamam"
+                    })
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Kullanici/HobiKaydetGuncelle",
+                    dataType: 'json',
+                    contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                    data: {
+                        'hobiler': kullaniciHobiler
+                    },
+                    success: function (result) {
+                        if (result == true) {
+                            if ($('#Hobiler').val() != "") {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Evvet!',
+                                    text: "İşlem Başarılı",
+                                    confirmButtonText: "Tamam"
+                                })
+                            }
+                        }
+                        else {
+                            window.location.reload();
+                        }
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+            }
+        });
+    }
+</script>

@@ -1,0 +1,47 @@
+﻿@{
+    ViewData["Title"] = "İşlem";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style type="text/css">
+    .landing-page .content-bg-wrap:before {
+        background-color: rgba(255, 94, 58, 0.95) !important;
+    }
+</style>
+
+<script type="text/javascript">
+    $(document.body).addClass('landing-page');
+</script>
+
+<div class="container">
+    <div class="row display-flex">
+        <div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+            <div class="landing-content">
+                <p>
+                    Türkiye'nin gerçek hediye platformu
+                </p>
+                <h1>NeSever'den Merhaba</h1>
+                <p>
+                    Herkes hediye sever biliyoruz
+                    <br />
+                    Kim ne sever profilinden anlıyoruz
+                    <br />
+                    Biz NeSever ailesiyiz
+                    <br />
+                    Seni de aramıza bekliyoruz
+                </p>
+                <a data-toggle="modal" data-target="#registration-login-form-popup" href="#" class="btn btn-md btn-border c-white">Tıkla Katıl</a>
+            </div>
+        </div>
+
+        <div class="col col-xl-5 col-lg-6 col-md-12 col-sm-12 col-12">
+            <partial name="~/Views/Kullanici/Partials/UyeGiris.cshtml" />
+        </div>
+    </div>
+</div>
+
+<div class="content-bg-wrap" style="z-index:-1;"></div>
+@await Html.PartialAsync("~/Views/Kullanici/Partials/UyeSifreGonder.cshtml", new NeSever.Common.Models.Uyelik.KullaniciSifreGonderVM())
+@*<partial name="~/Views/Kullanici/Partials/UyeSifreGonder.cshtml" />*@
+
+<partial name="~/Views/Kullanici/Partials/UyeKayit.cshtml" />

@@ -1,0 +1,104 @@
+﻿@model NeSever.Common.Models.FrontEnd.IletisimTalepVM
+
+<section class="medium-padding80 bg-body contact-form-animation scrollme">
+    <div class="container">
+        <div class="row">
+            <div class="col col-xl-10 col-lg-10 col-md-12 col-sm-12  m-auto">
+                <div class="contact-form-wrap">
+                    <div class="contact-form-thumb">
+                        <h2 class="title">BİZE <span>YAZIN</span></h2>
+                        <p>Sorularınız, şikayetleriniz, önerileriniz için doğru yer burası.</p>
+                        <img src="/Uploads/Site/crew.png" alt="crew" class="crew">
+                    </div>
+                    <form id="iletisim_form" class="contact-form">
+                        <div class="row">
+                            <div class="col col-12 col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                <div class="form-group label-floating">
+                                    <label class="control-label">Ad</label>
+                                    <input asp-for="Ad" class="form-control required" type="text">
+                                </div>
+                            </div>
+                            <div class="col col-12 col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                <div class="form-group label-floating">
+                                    <label class="control-label">Soyad</label>
+                                    <input asp-for="Soyad" class="form-control required" type="text">
+                                </div>
+                            </div>
+                            <div class="col col-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                <div class="form-group label-floating">
+                                    <label class="control-label">E-posta</label>
+                                    <input asp-for="Eposta" class="form-control required email" type="email">
+                                </div>
+
+                                <div class="form-group label-floating is-select">
+                                    <label class="control-label">Konu</label>
+                                    <select class="selectpicker form-control">
+                                        <option value="1">Öneri</option>
+                                        <option value="2">Şikayet</option>
+                                        <option value="3">Hata</option>
+                                        <option value="-1">Diğer</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <textarea asp-for="Mesaj" class="form-control required" rows="5"></textarea>
+                                </div>
+
+                                <button class="btn btn-purple btn-lg full-width">Gönder</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="half-height-bg bg-white"></div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.15.0/jquery.validate.min.js"></script>
+<script type="text/javascript">
+    $("#iletisim_form").validate({
+        submitHandler: function (form) {
+            $.ajax({
+                dataType: 'json',
+                url: '/Bilgi/IletisimTalepGonder',
+                type: 'post',
+                data: $(form).serialize(),
+                success: function (data) {
+                    var result = '';
+                    var epostaResult = data.eposta;
+
+                    if (epostaResult == true) {
+                        result = 'Mesajınız gönderildi.';
+
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Evvet!',
+                            text: result,
+                            confirmButtonText: "Tamam"
+                        })
+                    }
+                    else {
+                        result = 'Mesajınız gönderilemedi.';
+
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Upps',
+                            text: result,
+                            confirmButtonText: "Tamam"
+                        })
+                    }
+
+                    if (result != 'Mesajınız gönderilemedi.') {
+                        $('#Ad').val('');
+                        $('#Soyad').val('');
+                        $('#Eposta').val('');
+                        $('#Konu').val('');
+                        $('#Mesaj').val('');
+                    }
+                }
+            });
+        }
+    });
+</script>

@@ -1,0 +1,95 @@
+﻿@model List<NeSever.Common.Models.Urun.MarkaIcerikVM>
+
+<style type="text/css">
+    .trenditem {
+        display: flex;
+        margin: 10px;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<div class="container">
+    <div class="crumina-module crumina-heading with-title-decoration">
+        <h5 class="heading-title">
+            Markalar
+            <a href="/Marka/Ara/" method="get"><span style="float:right; font-weight:100; color:black">Tümünü Gör</span></a>
+        </h5>
+    </div>
+    <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+        <div class="row">
+            <div class="owl-carousel owl-theme marka">
+                @for (int i = 0; i < Model.Count; i++)
+                {
+                    <div class="item">
+                        @{ var markaIcerik = Model[i]; }
+                        <div class="trenditem">
+                            <div class="shop-product-item">
+                                <div class="product-thumb" style="background-color:transparent !important;">
+                                    <a href="/Hediye/Ara?m=@markaIcerik.MarkaId" style="width:100%;">
+                                        <img src="@markaIcerik.ResimBase64" alt="brand" style="width:auto;height:100px;">
+                                    </a>
+                                </div>
+                                <div class="product-content">
+                                    <div class="block-title">
+                                        <a href="/Hediye/Ara?m=@markaIcerik.MarkaId" class="product-category">@markaIcerik.MarkaAdi</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @{i++;}
+
+                        @if (i < Model.Count)
+                        {
+                            {
+                                markaIcerik = Model[i];
+                            }
+                            <div class="trenditem">
+                                <div class="shop-product-item">
+                                    <div class="product-thumb" style="background-color:transparent !important;">
+                                        <a href="/Hediye/Ara?m=@markaIcerik.MarkaId" style="width:100%;">
+                                            <img src="@markaIcerik.ResimBase64" alt="brand" style="width:auto;height:100px;">
+                                        </a>
+                                    </div>
+                                    <div class="product-content">
+                                        <div class="block-title">
+                                            <a href="/Hediye/Ara?m=@markaIcerik.MarkaId" class="product-category">@markaIcerik.MarkaAdi</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.marka').owlCarousel({
+            loop: true,
+            margin: 10,
+            responsiveClass: true,
+            responsive: {
+                0: {
+                    items: 1,
+                    nav: false,
+                    loop: true,
+                },
+                600: {
+                    items: 3,
+                    nav: false,
+                    loop: true,
+                },
+                1000: {
+                    items: 6,
+                    nav: false,
+                    loop: true,
+                    margin: 20
+                }
+            }
+        })
+    })
+</script>

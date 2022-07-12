@@ -1,0 +1,44 @@
+﻿@model IPagedList<NeSever.Common.Models.Sayfa.BlogIcerikVM>
+
+<aside class="blog-post-wrap">
+    <div class="crumina-module crumina-heading with-title-decoration">
+        <h5 class="heading-title">Öne Çıkan Gönderiler</h5>
+    </div>
+
+    @foreach (var blogIcerik in Model)
+    {
+        <div class="ui-block">
+            <article class="hentry blog-post blog-post-v3 featured-post-item">
+                <div class="post-thumb">
+                    <a href="/Blog/Detay/@blogIcerik.BlogId">
+                        <img src="@blogIcerik.ResimBase64" alt="photo">
+                    </a>
+                    <a href="/Blog/Ara/@blogIcerik.BlogKategoriAttribute" class="post-category bg-facebook">@blogIcerik.BlogKategoriAdi</a>
+                </div>
+
+                <div class="post-content">
+                    <div class="author-date">
+                        <div class="post__date">
+                            <time class="published" datetime="@blogIcerik.YayinTarihi">
+                                @blogIcerik.YayinTarihi
+                            </time>
+                        </div>
+                    </div>
+
+                    <a href="/Blog/Detay/@blogIcerik.BlogId" class="h4 post-title">@blogIcerik.Baslik</a>
+
+                    <div class="post-additional-info inline-items">
+                        <div class="comments-shared" style="margin-left:0px;">
+                            <a href="/Blog/Detay/@blogIcerik.BlogId" class="post-add-icon inline-items">
+                                <svg class="olymp-like-post-icon">
+                                    <use xlink:href="#olymp-star-icon"></use>
+                                </svg>
+                                <span>@blogIcerik.OkunmaSayisi kez okundu</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    }
+</aside>

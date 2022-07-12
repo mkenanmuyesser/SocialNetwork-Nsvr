@@ -1,0 +1,178 @@
+﻿@using NeSever.Common.Models.Uyelik
+@model IPagedList<NeSever.Common.Models.Uyelik.KullaniciResimVM>
+@if (Model.Any())
+{
+    <div class="modal fade modal-has-swiper" id="myModal" tabindex="-1" role="dialog" aria-labelledby="open-photo-popup-v1" aria-hidden="true">
+        <div class="modal-dialog window-popup open-photo-popup open-photo-popup-v1" role="document">
+            <div class="modal-content">
+                <a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
+                    <svg class="olymp-close-icon"><use xlink:href="#olymp-close-icon"></use></svg>
+                </a>
+
+                <div class="modal-body">
+                    <div class="open-photo-thumb">
+                        <div class="swiper-container">
+                            <div class="swiper-wrapper">
+                                @foreach (KullaniciResimVM item in Model)
+                                {
+                                    <div class="swiper-slide">
+                                        <div class="" style="text-align:center">
+                                            <img src="data:@item.ResimUzanti;base64,@item.ResimBase64" style="max-height:500px;" alt="photo">
+                                            <div class="overlay"></div>
+                                            <div class="content">
+                                                <a href="javascript:;" class="h6 title">@item.ResimYorum</a>
+                                                <time class="published">@item.EklenmeTarihi.ToShortDateString()</time>
+                                            </div>
+                                        </div>
+                                        <a href="javascript:;" onclick="ileriGitProfil();"> <svg class="btn-next-without olymp-popup-right-arrow"><use xlink:href="#olymp-popup-right-arrow"></use></svg></a>
+                                        <br />
+                                        <a href="javascript:;" onclick="geriGitProfil();">   <svg class="btn-prev-without olymp-popup-left-arrow"><use xlink:href="#olymp-popup-left-arrow"></use></svg></a>
+
+                                    </div>
+                                }
+
+                            </div>
+                            <br />
+                            <br />
+                            <div class="swiper-pagination"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="tab-content">
+                <div class="tab-pane active" id="album-page" role="tabpanel">
+                    <div class="photo-album-wrapper">
+
+                        @for (int i = 0; i < Model.Count; i++)
+                        {
+                            <div class="photo-album-item-wrap col-4-width">
+                                <div class="photo-album-item" data-mh="album-item">
+                                    <div class="photo-item" style="text-align: center;">
+                                        <img style="max-height: 300px; width:auto; margin: auto;" src="data:@Model[i].ResimUzanti;base64,@Model[i].ResimBase64" alt="photo">
+
+                                        <div class="overlay overlay-dark">
+                                        </div>
+                                        <a data-toggle="modal" href="#myModal" data-slider=@i class="full-block"></a>
+
+                                        @*<a href="#" data-toggle="modal" data-target="#open-photo-popup-v1" class="full-block"></a>*@
+                                    </div>
+
+                                    <div class="content">
+                                        <span class="title h5" style="word-wrap: break-word;">@Model[i].ResimYorum</span>
+                                        <span class="sub-title">@Model[i].EklenmeTarihi.ToShortDateString()</span>
+                                        @if (Model[i].BuyukProfilFotografiMi != true)
+                                        {
+                                            <a href="#" class="more" onclick="resimSil(@Model[i].KullaniciResim)"><svg class="olymp-little-delete"><use xlink:href="#olymp-little-delete"></use></svg> Fotoğrafı Sil</a>
+                                        }
+                                        else
+                                        {
+                                            <span style="color:black; font-weight:600;font-size: 13px;">Profil Resmi</span>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 align-center pb80 pt80">
+            <nav aria-label="Page navigation">
+                @Html.PagedListPager((IPagedList)Model, page => Url.Action("FotografGalerisi",
+           new
+           {
+               p = page
+           }),
+          PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(
+                    new PagedListRenderOptions
+                    {
+                        UlElementClasses = new string[] { "pagination justify-content-center" },
+                        LiElementClasses = new string[] { "page-item" },
+                        ActiveLiElementClass = "page-item active",
+                        PageClasses = new string[] { "page-link" },
+                        EllipsesFormat = "<a class='page-link' style='padding:12px 0px 0px 0px; border:none;'>...</a>",
+                        Display = PagedListDisplayMode.Always,
+                        DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+                        DisplayLinkToLastPage = PagedListDisplayMode.Always,
+                        DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+                        DisplayLinkToNextPage = PagedListDisplayMode.Always,
+                        MaximumPageNumbersToDisplay = 5,
+                        ContainerDivClasses = null,
+                    },
+                    new AjaxOptions
+                    {
+                        HttpMethod = "GET",
+                        UpdateTargetId = "targetElement",
+                        OnBegin = "onAjaxBegin",
+                        OnSuccess = "onAjaxSuccess",
+                        OnFailure = "onAjaxFailure"
+                    }))
+            </nav>
+        </div>
+
+    </div>
+
+}
+else
+{
+    <div class="ui-block">
+        <ul class="notification-list friend-requests">
+            <li>
+                <div class="notification-event">
+                    Henüz fotoğraf eklemediniz...
+                </div>
+            </li>
+        </ul>
+    </div>
+  }
+
+        <script type="text/javascript">
+            var swiper;
+            $(document).ready(function () {
+                swiper = new Swiper('.swiper-container', {
+                    pagination: '.swiper-pagination',
+                    paginationClickable: true,
+                    spaceBetween: 30,
+                });
+
+
+                $('#myModal').on('shown.bs.modal', function (e) {
+                    swiper.update();
+                    var $invoker = $(e.relatedTarget);
+                    swiper.slideTo($invoker.data('slider'));
+                    swiper.update();
+                });           
+
+            });
+            function onAjaxBegin(data, status, xhr) {
+                showFotografGalerisiLoading();
+            }
+
+            function onAjaxSuccess(data, status, xhr) {
+                hideFotografGalerisiLoading();
+
+                var middleContent = $('#fotografGalerisi');
+                middleContent.html('');
+                middleContent.html(data);
+            }
+
+            function onAjaxFailure(xhr, status, error) {
+                $("#targetElement").html("<strong>İşlem sırasında bir hata oluştu:" + error + "<br/>.</strong>");
+            }
+
+            function ileriGitProfil() {
+                swiper.slideNext();
+            }
+
+            function geriGitProfil() {
+                swiper.slidePrev();
+            }
+        </script>
+

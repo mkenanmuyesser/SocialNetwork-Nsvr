@@ -1,0 +1,58 @@
+﻿@model List<NeSever.Common.Models.Urun.KategoriIcerikVM>
+<style>
+    .sk .dropdown-menu{
+        max-height:225px !important;
+    }
+</style>
+
+<div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+    <div class="ui-block responsive-flex1200">
+        <div class="ui-block-title" style="border: 1px solid black;">
+            <div class="w-select">
+                <fieldset class="form-group" style="border: 1px solid #ff5e3a; border-right:2px solid #ff5e3a; width:98%">
+                    <select id="sk" name="sk" class="selectpicker form-control sk">
+                        <option value="" style="font-weight:900;">Tüm Kategoriler</option>
+
+                        @foreach (var kategoriIcerik in Model.Where(p => p.AnasayfadaGoster && p.UstKategoriId == null))
+                        {
+                            <option value="sk=@kategoriIcerik.KategoriId&@kategoriIcerik.Parametre" style="font-weight:800;">@kategoriIcerik.KategoriAdi</option>
+
+                            @if (Model.Any(p => p.UstKategoriId == kategoriIcerik.KategoriId))
+                            {
+                                foreach (var altKategoriIcerik in Model.Where(p => p.UstKategoriId == kategoriIcerik.KategoriId))
+                                {
+                                    <option value="sk=@altKategoriIcerik.KategoriId&@altKategoriIcerik.Parametre" style="font-weight:500;">=> @altKategoriIcerik.KategoriAdi</option>
+
+                                }
+                            }
+                        }
+                    </select>
+                </fieldset>
+            </div>
+
+            <form class="w-search" method="get" action="/Hediye/Ara">
+                <div class="form-group with-button" style="margin-right:5px; border: 1px solid #1a8cff;">
+                    <input class="form-control q" name="q" type="text" placeholder="Hediye ara" style="font-size:13px;">
+                    <button type="submit" style="background-color:#1a8cff;">
+                        <svg class="olymp-magnifying-glass-icon"><use xlink:href="#olymp-magnifying-glass-icon"></use></svg>
+                    </button>
+                </div>
+            </form>
+
+            <form class="w-search" method="get" action="/Arkadas/Ara">
+                <div class="form-group with-button" style="margin-right: 5px; border: 1px solid #ff5e3a;">
+                    <input class="form-control q" name="q" type="text" placeholder="Arkadaş ara" style="font-size: 13px;">
+                    <button type="submit" style="background-color:#ff5e3a;">
+                        <svg class="olymp-magnifying-glass-icon"><use xlink:href="#olymp-magnifying-glass-icon"></use></svg>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $("#sk").change(function () {
+        window.location = '/Hediye/Ara?' + this.value;
+    });
+</script>

@@ -1,0 +1,21 @@
+{
+  "version": 2,
+  "dgSpecHash": "/HD5JycwclFOpxp8NV1ILwyF6LSRvNrL5TXAWZK8skBvJofLjWzDKpaLFWkz2NCiu++OtU1rFVbpxe75+Yya0Q==",
+  "success": true,
+  "projectFilePath": "D:\\Programlar\\NeSeverProject\\NeSever.Uploader\\NeSever.Uploader.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\kenan\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",
+    "C:\\Users\\kenan\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
+    "C:\\Users\\kenan\\.nuget\\packages\\runtime.native.system.data.sqlclient.sni\\4.7.0\\runtime.native.system.data.sqlclient.sni.4.7.0.nupkg.sha512",
+    "C:\\Users\\kenan\\.nuget\\packages\\runtime.win-arm64.runtime.native.system.data.sqlclient.sni\\4.4.0\\runtime.win-arm64.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
+    "C:\\Users\\kenan\\.nuget\\packages\\runtime.win-x64.runtime.native.system.data.sqlclient.sni\\4.4.0\\runtime.win-x64.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
+    "C:\\Users\\kenan\\.nuget\\packages\\runtime.win-x86.runtime.native.system.data.sqlclient.sni\\4.4.0\\runtime.win-x86.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
+    "C:\\Users\\kenan\\.nuget\\packages\\system.data.sqlclient\\4.8.2\\system.data.sqlclient.4.8.2.nupkg.sha512",
+    "C:\\Users\\kenan\\.nuget\\packages\\system.security.accesscontrol\\4.7.0\\system.security.accesscontrol.4.7.0.nupkg.sha512",
+    "C:\\Users\\kenan\\.nuget\\packages\\system.security.principal.windows\\4.7.0\\system.security.principal.windows.4.7.0.nupkg.sha512",
+    "C:\\Users\\kenan\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x64\\3.1.11\\microsoft.netcore.app.runtime.win-x64.3.1.11.nupkg.sha512",
+    "C:\\Users\\kenan\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x64\\3.1.11\\microsoft.windowsdesktop.app.runtime.win-x64.3.1.11.nupkg.sha512",
+    "C:\\Users\\kenan\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\3.1.11\\microsoft.aspnetcore.app.runtime.win-x64.3.1.11.nupkg.sha512"
+  ],
+  "logs": []
+}

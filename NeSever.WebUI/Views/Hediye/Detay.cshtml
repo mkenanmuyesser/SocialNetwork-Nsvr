@@ -1,0 +1,39 @@
+﻿@model NeSever.Common.Models.FrontEnd.HediyeDetaySayfaVM
+@{
+    ViewData["Title"] = "Detay";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<partial name="~/Views/Hediye/Partials/UrunDetayIcerik.cshtml" model="@Model.UrunDetayIcerik" />
+
+@*<partial name="~/Views/Hediye/Partials/YorumGonder.cshtml" />*@
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.owl-carousel').owlCarousel({
+                loop: true,
+                margin: 10,
+                responsiveClass: true,
+                responsive: {
+                    0: {
+                        items: 1,
+                        nav: false,
+                        loop: true,
+                    },
+                    600: {
+                        items: 3,
+                        nav: false,
+                        loop: true,
+                    },
+                    1000: {
+                        items: 6,
+                        nav: false,
+                        loop: true,
+                        margin: 20
+                    }
+                }
+            })
+        })
+    </script>
+}

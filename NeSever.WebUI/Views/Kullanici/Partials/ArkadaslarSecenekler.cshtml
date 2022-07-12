@@ -1,0 +1,114 @@
+﻿<script type="text/javascript">
+    $(document).ready(function () {
+        $("[name='arkadasListesiMenu']").on("click", function () {
+            var middleContent = $('#middleContent');
+            middleContent.html('');
+            middleContent.load('@Url.Action("ArkadasListesiPartial","Kullanici")');
+        });
+
+        $("[name='arkadaslikIstekleriMenu']").on("click", function () {
+            var middleContent = $('#middleContent');
+            middleContent.html('');
+            middleContent.load('@Url.Action("ArkadaslikIstekleriPartial","Kullanici")');
+        });
+
+        $("[name='dogumGunleriMenu']").on("click", function () {
+            var middleContent = $('#middleContent');
+            middleContent.html('');
+            middleContent.load('@Url.Action("DogumGunleriPartial","Kullanici")');
+        });
+
+        $("[name='mesajlarMenu']").on("click", function () {
+            var middleContent = $('#middleContent');
+            middleContent.html('');
+            middleContent.load('@Url.Action("MesajlarPartial","Kullanici")');
+        });
+
+        $("[name='profilEngelListesiMenu']").on("click", function () {
+            var middleContent = $('#middleContent');
+            middleContent.html('');
+            middleContent.load('@Url.Action("EngellenenProfilListesiPartial", "Kullanici")');
+        });
+    });
+</script>
+
+<div class="row">
+    <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+        <div class="ui-block">
+            <div class="widget w-wethear rounded">
+                <div class="wethear-now inline-items">
+                    <div class="temperature-sensor">  <img src="/Uploads/Site/rsz_nesever-logo-white.png" alt="NeSever"></div>
+                </div>
+
+                <div class="date-and-place">
+                    <h5 class="date">
+                        <a href="javascript:" name="arkadasListesiMenu" class="btn btn-bg-secondary btn-md">Arkadaş Listesi</a>
+                    </h5>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+        <div class="ui-block">
+            <div class="widget w-wethear rounded">
+                <div class="wethear-now inline-items">
+                    <div class="temperature-sensor">  <img src="/Uploads/Site/rsz_nesever-logo-white.png" alt="NeSever"></div>
+                </div>
+
+                <div class="date-and-place">
+                    <h5 class="date">
+                        <a href="javascript:" name="arkadaslikIstekleriMenu" class="btn btn-bg-secondary btn-md">Arkadaşlık İstekleri</a>
+                    </h5>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+        <div class="ui-block">
+            <div class="widget w-wethear rounded">
+                <div class="wethear-now inline-items">
+                    <div class="temperature-sensor">  <img src="/Uploads/Site/rsz_nesever-logo-white.png" alt="NeSever"></div>
+                </div>
+
+                <div class="date-and-place">
+                    <h5 class="date">
+                        <a href="javascript:" name="dogumGunleriMenu" class="btn btn-bg-secondary btn-md">Doğum Günleri</a>
+                    </h5>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+        <div class="ui-block">
+            <div class="widget w-wethear rounded">
+                <div class="wethear-now inline-items">
+                    <div class="temperature-sensor">  <img src="/Uploads/Site/rsz_nesever-logo-white.png" alt="NeSever"></div>
+                </div>
+
+                <div class="date-and-place">
+                    <h5 class="date">
+                        <a href="javascript:" name="mesajlarMenu" class="btn btn-bg-secondary btn-md">Mesajlar</a>
+                    </h5>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+        <div class="ui-block">
+            <div class="widget w-wethear rounded">
+                @*<a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="#olymp-three-dots-icon"></use></svg></a>*@
+
+                <div class="wethear-now inline-items">
+                    <div class="temperature-sensor">  <img src="/Uploads/Site/rsz_nesever-logo-white.png" alt="NeSever"></div>
+                </div>
+
+                <div class="date-and-place">
+                    <h5 class="date">
+                        <a href="javascript:" name="profilEngelListesiMenu" class="btn btn-bg-secondary btn-md">Profil Engel Listesi</a>
+                    </h5>
+                    @*<div class="place">San Francisco, CA</div>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

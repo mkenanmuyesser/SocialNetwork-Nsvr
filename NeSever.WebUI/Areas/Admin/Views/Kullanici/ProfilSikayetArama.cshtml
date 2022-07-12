@@ -1,0 +1,250 @@
+﻿@model NeSever.Common.Models.Admin.AramaVM.ProfilSikayetAramaVM
+@{
+    ViewData["Title"] = "ProfilSikayetArama";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="d-flex flex-row flex-column-fluid container">
+    <div class="main d-flex flex-column flex-row-fluid">
+        <div class="subheader py-2 py-lg-4 subheader-transparent" id="kt_subheader">
+            <div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+                <div class="d-flex align-items-center flex-wrap mr-1">
+                    <div class="d-flex align-items-baseline flex-wrap mr-5">
+                        <h5 class="text-dark font-weight-bold my-1 mr-5">Kullanıcı Arama</h5>
+
+                        <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
+                            <li class="breadcrumb-item">
+                                <a href="/Admin/Kullanici" class="text-muted">Kullanıcı</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="/Admin/Kullanici/ProfilSikayetArama" class="text-muted">Profil Şikayet Arama</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center">
+                    <a href="/Admin/Kullanici/ProfilSikayetArama" class="btn btn-icon btn-circle btn-sm btn-light-success mr-1" data-card-tool="reload">
+                        <i class="ki ki-reload icon-nm"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="content flex-column-fluid" id="kt_content">
+            <div class="card card-custom">
+                <div class="card-header">
+                    <div class="card-title">
+                        <span class="card-icon">
+                            <i class="flaticon2-delivery-package text-primary"></i>
+                        </span>
+                        <h3 class="card-label">Filtreleme Kriterleri</h3>
+                    </div>
+                    <div class="card-toolbar">
+                        
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form id="_form" class="kt-form kt-form--fit mb-15">
+                        <div class="row mb-6">
+                            <div class="col-lg-3 mb-lg-0 mb-6">
+                                <label>ID:</label>
+                                <input asp-for="ProfilSikayetId" class="form-control datatable-input" />
+                            </div>
+                            <div class="col-lg-3 mb-lg-0 mb-6">
+                                <label>Şikayet Edilen:</label>
+                                <input asp-for="SikayetEdilenKullaniciEposta" class="form-control datatable-input" />
+                            </div>
+                            <div class="col-lg-3 mb-lg-0 mb-6">
+                                <label>Şikayet Eden:</label>
+                                <input asp-for="SikayetEdenKullaniciEposta" class="form-control datatable-input" />
+                            </div>
+                            <div class="col-lg-3 mb-lg-0 mb-6">
+                                <label>Şikayet Sebebi:</label>
+                                <input asp-for="SikayetSebebi" class="form-control datatable-input" />
+                            </div>
+                            <div class="col-lg-6 mb-lg-0 mb-6">
+                                <label>Tarih:</label>
+                                <div class="input-daterange input-group" id="kt_datepicker_5" data-date-format="dd.mm.yyyy" data-provide="datepicker">
+                                    <input type="text" class="form-control" placeholder="Başlangıç" asp-for="BaslangicTarihi" />
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">
+                                            <i class="la la-ellipsis-h"></i>
+                                        </span>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="Bitiş" asp-for="BitisTarihi" data-date-format="dd.mm.yyyy" data-provide="datepicker" />
+                                </div>
+                            </div>
+                            <div class="col-lg-3 mb-lg-0 mb-6">
+                                <label>Aktif Mi?:</label>
+                                <div class="input-group">
+                                    <div class="radio-inline">
+                                        <label class="radio radio-lg">
+                                            <input asp-for="@Model.Aktiflik" type="radio" value="-1" />
+                                            <span></span>
+                                            Tümü
+                                        </label>
+                                        <label class="radio radio-lg">
+                                            <input asp-for="@Model.Aktiflik" type="radio" value="1" />
+                                            <span></span>
+                                            Aktif
+                                        </label>
+                                        <label class="radio radio-lg">
+                                            <input asp-for="@Model.Aktiflik" type="radio" value="0" />
+                                            <span></span>
+                                            Pasif
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-8">
+                            <div class="col-lg-12">
+                                <button type="button" class="btn btn-primary btn-primary--icon" onclick="javascript: ara();">
+                                    <span>
+                                        <i class="la la-search"></i>
+                                        <span>Ara</span>
+                                    </span>
+                                </button>&#160;&#160;
+                                <button type="button" class="btn btn-secondary btn-secondary--icon" onclick='location.reload();'>
+                                    <span>
+                                        <i class="la la-close"></i>
+                                        <span>Temizle</span>
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <table id="dtArama" class="table table-bordered table-hover table-checkable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Şikayet Edilen</th>
+                                <th>Şikayet Eden</th>
+                                <th>Şikayet Sebebi</th>
+                                <th>Kayıt Tarihi</th>
+                                <th>Aktif</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>ID</th>
+                                <th>Şikayet Edilen</th>
+                                <th>Şikayet Eden</th>
+                                <th>Şikayet Sebebi</th>
+                                <th>Kayıt Tarihi</th>
+                                <th>Aktif</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="/Themes/Admin/dist/assets/plugins/custom/datatables/datatables.bundle.js?v=7.0.5"></script>
+
+    <script type="text/javascript">
+        function ara() {
+            var data = $('#_form').serializeObject();
+
+            $('#dtArama').DataTable().destroy();
+
+            var table = $('#dtArama').DataTable({
+                processing: true,
+                serverSide: true,
+                filter: false,
+                responsive: true,
+                orderMulti: false,
+                autoWidth: false,
+                ordering: false,
+                //fixedColumns: true,
+                //deferRender: true,
+                ajax: {
+                    url: '/Admin/Kullanici/ProfilSikayetArama',
+                    type: "POST",
+                    dataType: "json",
+                    data: data,
+                    beforeSend: function () {
+                        showLoading('dtArama');
+                    },
+                    complete: function () {
+                        hideLoading('dtArama');
+                    },
+                    error: function (error) {
+                        hideLoading('dtArama');
+
+                        Swal.fire(
+                            "Hata",
+                            "İşlem sırasında hata oluştu. " + error,
+                            "error"
+                        )
+                    }
+                },
+                columns: [
+                    { data: 'ProfilSikayetId', defaultContent: '' },
+                    { data: 'SikayetEdilenKullaniciEposta', defaultContent: '' },
+                    { data: 'SikayetEdenKullaniciEposta', defaultContent: '' },
+                    { data: 'SikayetSebebi', defaultContent: '', responsivePriority: -1 },
+                    { data: 'Tarih', defaultContent: '' },
+                    { data: 'AktifMi', defaultContent: '' },
+                ],
+                columnDefs: [
+                    { targets: 0, width: '5%' },
+                    { targets: 1, width: '10%' },
+                    { targets: 2, width: '10%' },
+                    { targets: 3, width: '60%' },
+                    { targets: 4, width: '10%' },
+                    {
+                        targets: 5,
+                        width: '5%',
+                        render: function (data) {
+                            if (data == true) {
+                                return '<span class="label label-lg font-weight-bold label-light-success label-inline">Aktif</span>';
+                            }
+                            else {
+                                return '<span class="label label-lg font-weight-bold label-light-danger label-inline">Pasif</span>';
+                            }
+                        }
+                    }
+                ],
+                dom: `<'row'<'col-sm-6 text-left'f><'col-sm-6 text-right'B>>
+                                  <'row'<'col-sm-12'tr>>
+                                  <'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7 dataTables_pager'lp>>`,
+                lengthMenu: [[5, 25, 50], [5, 25, 50]],
+                buttons: [
+                    {
+                        extend: 'print',
+                        text: 'Yazdır'
+                    },
+                    {
+                        extend: 'excelHtml5',
+                        text: 'Excel'
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        text: 'Pdf'
+                    }
+                ],
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/1.10.21/i18n/Turkish.json'
+                }
+            });
+        };
+
+        function showLoading(id) {
+            KTApp.block(document.getElementById(id), {
+                overlayColor: '#000000',
+                state: 'danger',
+                message: 'Lütfen bekleyin...'
+            });
+        };
+
+        function hideLoading(id) {
+            KTApp.unblock(document.getElementById(id));
+        };
+    </script>
+}

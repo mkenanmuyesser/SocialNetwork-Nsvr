@@ -1,0 +1,76 @@
+﻿@model NeSever.Common.Models.Uyelik.KullaniciMesajGonderVM
+
+<form id="MesajGonderForm">
+    <div class="row">
+        <div class="col col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="form-group label-floating">
+                <textarea id="Mesaj" name="Mesaj" class="form-control count-chars" maxlength="160" data-chars-max="160" data-msg-color="danger" placeholder="Mesajınızı Buraya Yazınız..."></textarea>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="row">
+    <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+        <button id="MesajGonderBtn" class="btn btn-primary btn-lg full-width">Gönder</button>
+    </div>
+</div>
+<script src="~/lib/jquery-validation/dist/additional-methods.js"></script>
+<script src="~/js/site.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#MesajGonderForm").validate({
+            rules: {
+                Mesaj: {
+                    required: true,
+                    blankSpace: true,
+                }
+            },
+            messages: {
+                Mesaj: {
+                    required: "Mesaj alanı boş bırakılamaz",
+                    blankSpace: "Mesaj alanı boş bırakılamaz.",
+                }
+            },
+        });
+
+
+        $("#MesajGonderBtn").click(function () {
+            if ($("#MesajGonderForm").valid()) {
+                var vm = {
+                    gonderenKullanici: '@Model.GondericiKullaniciId',
+                    alanKullanici: '@Model.AliciKullaniciId',
+                    gidenMesaj: $("#Mesaj").val()
+                };
+                $.ajax({
+                    url: "/Arkadas/KullaniciMesajGonder",
+                    type: "POST",
+                    dataType: 'json',
+                    data: vm,
+                    success: function (data) {
+                        if (data.Type == 1) {
+                            $('#MesajGonder').modal('hide');
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Başarılı!',
+                                text: data.ErrorMessage,
+                                confirmButtonText: "Tamam"
+                            })
+                            $(".selectpickerArkadasMesajListesi").val('').selectpicker("refresh");
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Upps',
+                                text: data.ErrorMessage,
+                                confirmButtonText: "Tamam"
+                            })
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        console.log("hata!");
+                    }
+                });
+            }
+        });
+    });
+</script>

@@ -1,0 +1,149 @@
+﻿@model NeSever.Common.Models.Uyelik.AyarlarVM
+
+    <div class="ui-block">
+        <div class="ui-block-title">
+            <h6 class="title">Hesap Ayarları</h6>
+        </div>
+        <div class="ui-block-content">
+            <form id="HesapAyarlariForm">
+                <div class="row">
+                    <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+                        <div class="form-group label-floating is-select">
+                            <label class="control-label">Arkadaşlık İstek Talepleri</label>
+                            <select asp-for="ArkadasIstekTalepleriDurum" class="selectpicker form-control">
+                                <option value="1">Herkes</option>
+                                <option value="3">Arkadaşımın Arkadaşları</option>
+                                <option value="2">Hiçkimse</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+                        <div class="form-group label-floating is-select">
+                            <label class="control-label">Profil Görüntüleme</label>
+                            <select asp-for="ProfilGoruntulemeDurum" class="selectpicker form-control">
+                                <option value="1">Sadece Arkadaşlar</option>
+                                <option value="3">Arkadaşımın Arkadaşları</option>
+                                <option value="2">Herkes</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="description-toggle">
+                            <div class="description-toggle-content">
+                                <div class="h6">Mesajlar E-posta Gönderilsin mi?</div>
+                                <p>Her bildirimde size e-posta gönderilecektir.</p>
+                            </div>
+
+                            <div class="togglebutton">
+                                <label>
+                                    <input asp-for="MesajEpostaBildirim" type="checkbox">
+                                </label>
+                            </div>
+                        </div>
+                        <div class="description-toggle">
+                            <div class="description-toggle-content">
+                                <div class="h6">Arkadaşların Doğum Günleri Gönderilsin mi?</div>
+                                <p>Arkadaşlarınızın doğum günü geldiğinde size e-posta ile bildirim yapılacaktır.</p>
+                            </div>
+
+                            <div class="togglebutton">
+                                <label>
+                                    <input asp-for="DogumGunleriHatirlatma" type="checkbox">
+                                </label>
+                            </div>
+                        </div>
+                        <div class="description-toggle">
+                            <div class="description-toggle-content">
+                                <div class="h6">Kişisel bilgiler gösterilsin mi?</div>
+                                <p>Adınız,soyadınız,şehriniz gibi bilgiler paylaşılacaktır.</p>
+                            </div>
+
+                            <div class="togglebutton">
+                                <label>
+                                    <input asp-for="KisiselBilgiGosterimDurum" type="checkbox">
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+                        <button class="btn btn-secondary btn-lg full-width">İptal</button>
+                    </div>
+                    <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+                        <button onclick="AyarlariKaydet()" class="btn btn-primary btn-lg full-width">Kaydet</button>
+                    </div>
+                </div>
+            </form>
+        </div>        
+    </div>
+
+<script type="text/javascript">
+
+    function AyarlariKaydet() {
+
+        $("#HesapAyarlariForm").validate({
+            rules: {
+                ArkadasIstekTalepleriDurum: {
+                    required: true,
+                    maxlength: 50
+                },
+                ProfilGoruntulemeDurum: {
+                    required: true,
+                    maxlength: 50
+                }
+            },
+            messages: {
+                ArkadasIstekTalepleriDurum: {
+                    required: "Boş Geçilemez",
+                },
+                ProfilGoruntulemeDurum: {
+                    required: "Boş Geçilemez",
+                }
+            },
+            submitHandler: function (form) {
+                var hesapAyarlari = $('#HesapAyarlariForm').serializeObject();
+                $.ajax({
+                    url: "/Kullanici/AyarKaydetGuncelle",
+                    type: "POST",
+                    dataType: 'json',
+                    contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                    data: hesapAyarlari,
+                    success: function (data) {
+                        if (data.Type == 2 && data.ErrorMessage == "sessionnull") {
+                            window.location.reload();
+                        }
+                        else if (data.Type == 2) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: data.ErrorMessage
+                            })
+                        }
+                        if (data.Type == 1) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Başarılı',
+                                text: "Hesap ayarları Kaydedildi.",
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        console.log("hata!");
+                    }
+                });        
+            }
+        })
+
+
+    }
+
+</script>
+
+
+
+
+<script src="/Themes/FrontEnd/src/js/libs-init/libs-init.js"></script>

@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup Label="Globals">
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Arkadas\**" />
+    <EmbeddedResource Remove="Arkadas\**" />
+    <None Remove="Arkadas\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="5.0.1" />
+    <PackageReference Include="StackExchange.Redis" Version="2.2.4" />
+    <PackageReference Include="X.PagedList" Version="8.0.7" />
+    <PackageReference Include="X.PagedList.Mvc.Core" Version="8.0.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NeSever.Common.Infra\NeSever.Common.Infra.csproj" />
+    <ProjectReference Include="..\NeSever.Common.Types\NeSever.Common.Models.csproj" />
+    <ProjectReference Include="..\NeSever.Common.Utils\NeSever.Common.Utils.csproj" />
+    <ProjectReference Include="..\NeSever.Data.Context\NeSever.Data.Context.csproj" />
+    <ProjectReference Include="..\NeSever.Data.Entities\NeSever.Data.Entities.csproj" />
+  </ItemGroup>
+
+</Project>

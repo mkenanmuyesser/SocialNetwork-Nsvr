@@ -1,0 +1,117 @@
+﻿@using NeSever.Common.Models.Uyelik
+@model IEnumerable<NeSever.Common.Models.Uyelik.KullaniciResimVM>
+
+
+<div class="row">
+    <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+        <div class="tab-content">
+
+            <div class="tab-pane active" id="home" role="tabpanel" aria-expanded="true">
+                <div class="row">
+                    @foreach (KullaniciResimVM item in Model)
+                    {
+                        <div class="choose-photo-item w-33" data-mh="choose-item">
+                            <div class="radio">
+                                <label class="custom-radio">
+                                    <img style="height:200px" src="data:@item.ResimUzanti;base64,@item.ResimBase64" alt="photo">
+                                    <input type="radio" name="optionsRadios" id="radioButton+@item.KullaniciResim.ToString()" value="@item.KullaniciResim"><span class="circle"></span><span class="check"></span>
+                                </label>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+        <button class="btn btn-secondary btn-lg btn--half-width" style="float:left" onclick="profilFotografiYap();">Profil Fotoğrafı Yap</button>
+        <button class="btn btn-primary btn-lg btn--half-width" style="float:left" onclick="fotografSil();">Sil</button>
+
+
+    </div>
+</div>
+
+<script type="text/javascript">
+    function profilFotografiYap() {
+        var resimId = $("input[type='radio']:checked").val();
+        $.ajax({
+            url: '/Kullanici/ProfilFotografiDegistir',
+            type: "post",
+            data: {
+                resimId: resimId
+            }
+            ,
+            success: function (result) {
+                $('#choose-from-my-photo').hide();
+                $('#update-profile-photo').hide();
+                Swal.fire({
+                    title: 'İşlem Başarılı!',
+                    text: "Profil Resmi Değiştirildi!",
+                    icon: 'success',
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Kapat'
+                }).then((result) => {
+                        window.location.href = "../../../Kullanici/Profil";
+                });
+
+            },
+            error: function () {
+                Swal.fire({
+                    title: '',
+                    text: "Fotoğrafınız bulunmamaktadır.",
+                    icon: 'warning',
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                })
+            }
+        });
+    }
+    function fotografSil() {
+        var resimId = $("input[type='radio']:checked").val();
+        $.ajax({
+            url: '/Kullanici/FotografSil',
+            type: "post",
+            data: {
+                resimId: resimId
+            }
+            ,
+            success: function (result) {
+                if (result.Type == 2) {
+                    $('#choose-from-header-photo').hide();
+                    Swal.fire({
+                        title: 'İşlem Başarısız!',
+                        text: "Hiç Fotoğrafınız Yok!",
+                        icon: 'warning',
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Kapat'
+                    });
+                }
+                else
+                {
+                    $('#choose-from-my-photo').hide();
+                    $('#update-profile-photo').hide();
+                    Swal.fire({
+                        title: 'İşlem Başarılı!',
+                        text: "Fotoğraf Silindi!",
+                        icon: 'success',
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Kapat'
+                    }).then((result) => {
+                        if (result.value) {
+                            window.location.href = "../../../Kullanici/Profil";
+                        }
+                    });
+                }
+            },
+            error: function () {
+
+            }
+        });
+    }
+ 
+</script>

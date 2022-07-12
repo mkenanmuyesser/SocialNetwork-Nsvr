@@ -1,0 +1,473 @@
+﻿@{
+    ViewData["Title"] = "Ara";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@model NeSever.Common.Models.Satis.SiparisAramaVM
+
+<div class="d-flex flex-row flex-column-fluid container">
+    <div class="main d-flex flex-column flex-row-fluid">
+        <div class="subheader py-2 py-lg-4 subheader-transparent" id="kt_subheader">
+            <div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+                <div class="d-flex align-items-center flex-wrap mr-1">
+                    <div class="d-flex align-items-baseline flex-wrap mr-5">
+                        <h5 class="text-dark font-weight-bold my-1 mr-5">Sipariş Arama</h5>
+
+                        <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
+                            <li class="breadcrumb-item">
+                                <a href="/Admin/Satis" class="text-muted">Satış</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="/Admin/Satis/Arama" class="text-muted">Sipariş Arama</a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+        <div class="content flex-column-fluid" id="kt_content">
+            <div class="card card-custom">
+                <div class="card-header">
+                    <div class="card-title">
+                        <span class="card-icon">
+                            <i class="flaticon2-delivery-package text-primary"></i>
+                        </span>
+                        <h3 class="card-label">Filtreleme Kriterleri</h3>
+                    </div>
+                    <div class="card-toolbar">
+                        <div class="dropdown dropdown-inline mr-2">
+
+                            <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
+                                <ul class="navi flex-column navi-hover py-2">
+                                    <li class="navi-header font-weight-bolder text-uppercase font-size-sm text-primary pb-2">Seçiniz:</li>
+                                    <li class="navi-item">
+                                        <a href="#" class="navi-link">
+                                            <span class="navi-icon">
+                                                <i class="la la-print"></i>
+                                            </span>
+                                            <span class="navi-text">Yazdır</span>
+                                        </a>
+                                    </li>
+                                    <li class="navi-item">
+                                        <a href="#" class="navi-link">
+                                            <span class="navi-icon">
+                                                <i class="la la-file-excel-o"></i>
+                                            </span>
+                                            <span class="navi-text">Excel</span>
+                                        </a>
+                                    </li>
+                                    <li class="navi-item">
+                                        <a href="#" class="navi-link">
+                                            <span class="navi-icon">
+                                                <i class="la la-file-pdf-o"></i>
+                                            </span>
+                                            <span class="navi-text">PDF</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form class="kt-form kt-form--fit mb-15" id="_formAra">
+                        <div class="row mb-6">
+                            <div class="col-lg-6">
+                                <label>Sipariş ID :</label>
+
+                                <input type="text" class="form-control datatable-input" placeholder="" asp-for="SiparisId" />
+                            </div>
+                        </div>
+                        <div class="row mb-6">
+                            <div class="col-lg-6">
+                                <label>Ürün Listesi:</label>
+                                <div class="input-group">
+                                    <select id="urunList" class="form-control datatable-input" asp-for="UrunId">
+                                        @if (Model.UrunAdi != null)
+                                        {
+                                            <option value="@Model.UrunAdi" selected>@Model.UrunAdi</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="" selected>Lütfen Seçiniz</option>
+                                        }
+
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <label>Marka:</label>
+                                <div class="input-group">
+                                    <select asp-for="MarkaId" asp-items="@(new SelectList(Model.MarkaListesi,"MarkaId","MarkaAdi"))" class="form-control selectpicker">
+                                        <option value="" selected>Lütfen Seçiniz</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-6">
+                            <div class="col-lg-6">
+                                <label>Açıklama:</label>
+                                <input type="text" class="form-control datatable-input" placeholder="" asp-for="Aciklama" />
+                            </div>
+
+                            <div class="col-lg-6">
+                                <label>Sipariş Durumu:</label>
+                                <div class="input-group">
+                                    <select asp-for="SiparisDurumTipId" asp-items="@(new SelectList(Model.SiparisDurumTipListesi,"SiparisDurumTipId","Adi"))" class="form-control selectpicker">
+                                        <option value="" selected>Lütfen Seçiniz</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-6">
+                            <div class="col-lg-6">
+                                <label>Ödeme Durumu:</label>
+                                <div class="input-group">
+                                    <select asp-for="OdemeDurumTipId" asp-items="@(new SelectList(Model.OdemeDurumTipListesi,"OdemeDurumTipId","Adi"))" class="form-control selectpicker">
+                                        <option value="" selected>Lütfen Seçiniz</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <label>Ödeme Tipi:</label>
+                                <div class="input-group">
+                                    <select asp-for="SiparisOdemeTipId" asp-items="@(new SelectList(Model.SiparisOdemeTipListesi,"SiparisOdemeTipId","Adi"))" class="form-control selectpicker">
+                                        <option value="" selected>Lütfen Seçiniz</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-6">
+                            <div class="col-lg-6">
+                                <label>Fatura Adresi İl:</label>
+                                <div class="input-group">
+                                    <select asp-for="FaturaAdresIlId" asp-items="@(new SelectList(Model.AdresIlListesi,"AdresIlId","IlAdi"))" class="form-control selectpicker">
+                                        <option value="" selected>Lütfen Seçiniz</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3">
+                                <label>Fatura Adı:</label>
+                                <input type="text" class="form-control datatable-input" placeholder="" asp-for="FaturaAdi" />
+                            </div>
+                            <div class="col-lg-3">
+                                <label>Fatura Soyadı:</label>
+                                <input type="text" class="form-control datatable-input" placeholder="" asp-for="FaturaSoyadi" />
+                            </div>
+                        </div>
+                        <div class="row mb-6">
+                            <div class="col-lg-6">
+                                <label>Gönderim Adresi İl:</label>
+                                <div class="input-group">
+                                    <select asp-for="GonderimAdresIlId" asp-items="@(new SelectList(Model.AdresIlListesi,"AdresIlId","IlAdi"))" class="form-control selectpicker">
+                                        <option value="" selected>Lütfen Seçiniz</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3">
+                                <label>Gönderim Adı:</label>
+                                <input type="text" class="form-control datatable-input" placeholder="" asp-for="GonderimAdi" />
+                            </div>
+                            <div class="col-lg-3">
+                                <label>Gönderim Soyadı:</label>
+                                <input type="text" class="form-control datatable-input" placeholder="" asp-for="GonderimSoyadi" />
+                            </div>
+                        </div>
+                        <div class="row mb-6">
+                            <div class="col-lg-6 ">
+
+                                <label>Sipariş Tarihi:</label>
+                                <div class="input-daterange input-group" id="kt_datepicker_5" data-date-format="dd/mm/yyyy" data-provide="datepicker">
+                                    <input type="text" class="form-control" placeholder="Başlangıç" asp-for="BaslangicTarihi" />
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">
+                                            <i class="la la-ellipsis-h"></i>
+                                        </span>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="Bitiş" asp-for="BitisTarihi" data-date-format="dd/mm/yyyy" data-provide="datepicker" />
+                                </div>
+
+                            </div>
+
+                            <div class="col-lg-3 mb-lg-0 mb-6">
+                                <label>Aktif Mi?:</label>
+                                <div class="input-group">
+                                    <div class="radio-inline">
+                                        <label class="radio radio-lg">
+                                            <input type="radio" value="-1" asp-for="AktifMi"  />
+                                            <span></span>
+                                            Tümü
+                                        </label>
+                                        <label class="radio radio-lg">
+                                            <input type="radio" value="1" asp-for="AktifMi" checked="checked" id="AktifRadioButton" />
+                                            <span></span>
+                                            Aktif
+                                        </label>
+                                        <label class="radio radio-lg">
+                                            <input type="radio" value="0" asp-for="AktifMi" />
+                                            <span></span>
+                                            Pasif
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="row mt-8">
+                                <div class="col-lg-12">
+                                    <button type="button" onclick="javascript: SiparisAra();" class="btn btn-primary btn-primary--icon">Ara <i class="la la-search"></i></button>
+                                    <button class="btn btn-secondary btn-secondary--icon" id="kt_reset" onclick="javascript: temizle();">
+                                        <span>
+                                            <i class="la la-close"></i>
+                                            <span>Temizle</span>
+                                        </span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <table id="dtArama" class="table table-bordered table-hover table-checkable">
+                                <thead>
+                                    <tr>
+                                        <th>Sipariş No</th>
+                                        <th>Sipariş Durumu</th>
+                                        <th>Ödeme Durumu</th>
+                                        <th>Ödeme Tipi</th>
+                                        <th>Müşteri</th>
+                                        <th>Sipariş Tarihi</th>
+                                        <th>Son İşlem Tarihi</th>
+                                        <th>Durum</th>
+                                        <th>İşlemler</th>
+                                    </tr>
+                                </thead>
+                                <tfoot>
+                                    <tr>
+                                        <th>Sipariş No</th>
+                                        <th>Sipariş Durumu</th>
+                                        <th>Ödeme Durumu</th>
+                                        <th>Ödeme Tipi</th>
+                                        <th>Müşteri</th>
+                                        <th>Sipariş Tarihi</th>
+                                        <th>Son İşlem Tarihi</th>
+                                        <th>Durum</th>
+                                        <th>İşlemler</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="/Themes/Admin/dist/assets/plugins/custom/datatables/datatables.bundle.js?v=7.0.5"></script>
+    <script>
+
+        $(document).ready(function () {
+
+            $('#urunList').select2({
+                ajax: {
+                    type: "post",
+                    url: "/Admin/Icerik/SurprizUrunGetir",
+                    data: function (params) {
+                        return {
+                            kelime: params.term
+                        };
+                    },
+                    processResults: function (response) {
+                        return {
+                            results: response
+                        };
+                    },
+                    cache: true
+                }
+            });
+        });
+
+        function siparisGuncelle(siparisId) {
+            window.location.href = "../../Admin/Satis/SiparisDetay/" + siparisId;
+        }
+        function siparisSil(Id) {
+            event.preventDefault();
+            var surprizUrunId = Id;
+
+            Swal.fire({
+                title: 'Emin misiniz?',
+                text: "Sipariş Silinecek",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sil',
+                cancelButtonText: "Vazgeç",
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax({
+                        url: '/Admin/Icerik/SiparisSil',
+                        data: { id: surprizUrunId },
+                        type: "Post",
+                        success: function (result) {
+
+                            $('#dtArama').DataTable().ajax.reload();
+                            Swal.fire("İşlem Başarılı!", "İlgi alan silindi!", "success");
+
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            alert(xhr.status);
+                            alert(thrownError);
+                        }
+                    });
+                }
+            })
+
+
+
+
+        }
+        function SiparisAra() {
+
+            var sendData = $('#_formAra').serializeObject();
+            $('#dtArama').DataTable().destroy();
+
+            var table = $('#dtArama').DataTable({
+                processing: true,
+                serverSide: true,
+                filter: false,
+                responsive: true,
+                orderMulti: false,
+                autoWidth: false,
+                ordering: false,
+                //fixedColumns: true,
+                //deferRender: true,
+                ajax: {
+
+                    url: "/Admin/Satis/Arama",
+                    type: "POST",
+
+                    dataType: "json",
+                    data: sendData,
+                    beforeSend: function () {
+                        showLoading('dtArama');
+                    },
+                    complete: function () {
+                        hideLoading('dtArama');
+                    },
+                    error: function (error) {
+                        hideLoading('dtArama');
+                        Swal.fire(
+                            "Hata",
+                            "İşlem sırasında hata oluştu. " + error,
+                            "error"
+                        );
+                    }
+                },
+
+                columns: [
+
+
+                    { data: 'SiparisId', defaultContent: '' },
+                    { data: 'SiparisDurumTipId', defaultContent: '' },
+                    { data: 'OdemeDurumTipId', defaultContent: '' },
+                    { data: 'SiparisOdemeTipId', defaultContent: '' },
+                    { data: 'MusteriBilgileri', defaultContent: '' },
+                    { data: 'SiparisTarihi', defaultContent: '' },
+                    { data: 'SonIslemTarihi', defaultContent: '' },
+                    { data: 'AktifMi', defaultContent: '' },
+                    { data: 'SiparisId', defaultContent: '' },
+
+
+                ],
+                fixedColumns: true,
+                columnDefs: [
+                    { targets: 0, width: '5%' },
+                    { targets: 1, width: '5%' },
+                    { targets: 2, width: '5%' },
+                    { targets: 3, width: '5%' },
+                    { targets: 4, width: '5%' },
+                    { targets: 5, width: '5%' },
+                    { targets: 6, width: '5%' },
+                    {
+                        targets: 7,
+                        width: '5%',
+                        render: function (data) {
+                            if (data == true) {
+                                return '<span class="label label-lg font-weight-bold label-light-success label-inline">Aktif</span>';
+                            }
+                            else {
+                                return '<span class="label label-lg font-weight-bold label-light-danger label-inline">Pasif</span>';
+                            }
+                        }
+                    },
+                    {
+                        targets: 8, responsivePriority: 1, width: "10%", render: function (data) {
+                            return "<div class='list-icons'>" +
+                                "<a href = '#' style='float:left' data-toggle='tooltip' data-placement='bottom' title='Sil'  onClick='javascript: siparisSil(" + data + "); ' class='btn  btn-icon-only yellow'><i class='la la-remove'></i></a>" +
+                                "<a href = '#' style='float:left' data-toggle='tooltip' data-placement='bottom' title='Güncelle'  onClick='javascript: siparisGuncelle(" + data + "); ' class='btn  btn-icon-only yellow'><i class='la la-search'></i></a>" +
+
+                                "</div>";
+                        }
+                    },
+
+                    //{ targets: 1, width: '10%' },
+                ],
+                dom: `<'row'<'col-sm-6 text-left'f><'col-sm-6 text-right'B>>
+                                                                                        <'row'<'col-sm-12'tr>>
+                                                                                        <'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7 dataTables_pager'lp>>`,
+                lengthMenu: [[5, 25, 50], [5, 25, 50]],
+                buttons: [
+                    {
+                        extend: 'print',
+                        text: 'Yazdır'
+                    },
+                    {
+                        extend: 'excelHtml5',
+                        text: 'Excel'
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        text: 'Pdf'
+                    }
+                ],
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/1.10.21/i18n/Turkish.json'
+                }
+            });
+
+        }
+        function temizle() {
+
+            $('#SiparisId').val("");
+            $('#Aciklama').val("");
+            $('#FaturaAdi').val("");
+            $('#FaturaSoyadi').val("");
+            $('#GonderimAdi').val("");
+            $('#GonderimSoyadi').val(""); 
+            $('#AktifRadioButton').prop("checked", true);
+        }
+
+        function showLoading(id) {
+            KTApp.block(document.getElementById(id), {
+                overlayColor: '#000000',
+                state: 'danger',
+                message: 'Lütfen bekleyin...'
+            });
+        };
+
+        function hideLoading(id) {
+            KTApp.unblock(document.getElementById(id));
+        };
+
+    </script>
+
+}
+

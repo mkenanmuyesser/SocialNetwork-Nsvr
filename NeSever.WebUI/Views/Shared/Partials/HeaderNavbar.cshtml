@@ -1,0 +1,814 @@
+﻿@inject IHttpContextAccessor HttpContextAccessor
+@using Microsoft.AspNetCore.Http
+@using NeSever.Common.Models.Uyelik;
+
+<style type="text/css">
+    .hq::placeholder {
+        color: white !important;
+        font-weight: bold;
+    }
+
+    #hediyeArama-selectized::placeholder {
+        color: white !important;
+        font-weight: bold;
+    }
+
+    #arkadasArama-selectized::placeholder {
+        color: white !important;
+        font-weight: bold;
+    }
+
+    .search-bar .selectize-control {
+        height: 100%;
+    }
+
+    .search-bar .selectize-input {
+        height: 100%;
+    }
+</style>
+
+<header class="header" id="site-header">
+    @*<a href="/" class="logo">
+            <div class="img-wrap">
+                <img src="/Uploads/Site/rsz_nesever-logo-white.png" alt="NeSever.Net">
+            </div>
+        </a>*@
+    <div class="page-title">
+        <a href="/" class="logo">
+            <img src="/Uploads/Site/rsz_small_nesever-logo-white.png" alt="NeSever">
+            &nbsp;
+            <h6 style="color:white;">NeSever</h6>
+        </a>
+    </div>
+
+    <div class="header-content-wrapper">
+        <form class="search-bar w-search notification-list friend-requests" method="get" action="/Hediye/Ara" style="height: 2px; padding: 5px; max-width:310px;" onsubmit="return hediyeAraWebSubmit();">
+            <div id="hediyeAramaSelectId" class="form-group with-button" style="height: 60px; border-radius: 5px; background-color: #1a8cff;">
+                <input id="hediyeArama" name="q" class="form-control hq" placeholder="HEDİYE ARA..." type="text" autocomplete="off" style="background-color: #1a8cff;color:white; padding: 20px; border-radius: 5px;">
+                <button style="background-color: #1a8cff;border-radius: 5px; z-index:100;">
+                    <svg class="olymp-magnifying-glass-icon" style="fill:white;color:white;"><use xlink:href="#olymp-magnifying-glass-icon"></use></svg>
+                </button>
+            </div>
+        </form>
+
+        <form class="search-bar w-search notification-list friend-requests" method="get" action="/Arkadas/Ara" style="height: 2px; padding: 5px; max-width:310px;" onsubmit="return arkadasAraWebSubmit();">
+            <div id="arkadasAramaSelectId" class="form-group with-button" style="height: 60px; border-radius: 5px; background-color: #ff5e3a;">
+                <input id="arkadasArama" name="q" class="form-control hq" placeholder="ARKADAŞ ARA..." type="text" autocomplete="off" style="background-color: #ff5e3a; color:white;padding: 20px; border-radius: 5px;">
+                <button style="background-color: #ff5e3a;border-radius: 5px; z-index:100;">
+                    <svg class="olymp-magnifying-glass-icon" style="fill:white;color:white;"><use xlink:href="#olymp-magnifying-glass-icon"></use></svg>
+                </button>
+            </div>
+        </form>
+
+        <div class="control-block">
+            @{
+                KullaniciVM kullaniciBilgileri = new KullaniciVM();
+
+                if (Context.Session.GetString("Kullanici") != null && Context.Session.GetString("KullaniciBilgileri") != null)
+                {
+                    kullaniciBilgileri = Newtonsoft.Json.JsonConvert.DeserializeObject<KullaniciVM>(Context.Session.GetString("KullaniciBilgileri"));
+                }
+
+                KullaniciResimVM kullaniciResim = new KullaniciResimVM();
+
+                if (Context.Session.GetString("KullaniciResim") != null)
+                {
+                    kullaniciResim = Newtonsoft.Json.JsonConvert.DeserializeObject<KullaniciResimVM>(Context.Session.GetString("KullaniciResim"));
+                }
+
+            }
+
+            @if (!string.IsNullOrEmpty(kullaniciBilgileri.RefreshToken))
+            {
+                <div class="control-icon more has-items" style="margin-right: auto;">
+                    
+                </div>
+
+                @*<div id="headerSepetUrunler" class="control-icon more has-items" style="margin-right: 5px;">
+                    <a href="/Sepet">
+                        <svg class="olymp-shopping-bag-icon" style="fill:white;"><use xlink:href="#olymp-shopping-bag-icon"></use></svg>
+                        <div id="headerSepetUrunSayisi" class="label-avatar bg-blue"></div>
+                    </a>
+                </div>*@
+
+                <div id="headerBildirimler" class="control-icon more has-items" style="margin-right: auto;">
+
+                </div>
+
+                <div class="author-page author vcard inline-items more" style="margin-left:15px;">
+                    <div class="author-thumb">
+                        @if (kullaniciResim == null || kullaniciResim.ResimBase64 == null)
+                        {
+                            <a href="/Kullanici/Profil" style="width:100%; height:100%;">
+                                <img alt="author" src="~/Uploads/Site/user_icon.png" class="avatar" style="max-height:42px; max-width:42px;" />
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="/Kullanici/Profil">
+                                <img alt="author" src="data:image/png;base64,@kullaniciResim.ResimBase64" class="avatar" style="max-height:42px; max-width:42px;" />
+                            </a>
+                        }
+
+                        <div class="more-dropdown more-with-triangle">
+                            <div class="mCustomScrollbar" data-mcs-theme="dark">
+                                <div class="ui-block-title ui-block-title-small">
+                                    <h6 class="title">PROFİL</h6>
+                                </div>
+
+                                <ul class="account-settings">
+                                    <li>
+                                        <a href="/">
+                                            <svg class="olymp-menu-icon"><use xlink:href="#olymp-home-icon"></use></svg>
+                                            <span>ANASAYFA</span>
+                                        </a>
+                                    </li>
+                                    @*<li>
+                                        <a href="/Sepet">
+                                            <svg class="olymp-menu-icon"><use xlink:href="#olymp-shopping-bag-icon"></use></svg>
+                                            <span>Alışveriş Sepeti</span>
+                                        </a>
+                                    </li>*@
+                                    <li>
+                                        <a href="/Kullanici/Profil">
+                                            <svg class="olymp-menu-icon"><use xlink:href="#olymp-like-post-icon"></use></svg>
+                                            <span>Profil</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/Kullanici/Arkadaslar">
+                                            <svg class="olymp-menu-icon"><use xlink:href="#olymp-happy-faces-icon"></use></svg>
+                                            <span>Arkadaşlar</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/Kullanici/Fotograflar">
+                                            <svg class="olymp-menu-icon"><use xlink:href="#olymp-camera-icon"></use></svg>
+                                            <span>Fotoğraflar</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/Kullanici/Ayarlar">
+                                            <svg class="olymp-menu-icon"><use xlink:href="#olymp-menu-icon"></use></svg>
+                                            <span>Ayarlar</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:;" onClick="kullaniciCikis();">
+                                            <svg class="olymp-logout-icon"><use xlink:href="#olymp-logout-icon"></use></svg>
+                                            <span>ÇIKIŞ</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="/Kullanici/Profil" class="author-name fn">
+                        <div class="author-title">
+                            @if (kullaniciBilgileri != null)
+                            {
+                                @kullaniciBilgileri.KullaniciAdi
+                            }
+                            <svg class="olymp-dropdown-arrow-icon"><use xlink:href="#olymp-dropdown-arrow-icon"></use></svg>
+                        </div>
+                    </a>
+                </div>
+            }
+
+
+            @if (string.IsNullOrEmpty(kullaniciBilgileri.RefreshToken))
+            {
+                <a href="/Kullanici/Islem" class="author-name fn">
+                    <div class="author-title" style="color:white;font-size:12px;min-width:50px;">
+                        Giriş Yap
+                        @*<svg class="olymp-dropdown-arrow-icon" style="width:12px;height:12px;margin:0px;fill:white;"><use xlink:href="#olymp-happy-face-icon"></use></svg>*@
+                    </div>
+                </a>
+            }
+        </div>
+    </div>
+</header>
+
+<header class="header header-responsive" id="site-header-responsive">
+    <div class="header-content-wrapper">
+        <a href="/" class="logo">
+            <div class="img-wrap">
+                <img src="/Uploads/Site/rsz_nesever-logo-white.png" alt="NeSever">
+            </div>
+        </a>
+
+        <ul class="nav nav-tabs mobile-app-tabs" role="tablist" style="width:auto;">
+
+            @if (!string.IsNullOrEmpty(kullaniciBilgileri.RefreshToken))
+            {
+                @*<li class="nav-item">
+                    <a class="nav-link" href="/Sepet">
+                        <div class="control-icon has-items">
+                            <svg class="olymp-shopping-bag-icon"><use xlink:href="#olymp-shopping-bag-icon"></use></svg>
+                            <div id="headerMobilSepetUrunSayisi" class="label-avatar bg-blue"></div>
+                        </div>
+                    </a>
+                </li>*@
+
+                <li class="nav-item" style="margin-right:10px">
+                    <a id="mobilBildirimKapat" class="nav-link" data-toggle="tab" href="#notification" role="tab">
+                        <div id="headerMobilBildirimler" class="control-icon has-items">
+                            <svg class="olymp-thunder-icon"><use xlink:href="#olymp-thunder-icon"></use></svg>
+                            <div id="headerMobilBildirimlerSayisi" class="label-avatar bg-primary"></div>
+                        </div>
+                    </a>
+                </li>
+            }
+
+            <li class="nav-item" style="float:right;">
+                <a class="nav-link" data-toggle="tab" href="#hediyeAra" role="tab" style="background-color: #1a8cff;  height: 60px; margin: 5px 5px 5px 0px; border-radius: 2px;">
+                    <svg class="olymp-magnifying-glass-icon" style="fill:white;"><use xlink:href="#olymp-magnifying-glass-icon"></use></svg>
+                    <svg class="olymp-close-icon"><use xlink:href="#olymp-close-icon"></use></svg>
+                </a>
+            </li>
+
+            <li class="nav-item" style="float:right;">
+                <a class="nav-link" data-toggle="tab" href="#arkadasAra" role="tab" style="background-color: #ff5e3a; height: 60px; margin: 5px 0px 5px 0px; border-radius: 2px;">
+                    <svg class="olymp-magnifying-glass-icon" style="fill:white;"><use xlink:href="#olymp-magnifying-glass-icon"></use></svg>
+                    <svg class="olymp-close-icon"><use xlink:href="#olymp-close-icon"></use></svg>
+                </a>
+            </li>
+
+            @if (string.IsNullOrEmpty(kullaniciBilgileri.RefreshToken))
+            {
+                <li class="nav-item">
+                    <div class="nav-link">
+                        <a href="/Kullanici/Islem" class="author-name fn">
+                            <div class="author-title" style="color:white;font-size:12px;min-width:50px;">
+                                Giriş Yap
+                                @*<svg class="olymp-dropdown-arrow-icon" style="width:12px;height:12px;margin:0px;fill:white;"><use xlink:href="#olymp-happy-face-icon"></use></svg>*@
+                            </div>
+                        </a>
+                    </div>
+                </li>
+            }
+        </ul>
+    </div>
+
+    <div class="tab-content tab-content-responsive">
+        <div class="tab-pane" id="request" role="tabpanel">
+            <div class="mCustomScrollbar" data-mcs-theme="dark">
+                <div class="ui-block-title ui-block-title-small">
+                    <h6 class="title">ARKADAŞLIK İSTEKLERİ</h6>
+                    <a href="#" style="float:right;">Arkadaşlarını Bul</a>
+                    @*<a href="#">Settings</a>*@
+                </div>
+                <ul class="notification-list friend-requests">
+                    <li class="un-read">
+                        <div class="author-thumb">
+                            <img src="/Uploads/ProfilePictureSmall/avatar55-sm.jpg" alt="author">
+                        </div>
+                        <div class="notification-event">
+                            <a href="#" class="h6 notification-friend">Ad Soyad</a>
+                            <span class="chat-message-item">1 ortak arkadaş</span>
+                        </div>
+                        <span class="notification-icon" style="float:right;">
+                            <a href="#" class="accept-request">
+                                <span class="icon-add without-text">
+                                    <svg class="olymp-happy-face-icon"><use xlink:href="#olymp-happy-face-icon"></use></svg>
+                                </span>
+                            </a>
+
+                            <a href="#" class="accept-request request-del">
+                                <span class="icon-minus">
+                                    <svg class="olymp-happy-face-icon"><use xlink:href="#olymp-happy-face-icon"></use></svg>
+                                </span>
+                            </a>
+                        </span>
+
+                        @*<div class="more">
+                                <svg class="olymp-three-dots-icon"><use xlink:href="#olymp-three-dots-icon"></use></svg>
+                            </div>*@
+                    </li>
+
+                    <li class="un-read">
+                        <div class="author-thumb">
+                            <img src="/Uploads/ProfilePictureSmall/avatar54-sm.jpg" alt="author">
+                        </div>
+                        <div class="notification-event">
+                            <a href="#" class="h6 notification-friend">Ad Soyad</a>
+                            <span class="chat-message-item">2 ortak arkadaş</span>
+                        </div>
+                        <span class="notification-icon" style="float:right;">
+                            <a href="#" class="accept-request">
+                                <span class="icon-add without-text">
+                                    <svg class="olymp-happy-face-icon"><use xlink:href="#olymp-happy-face-icon"></use></svg>
+                                </span>
+                            </a>
+
+                            <a href="#" class="accept-request request-del">
+                                <span class="icon-minus">
+                                    <svg class="olymp-happy-face-icon"><use xlink:href="#olymp-happy-face-icon"></use></svg>
+                                </span>
+                            </a>
+                        </span>
+
+                        @*<div class="more">
+                                <svg class="olymp-three-dots-icon"><use xlink:href="#olymp-three-dots-icon"></use></svg>
+                            </div>*@
+                    </li>
+
+                    <li class="accepted">
+                        <div class="author-thumb">
+                            <img src="/Uploads/ProfilePictureSmall/avatar53-sm.jpg" alt="author">
+                        </div>
+                        <div class="notification-event">
+                            Sen ve <a href="#" class="h6 notification-friend">Ad Soyad</a> Artık arkadaşsınız. Mesaj göndermek için <a href="#" class="notification-link">tıkla</a>.
+                        </div>
+                        <span class="notification-icon" style="float:right;">
+                            <svg class="olymp-happy-face-icon"><use xlink:href="#olymp-happy-face-icon"></use></svg>
+                        </span>
+
+                        @*<div class="more">
+                                <svg class="olymp-three-dots-icon"><use xlink:href="#olymp-three-dots-icon"></use></svg>
+                                <svg class="olymp-little-delete"><use xlink:href="#olymp-little-delete"></use></svg>
+                            </div>*@
+                    </li>
+                </ul>
+                <a href="#" class="view-all bg-blue">Arkadaşlık İsteklerine Git</a>
+            </div>
+        </div>
+
+        <div class="tab-pane" id="chat" role="tabpanel">
+            <div class="mCustomScrollbar" data-mcs-theme="dark">
+                <div class="ui-block-title ui-block-title-small">
+                    <h6 class="title">MESAJLAR</h6>
+                    <a href="#" style="float:right;">Hepsini okundu işaretle</a>
+                    @*<a href="#">Settings</a>*@
+                </div>
+
+                <ul class="notification-list chat-message">
+                    <li class="message-unread">
+                        <div class="author-thumb">
+                            <img src="/Uploads/ProfilePictureSmall/avatar52-sm.jpg" alt="author">
+                        </div>
+                        <div class="notification-event">
+                            <a href="#" class="h6 notification-friend">Ad Soyad</a>
+                            <span class="chat-message-item">Mesajın ilk 100 karakteri...</span>
+                            <span class="notification-date"><time class="entry-date updated" datetime="01.01.2020 01:00">01.01.2020 01:00</time></span>
+                        </div>
+                        <span class="notification-icon">
+                            <a href="#">
+                                <svg class="olymp-chat---messages-icon"><use xlink:href="#olymp-chat---messages-icon"></use></svg>
+                            </a>
+                        </span>
+                        <div class="more">
+                            <a href="#">
+                                <svg class="olymp-little-delete"><use xlink:href="#olymp-check-icon"></use></svg>
+                            </a>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="author-thumb">
+                            <img src="/Uploads/ProfilePictureSmall/avatar51-sm.jpg" alt="author">
+                        </div>
+                        <div class="notification-event">
+                            <a href="#" class="h6 notification-friend">Ad Soyad</a>
+                            <span class="chat-message-item">Mesajın ilk 100 karakteri...</span>
+                            <span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">01.01.2020 01:00</time></span>
+                        </div>
+                        <span class="notification-icon">
+                            <a href="#">
+                                <svg class="olymp-chat---messages-icon"><use xlink:href="#olymp-chat---messages-icon"></use></svg>
+                            </a>
+                        </span>
+
+                        <div class="more">
+                            <a href="#">
+                                <svg class="olymp-little-delete"><use xlink:href="#olymp-check-icon"></use></svg>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+
+                <a href="#" class="view-all bg-purple">Mesajlara Git</a>
+            </div>
+        </div>
+
+        <div class="tab-pane" id="notification" role="tabpanel"></div> <!--Mobil Bildirimler Panel Kısmı-->
+
+        <div class="tab-pane" id="hediyeAra" role="tabpanel">
+            <form id="_formHediyeAra" class="search-bar w-search notification-list friend-requests" action="/Hediye/Ara" method="get" onsubmit="return hediyeAraSubmit();">
+                <div id="hediyeAramaSelectIdMobil" class="form-group with-button">
+                    <input id="inpHediyeAra" class="form-control hq" placeholder="HEDİYE ARA..." type="text" style="color:white;">
+                    <button style="background-color: #1a8cff;border-radius: 5px; z-index:100;">
+                        <svg class="olymp-magnifying-glass-icon" style="fill:white;color:white;"><use xlink:href="#olymp-magnifying-glass-icon"></use></svg>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="tab-pane" id="arkadasAra" role="tabpanel">
+            <form id="_formArkadasAra" class="search-bar w-search notification-list friend-requests" action="/Arkadas/Ara" method="get" onsubmit="return arkadasAraSubmit();">
+                <div id="arkadasAramaSelectIdMobil" class="form-group with-button">
+                    <input id="inpArkadasAra" class="form-control hq" placeholder="ARKADAŞ ARA..." type="text" style="color:white;">
+                    <button style="background-color: #ff5e3a;border-radius: 5px; z-index:100;">
+                        <svg class="olymp-magnifying-glass-icon" style="fill:white;color:white;"><use xlink:href="#olymp-magnifying-glass-icon"></use></svg>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <a href="#" class="side-menu-open" data-toggle="modal" data-target="#registration-login-form-popup"> <i class="olymp-login-icon olymp-menu-icon olympus-icon-Login-Icon"></i> </a>
+    </div>
+</header>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.ajax({
+            url: '/Kullanici/KullaniciHeaderBildirimListGetir',
+            data: null,
+            type: "Get",
+            success: function (data) {
+                $('#headerBildirimler').html(data);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+
+            }
+        });
+
+        $.ajax({
+            url: '/Kullanici/KullaniciHeaderBildirimMobilListGetir',
+            data: null,
+            type: "Get",
+            success: function (data) {
+                $('#notification').html(data);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+
+            }
+        });
+        $.ajax({
+            url: '/Kullanici/KullaniciHeaderBildirimMobilSayisiGetir',
+            data: null,
+            type: "Get",
+            success: function (data) {
+                $('#headerMobilBildirimlerSayisi').html(data);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+
+            }
+        });
+        $.ajax({
+            url: '/Kullanici/KullaniciHeaderSepetUrunSayisiGetir',
+            data: null,
+            type: "Get",
+            success: function (data) {
+                $('#headerSepetUrunSayisi').html(data);
+                $('#headerMobilSepetUrunSayisi').html(data);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+
+            }
+        });
+
+        //buradan
+        $('#arkadasArama').selectize({
+            delimiter: ',',
+            persist: false,
+            valueField: 'username',
+            labelField: 'name',
+            searchField: ['name', 'username'],
+            options: [],
+            render: {
+                option: function (item, escape) {
+                    return '<div class="inline-items" style="margin-bottom:8px; position:relative;">' +
+                        '<a href="/Kullanici/Profil/' + escape(item.username) + '">' +
+                        (item.image ? '<div class="author-thumb"><img src="' + escape(item.image) + '" style="width:40px; height:40px;" alt="avatar"></div>' : '') +
+                        '</a>' +
+                        '<div class="notification-event" style="max-width:80%;">' +
+                        '<a href="/Kullanici/Profil/' + escape(item.username) + '">' +
+                        (item.username ? '<span class="h6 notification-friend" style="color:black;">' + escape(item.username) + '</span>' : '') +
+                        (item.name ? '<span class="h6 notification-friend" style="float:left;font-weight:400;color:black;">' + escape(item.name) + '</span></a>' : '') +
+                        '</div>' +
+                        '</div>';
+                }
+            }
+        });
+
+        $('#hediyeArama').selectize({
+            delimiter: ',',
+            persist: false,
+            valueField: 'urunId',
+            labelField: 'name',
+            searchField: ['name', 'marka'],
+            options: [],
+            render: {
+                option: function (item, escape) {
+                    return '<div class="inline-items" style="margin-bottom:8px; position:relative;">' +
+                        '<div><a href="/Hediye/Detay/' + escape(item.urunId) + '">' +
+                        (item.image ? '<div class="author-thumb"><img src="' + escape(item.image) + '" style="width:40px; height:40px;" alt="avatar"></div>' : '') +
+                        '</a></div>' +
+                        '<div class="notification-event" style="max-width:80%;">' +
+                        '<a href="/Hediye/Detay/' + escape(item.urunId) + '">' +
+                        (item.name ? '<span class="h6 notification-friend">' + escape(item.name) + '</span></a>' : '') +
+                        '</div>' +
+                        '</div>';
+                }
+            }
+        });
+
+        $('#inpArkadasAra').selectize({
+            delimiter: ',',
+            persist: false,
+            valueField: 'username',
+            labelField: 'name',
+            searchField: ['name', 'username'],
+            options: [],
+            render: {
+                option: function (item, escape) {
+                    return '<div class="inline-items" style="padding:0px; position:relative;">' +
+                        '<a href="/Kullanici/Profil/' + escape(item.username) + '">' +
+                        (item.image ? '<div class="author-thumb"><img src="' + escape(item.image) + '" style="width:40px; height:40px;" alt="avatar"></div>' : '') +
+                        '</a>' +
+                        '<div class="notification-event" style="max-width:80%;">' +
+                        '<a href="/Kullanici/Profil/' + escape(item.username) + '">' +
+                        (item.username ? '<span class="h6 notification-friend" style="color:black;">' + escape(item.username) + '</span>' : '') +
+                        (item.name ? '<span class="h6 notification-friend" style="float:left;font-weight:400;color:black;font-size:12px;">' + escape(item.name) + '</span></a>' : '') +
+                        '</div>' +
+                        '</div>';
+                }
+            }
+        });
+
+        $('#inpHediyeAra').selectize({
+            delimiter: ',',
+            persist: false,
+            valueField: 'urunId',
+            labelField: 'name',
+            searchField: ['name', 'marka'],
+            options: [],
+            render: {
+                option: function (item, escape) {
+                    return '<div class="inline-items" style="padding:0px; position:relative;">' +
+                        '<a href="/Hediye/Detay/' + escape(item.urunId) + '">' +
+                        (item.image ? '<div class="author-thumb"><img src="' + escape(item.image) + '" style="width:40px; height:40px;" alt="avatar"></div>' : '') +
+                        '</a>' +
+                        '<div class="notification-event" style="max-width:80%;">' +
+                        '<a href="/Hediye/Detay/' + escape(item.urunId) + '">' +
+                        (item.name ? '<span class="h6 notification-friend" style="float:left;font-weight:500;color:black;font-size:12px;">' + escape(item.name) + '</span></a>' : '') +
+                        '</div>' +
+                        '</div>';
+                }
+            }
+        });
+
+
+        $('#hediyeAramaSelectId .selectize-dropdown').append('<div class="inline-items" style="margin:-1px;text-align:center;font-weight:700;color:white;background-color: #1a8cff;font-size:18px;"><a href="javascript:;" onclick="return hediyeAraWebSubmit();" style="color:white; display: block;">Tümünü Gör</a></div>');
+        $('#arkadasAramaSelectId .selectize-dropdown').append('<div class="inline-items" style="margin:-1px;text-align:center;font-weight:700;color:white;background-color: #ff5e3a;font-size:18px;"><a href="javascript:;" onclick="return arkadasAraWebSubmit();" style="color:white; display: block;">Tümünü Gör</a></div>');
+        $('#hediyeAramaSelectIdMobil .selectize-dropdown').append('<div class="inline-items" style="margin:-1px;text-align:center;font-weight:700;color:white;background-color: #1a8cff;font-size:18px;"><a href="javascript:;" onclick="return hediyeAraSubmit();" style="color:white; display: block;">Tümünü Gör</a></div>');
+        $('#arkadasAramaSelectIdMobil .selectize-dropdown').append('<div class="inline-items" style="margin:-1px;text-align:center;font-weight:700;color:white;background-color: #ff5e3a;font-size:18px;"><a href="javascript:;" onclick="return arkadasAraSubmit();" style="color:white; display: block;">Tümünü Gör</a></div>');
+        //buraya
+    });
+
+    $('#headerBildirimler').hover(function () {
+        var bildirimSayisi = $('#bildirimSayisi').html();
+        if (bildirimSayisi != "0") {
+            $.ajax({
+                url: '/Kullanici/KullaniciBildirimOkundu/',
+                data: null,
+                type: "Get",
+                success: function (result) {
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+
+                }
+            });
+        }
+    });
+    $('#headerMobilBildirimler').hover(function () {
+        var bildirimMobilSayisi = $('#headerMobilBildirimlerSayisi').html();
+        if (bildirimMobilSayisi != "0") {
+            $.ajax({
+                url: '/Kullanici/KullaniciBildirimOkundu/',
+                data: null,
+                type: "Get",
+                success: function (result) {
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+
+                }
+            });
+        }
+
+    });
+
+    //dördündende "-selectized" kısmı kalkıcak
+    function hediyeAraSubmit() {
+        var value = $('#inpHediyeAra-selectized').val();
+        if (value == null || value == '') {
+            value = '';
+        }
+        window.location.href = '/Hediye/Ara?q=' + value;
+        return false;
+    }
+
+    function arkadasAraSubmit() {
+        var value = $('#inpArkadasAra-selectized').val();
+        if (value == null || value == '') {
+            value = '';
+        }
+        window.location.href = '/Arkadas/Ara?q=' + value;
+        return false;
+    }
+
+    function hediyeAraWebSubmit() {
+        var value = $('#hediyeArama-selectized').val();
+        if (value == null || value == '') {
+            value = '';
+        }
+        window.location.href = '/Hediye/Ara?q=' + value;
+        return false;
+    }
+
+    function arkadasAraWebSubmit() {
+        var value = $('#arkadasArama-selectized').val();
+        if (value == null || value == '') {
+            value = '';
+        }
+        window.location.href = '/Arkadas/Ara?q=' + value;
+        return false;
+    }
+
+    function arkadaslikIstekGit() {
+
+        window.history.pushState('Object', 'Title', '/Kullanici/Profil/#arkadaslikistek');
+        window.location.reload();
+
+        return false;
+    }
+
+    function arkadasListesiGit() {
+
+        window.history.pushState('Object', 'Title', '/Kullanici/Arkadaslar/#arkadaslistesi');
+        window.location.reload();
+
+        return false;
+    }
+
+    function mesajlaraGit() {
+
+        window.history.pushState('Object', 'Title', '/Kullanici/Profil/#mesajlar');
+        window.location.reload();
+
+        return false;
+    }
+
+    function hediyeKartGit() {
+
+        window.history.pushState('Object', 'Title', '/Kullanici/Profil/#hediyekart');
+        window.location.reload();
+
+        return false;
+    }
+
+    function delay(callback, ms) {
+        var timer = 0;
+        return function () {
+            var context = this, args = arguments;
+            clearTimeout(timer);
+            timer = setTimeout(function () {
+                callback.apply(context, args);
+            }, ms || 0);
+        };
+    }
+
+    $(document).on('keyup', '#arkadasArama-selectized', delay(function () {
+        var arkadas = $('#arkadasArama-selectized').val();
+        var urlArkadas = '/Arkadas/ArkadasAramadaTopListGetir/';
+
+        if (arkadas.length > 2) {
+            $.get(urlArkadas, { kelime: arkadas }, function (data) {
+                if (data.length == 0) {
+                    $('#arkadasAramaSelectId .selectize-dropdown-content .inline-items').remove();
+                    $('#arkadasAramaSelectId .selectize-dropdown .selectize-dropdown-content').append('<div class="inline-items" style="text-align:center;font-weight:700;font-size:18px;">Kullanıcı Bulunamadı</div>');
+                }
+                else {
+                    var veri = [];
+                    for (i = 0; i < data.length; i++) {
+                        veri.push({ image: data[i].ProfilResmiBase64, name: data[i].Adi + " " + data[i].Soyadi, username: data[i].KullaniciAdi });
+                    }
+
+                    var element = jQuery('#arkadasArama');
+                    var selectize = element[0].selectize;
+                    selectize.clearOptions();
+                    selectize.addOption(veri);
+                    selectize.refreshOptions(true);
+                }
+            });
+        }
+        else {
+            var element = jQuery('#arkadasArama');
+            var selectize = element[0].selectize;
+            selectize.clearOptions();
+            selectize.refreshOptions(true);
+        }
+    }, 500));
+
+    $(document).on('keyup', '#hediyeArama-selectized', delay(function () {
+        var hediye = $('#hediyeArama-selectized').val();
+        var urlHediye = '/Hediye/HediyeAramadaTopListGetir/';
+
+        if (hediye.length > 2) {
+            $.get(urlHediye, { kelime: hediye }, function (data) {
+                if (data.length == 0) {
+                    $('#hediyeAramaSelectId .selectize-dropdown-content .inline-items').remove();
+                    $('#hediyeAramaSelectId .selectize-dropdown .selectize-dropdown-content').append('<div class="inline-items" style="text-align:center;font-weight:700;font-size:18px;">Hediye Bulunamadı</div>');
+                }
+                else {
+                    var veri = [];
+                    for (i = 0; i < data.length; i++) {
+                        veri.push({ image: data[i].ResimUrl, name: data[i].UrunAdi, urunId: data[i].UrunId, marka: data[i].MarkaAdi });
+                    }
+
+                    var element = jQuery('#hediyeArama');
+                    var selectize = element[0].selectize;
+                    selectize.clearOptions();
+                    selectize.addOption(veri);
+                    selectize.refreshOptions(true);
+                }
+            });
+        }
+        else {
+            var element = jQuery('#hediyeArama');
+            var selectize = element[0].selectize;
+            selectize.clearOptions();
+            selectize.refreshOptions(true);
+        }
+
+    }, 500));
+
+    $(document).on('keyup', '#inpArkadasAra-selectized', delay(function () {
+        var arkadas = $('#inpArkadasAra-selectized').val();
+        var urlHediye = '/Arkadas/ArkadasAramadaTopListGetir/';
+
+        if (arkadas.length > 2) {
+            $.get(urlHediye, { kelime: arkadas }, function (data) {
+                if (data.length == 0) {
+                    $('#arkadasAramaSelectIdMobil .selectize-dropdown-content .inline-items').remove();
+                    $('#arkadasAramaSelectIdMobil .selectize-dropdown .selectize-dropdown-content').append('<div class="inline-items" style="text-align:center;font-weight:700;font-size:18px;">Kullanıcı Bulunamadı</div>');
+                }
+                else {
+                    var veri = [];
+                    for (i = 0; i < data.length; i++) {
+                        veri.push({ image: data[i].ProfilResmiBase64, name: data[i].Adi + " " + data[i].Soyadi, username: data[i].KullaniciAdi });
+                    }
+
+                    var element = jQuery('#inpArkadasAra');
+                    var selectize = element[0].selectize;
+                    selectize.clearOptions();
+                    selectize.addOption(veri);
+                    selectize.refreshOptions(true);
+                }
+            });
+        }
+        else {
+            var element = jQuery('#inpArkadasAra');
+            var selectize = element[0].selectize;
+            selectize.clearOptions();
+            selectize.refreshOptions(true);
+        }
+
+    }, 500));
+
+    $(document).on('keyup', '#inpHediyeAra-selectized', delay(function () {
+        var hediye = $('#inpHediyeAra-selectized').val();
+        var urlHediye = '/Hediye/HediyeAramadaTopListGetir/';
+
+        if (hediye.length > 2) {
+            $.get(urlHediye, { kelime: hediye }, function (data) {
+                if (data.length == 0) {
+                    $('#hediyeAramaSelectIdMobil .selectize-dropdown-content .inline-items').remove();
+                    $('#hediyeAramaSelectIdMobil .selectize-dropdown .selectize-dropdown-content').append('<div class="inline-items" style="text-align:center;font-weight:700;font-size:18px;">Hediye Bulunamadı</div>');
+                }
+                else {
+                    var veri = [];
+                    for (i = 0; i < data.length; i++) {
+                        veri.push({ image: data[i].ResimUrl, name: data[i].UrunAdi, urunId: data[i].UrunId, marka: data[i].MarkaAdi });
+                    }
+
+                    var element = jQuery('#inpHediyeAra');
+                    var selectize = element[0].selectize;
+                    selectize.clearOptions();
+                    selectize.addOption(veri);
+                    selectize.refreshOptions(true);
+                }
+            });
+        }
+        else {
+            var element = jQuery('#inpHediyeAra');
+            var selectize = element[0].selectize;
+            selectize.clearOptions();
+            selectize.refreshOptions(true);
+        }
+
+    }, 500));
+
+</script>

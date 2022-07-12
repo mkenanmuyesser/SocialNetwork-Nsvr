@@ -1,0 +1,579 @@
+﻿@model NeSever.Common.Models.FrontEnd.ProfilSolMenuVM
+@using NeSever.Common.Models.Uyelik
+@using NeSever.Common.Utils.Html
+
+<style>
+    .fotografButton {
+        transition: all .15s ease;
+        line-height: 35px;
+        text-align: center;
+        color: #fff;
+        background-color: #ff5e3a;
+        font-size: 10px;
+        font-weight: 800;
+        list-style: none;
+        padding: 0;
+        border: 0;
+    }
+</style>
+<div class="ui-block">
+    <div class="your-profile">
+        @if (Model.ArkadasProfil)
+        {
+            <div class="ui-block-title">
+                <a href="javascript:;" onclick="history.go(-1);" class="btn btn-primary btn-sm full-width">@Html.Raw("<= Geri Dön")</a>
+            </div>
+        }
+
+        <div id="accordion" role="tablist" aria-multiselectable="false">
+            <div class="card">
+                <div class="card-header" role="tab" id="headingOne">
+                    <h6 class="mb-0">
+                        <a data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" style="cursor:pointer;">
+                            Kişisel Bilgiler
+                            <svg class="olymp-dropdown-arrow-icon"><use xlink:href="#olymp-dropdown-arrow-icon"></use></svg>
+                        </a>
+                    </h6>
+                </div>
+
+                <div id="collapseOne" class="collapse @(Model.ArkadasProfil? "show":"")" aria-labelledby="headingOne" data-parent="#accordion">
+                    <div class="ui-block-content">
+                        <ul class="widget w-personal-info item-block">
+                            @if (Model.KisiselBilgiGosterimDurum)
+                            {
+                                <li>
+                                    <span class="title">Hakkında:</span>
+                                    @if (string.IsNullOrEmpty(Model.Hakkinda))
+                                    {
+                                        <span class="text">Henüz Belirtilmemiş</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text">@Model.Hakkinda</span>
+                                    }
+
+                                </li>
+                                <li>
+                                    <span class="title">Yaşadığı Yer:</span>
+                                    <span class="text">@Model.Sehir, @Model.Ulke</span>
+                                </li>
+
+                                <li>
+                                    <span class="title">İlişki Durumu:</span>
+                                    @switch (Model.IliskiDurumu)
+                                    {
+                                        default:
+                                            <span class="text">Belirtmek İstemiyorum</span>
+                                            break;
+                                        case "BI":
+                                            <span class="text">Belirtmek İstemiyor</span>
+                                            break;
+                                        case "B":
+                                            <span class="text">Bekar</span>
+                                            break;
+                                        case "E":
+                                            <span class="text">Evli</span>
+                                            break;
+                                        case "N":
+                                            <span class="text">Nişanlı</span>
+                                            break;
+                                        case "S":
+                                            <span class="text">Sözlü</span>
+                                            break;
+                                        case "YCM":
+                                            <span class="text">Yalnız Çok Mutlu</span>
+                                            break;
+                                        case "AA":
+                                            <span class="text">Arkadaş Arıyor</span>
+                                            break;
+                                        case "IV":
+                                            <span class="text">İlişkisi Var</span>
+                                            break;
+                                        case "G":
+                                            <span class="text">Gizli</span>
+                                            break;
+                                    }
+                                </li>
+                                <li>
+                                    <span class="title">Cinsiyet:</span>
+                                    @switch (Model.Cinsiyet)
+                                    {
+                                        case "G":
+                                            <span class="text">Gizli</span>
+                                            break;
+                                        case "E":
+                                            <span class="text">Erkek</span>
+                                            break;
+                                        case "K":
+                                            <span class="text">Kadın</span>
+                                            break;
+                                        default:
+                                            <span class="text">Belirtmek İstemiyorum</span>
+                                            break;
+                                    }
+                                </li>
+                                <li>
+                                    <span class="title">Doğum Tarihi:</span>
+                                    @if (Model.DogumTarihi.HasValue)
+                                    {
+                                        @switch (Model.DogumTarihi.Value.Month)
+                                        {
+                                            case 1:
+                                                <span class="text">@Model.DogumTarihi.Value.Day Ocak</span>
+                                                break;
+                                            case 2:
+                                                <span class="text">@Model.DogumTarihi.Value.Day Şubat</span>
+                                                break;
+                                            case 3:
+                                                <span class="text">@Model.DogumTarihi.Value.Day Mart</span>
+                                                break;
+                                            case 4:
+                                                <span class="text">@Model.DogumTarihi.Value.Day Nisan</span>
+                                                break;
+                                            case 5:
+                                                <span class="text">@Model.DogumTarihi.Value.Day Mayıs</span>
+                                                break;
+                                            case 6:
+                                                <span class="text">@Model.DogumTarihi.Value.Day Haziran</span>
+                                                break;
+                                            case 7:
+                                                <span class="text">@Model.DogumTarihi.Value.Day Temmuz</span>
+                                                break;
+                                            case 8:
+                                                <span class="text">@Model.DogumTarihi.Value.Day Ağustos</span>
+                                                break;
+                                            case 9:
+                                                <span class="text">@Model.DogumTarihi.Value.Day Eylül</span>
+                                                break;
+                                            case 10:
+                                                <span class="text">@Model.DogumTarihi.Value.Day Ekim</span>
+                                                break;
+                                            case 11:
+                                                <span class="text">@Model.DogumTarihi.Value.Day Kasım</span>
+                                                break;
+                                            case 12:
+                                                <span class="text">@Model.DogumTarihi.Value.Day Aralık</span>
+                                                break;
+                                            default:
+                                                break;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <span class="text">Gizli</span>
+                                    }
+
+                                </li>
+                            }
+                            else
+                            {
+                                <li>
+                                    <span class="text">Gizli</span>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ui-block-title">
+            <div class="sharethis-inline-share-buttons" data-url="https://www.nesever.com.tr/Kullanici/Profil/@Model.KullaniciAdi" data-title="NeSever.com.tr"></div>
+        </div>
+
+        @*@if (!Model.ArkadasProfil)
+        {
+            <div class="ui-block-title">
+                <a href="javascript:" name="siparisler" class="h6 title">Siparişler</a>
+                <a href="javascript:" name="siparisler" id="siparisSayi" class="items-round-little bg-breez-light">@Model.SiparisSayi</a>
+            </div>
+            <div class="ui-block-title">
+                <a href="javascript:" name="adresler" class="h6 title">Adresler</a>
+                <a href="javascript:" name="adresler" id="adresSayi" class="items-round-little bg-birthday">@Model.AdresSayi</a>
+            </div>
+        }*@
+
+        <div class="ui-block-title">
+            <a href="javascript:" name="hediyeSepeti" class="h6 title">Hediye Sepeti</a>
+            <a href="javascript:" name="hediyeSepeti" id="hediyeSepetiSayi" class="items-round-little bg-breez">@Model.HediyeSepetiSayi</a>
+        </div>
+
+        @if (!Model.ArkadasProfil)
+        {
+            <div class="ui-block-title">
+                <a href="javascript:" name="indirimKuponlari" class="h6 title">İndirim Kuponları</a>
+                <a href="javascript:" name="indirimKuponlari" id="indirimKuponSayi" class="items-round-little bg-red">@Model.IndirimKuponuSayisi</a>
+            </div>
+            <div class="ui-block-title">
+                <a href="javascript:" name="mesajlar" class="h6 title">Mesajlar</a>
+                <a href="javascript:" name="mesajlar" id="mesajKutusuSayi" class="items-round-little bg-dribbble">@Model.MesajSayi</a>
+            </div>
+            @*<div class="ui-block-title">
+                <a href="javascript:" name="hediyeKarti" class="h6 title">Hediye Kartları</a>
+                <a href="javascript:" name="hediyeKarti" id="hediyeKartiSayi" class="items-round-little bg-green">@Model.HediyeKartSayi</a>
+            </div>*@
+            <div class="ui-block-title">
+                <a href="javascript:" name="bildirimler" class="h6 title">Bildirimler</a>
+                <a href="javascript:" name="bildirimler" id="profilBildirimSayisi" class="items-round-little bg-primary">@Model.BildirimSayi</a>
+            </div>
+            <div class="ui-block-title">
+                <a href="javascript:" name="arkadaslikIstekleri" class="h6 title">Arkadaşlık İstekleri</a>
+                <a href="javascript:" name="arkadaslikIstekleri" id="arkadaslikIstekleriSayi" class="items-round-little bg-blue">@Model.ArkadasIstekSayi</a>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="ui-block">
+    <div class="ui-block-title">
+        <h6 class="title">Arkadaşlar (@Model.ArkadasSayi)</h6>
+    </div>
+    <div class="ui-block-content">
+        @if (Model.ArkadasSayi == 0)
+        {
+            <ul class="widget w-faved-page">
+                <li style="margin: 1%; width: 100%;border-radius: 0% !important;">
+                    <label> Kayıtlı arkadaş bulunmamaktadır.</label>
+                </li>
+            </ul>
+        }
+        else
+        {
+            <a data-toggle="modal" data-target="#create-friend-group-add-friends" href="#" style="display: block; background-color: #ff5e3a; color: white; font-weight: 800; font-size: 10px; line-height: 35px;text-align:center">Arkadaşlara Göz At</a>
+        }
+    </div>
+</div>
+
+
+<div class="ui-block">
+    <div class="ui-block-title">
+        <h6 class="title">Fotoğraflar (@Model.KullaniciResimSayi)</h6>
+    </div>
+    <div class="ui-block-content">
+        @if (Model.KullaniciResimSayi > 0)
+        {
+            <button class="fotografButton" name="fotografGalerisi" style="width:100%">Galeriye Göz At </button>
+        }
+        else
+        {
+            <ul class="widget w-faved-page js-zoom-gallery">
+                <li style=" margin: 1%; width: 100%;border-radius: 0% !important;">
+                    <label>Kayıtlı fotoğraf bulunmamaktadır.</label>
+                </li>
+            </ul>
+        }
+        <div id="fotograflarModalBox" class="modal fade modal-has-swiper" tabindex="-1" role="dialog" aria-labelledby="open-photo-popup-v1" aria-hidden="true">
+            <div class="modal-dialog window-popup open-photo-popup open-photo-popup-v1" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="open-photo-thumb" id="fotograflarModalBoxSonuc">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="ui-block">
+    <div class="ui-block-title">
+        <h6 class="title">İlgi Alanları</h6>
+    </div>
+    <div class="ui-block-content">
+        <ul class="widget w-faved-page js-zoom-gallery">
+            @if (Model.KullaniciIlgiAlan.Any())
+            {
+                @foreach (NeSever.Common.Models.Uyelik.KullaniciIlgiAlanVM item in Model.KullaniciIlgiAlan)
+                {
+                    <li style=" margin: 1%; width: 100%;border-radius: 0% !important;">
+                        <label>@item.value</label>
+                    </li>
+                }
+            }
+            else
+            {
+                <li style=" margin: 1%; width: 100%;border-radius: 0% !important;">
+                    <label>Kayıtlı ilgi alan bulunmamaktadır.</label>
+                </li>
+            }
+        </ul>
+    </div>
+</div>
+
+<div class="ui-block">
+    <div class="ui-block-title">
+        <h6 class="title">Hobiler</h6>
+    </div>
+    <div class="ui-block-content">
+        <ul class="widget w-faved-page js-zoom-gallery">
+            @if (Model.KullaniciHobi.Any())
+            {
+                @foreach (NeSever.Common.Models.Uyelik.KullaniciHobiVM item in Model.KullaniciHobi)
+                {
+                    <li style=" margin: 1%; width: 100%;border-radius: 0% !important;">
+                        <label>@item.value</label>
+                    </li>
+                }
+            }
+            else
+            {
+                <li style=" margin: 1%; width: 100%;border-radius: 0% !important;">
+                    <label>Kayıtlı hobi bulunmamaktadır.</label>
+                </li>
+            }
+        </ul>
+    </div>
+</div>
+
+<div class="ui-block">
+    <div class="ui-block-title">
+        <h6 class="title">Profil Görüntülenme</h6>
+    </div>
+    <div class="ui-block-content">
+        <ul class="widget w-faved-page">
+            <li style=" margin: 1%; width: 100%;border-radius: 0% !important;">
+                <label style="color:black;">Profil <span style="font-weight:bold;">@Model.ProfilGoruntulenmeSayisi</span> kez görüntülenmiştir.</label>
+            </li>
+        </ul>
+    </div>
+</div>
+
+@if (Model.ProfilKullaniciMi == true)
+{
+    <div class="ui-block">
+        <div class="ui-block-title">
+            <h6 class="title">Profili Görüntülenenler</h6>
+        </div>
+        <div class="ui-block-content">
+            <ul class="widget w-faved-page">
+                <li style=" margin: 1%; width: 100%;border-radius: 0% !important;">
+                    @if (Model.BakilanProfilSayi > 0)
+                    {
+                        <label style="color:black;">
+                            Bakilan Profillerin
+                            <span style="font-weight:bold;"><a data-toggle="modal" data-target="#bakilan-profilleri-getir" href="#">Listesi</a></span>
+                        </label>
+                    }
+                    else
+                    {
+                        <label style="color:black;">
+                            Bakilan Profil
+                            <span style="font-weight:bold;">Bulunmamaktadır!</span>
+                        </label>
+                    }
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="modal fade" id="bakilan-profilleri-getir" tabindex="-1" role="dialog" aria-labelledby="bakilan-profilleri-getir" aria-hidden="true">
+        <div class="modal-dialog window-popup create-friend-group create-friend-group-add-friends" role="document">
+            <div class="modal-content">
+                <a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
+                    <svg class="olymp-close-icon"><use xlink:href="#olymp-close-icon"></use></svg>
+                </a>
+
+                <div class="modal-header">
+                    <h6 class="title">Bakılan Profillerin Listesi</h6>
+                </div>
+
+                <div class="modal-body">
+                    <div id="bakilanProfiller">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+<script src="/Themes/FrontEnd/src/js/main.js"></script>
+<script src="/js/ajax-bootstrap-select.js"></script>
+<script src="/js/ajax-bootstrap-select.tr-TR.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var options = {
+        ajax: {
+            url: '/Arkadas/ArkadasArama',
+            dataType: 'json',
+            data: {
+                query: '{{{q}}}',
+                kullaniciAdi:'@Html.Raw(Model.KullaniciAdi)'
+            }
+        },
+        locale: {
+            emptyTitle: 'Arkadaş Ara...'
+        },
+        log: 3,
+            preprocessData: function (data) {
+
+            var i, l = data.length, array = [];
+            if (l) {
+                for (i = 0; i < l; i++) {
+                    array.push($.extend(true, data[i], {
+                        text: data[i].Adi + " " + data[i].Soyadi,
+                        value: data[i].KullaniciAdi
+                    }));
+                }
+            }
+
+            return array;
+        }
+    };
+
+    $(".selectpicker")
+        .selectpicker()
+        .filter(".with-ajax")
+        .ajaxSelectPicker(options);
+    $("select").trigger("change");
+
+        $("#ProfileGit").click(function () {
+
+            var kullaniciAdi = $('#ArkadasAra').val();
+
+            var url = location.href.split('Profil');
+
+            var yeniUrl = url[0] + "Profil/" + kullaniciAdi;
+
+            window.open(
+                yeniUrl,
+                '_blank'
+            );
+
+        });
+
+    $("[name='fotografGalerisi']").on("click", function () {
+        $('#fotograflarModalBoxSonuc').loadingModal({ text: 'Lütfen Bekleyin...' });
+        $('#fotograflarModalBoxSonuc').loadingModal('animation', 'cubeGrid');
+        $('#fotograflarModalBoxSonuc').load('/Kullanici/FotografGalerisiModal?k=@Html.Raw(Model.KullaniciAdi)');
+        $('#fotograflarModalBox').modal('show');
+    });
+
+     $("[name='siparisler']").on("click", function () {
+        showLoading();
+        var middleContent = $('#middleContent');
+        middleContent.html('');
+        middleContent.load('/Sepet/SiparisListesiPartial', function () { hideLoading(); });
+     });
+
+     $("[name='adresler']").on("click", function () {
+            showLoading();
+            var middleContent = $('#middleContent');
+            middleContent.html('');
+            middleContent.load('/Sepet/AdresListesiPartial', function () { hideLoading(); });
+     });
+
+    $("[name='hediyeSepeti']").on("click", function () {
+        showLoading();
+        var middleContent = $('#middleContent');
+        middleContent.html('');
+            @if (Model.ArkadasProfil)
+            {
+                <text>middleContent.load('/Kullanici/HediyeSepetiPartial/?ap=@Html.Raw(Model.KullaniciAdi)', function () { hideLoading(); });</text>
+            }
+            else
+            {
+                <text>middleContent.load('/Kullanici/HediyeSepetiPartial', function () { hideLoading(); });</text>
+            }
+    });
+
+    $("[name='bildirimler']").on("click", function () {
+        var url = '/Kullanici/KullaniciBildirimOkundu/';
+        $.get(url, null, function (data) {
+
+        });
+        $('#profilBildirimSayisi').html('0');
+        $('#profilMobilBildirimSayisi').html('0');
+        var middleContent = $('#middleContent');
+        middleContent.html('');
+        middleContent.load('@Url.Action("BildirimlerPartial","Kullanici")');
+    });
+
+        $("[name='mesajlar']").on("click", function () {
+          var middleContent = $('#middleContent');
+          middleContent.html('');
+          middleContent.load('@Url.Action("MesajlarPartial","Kullanici")');
+        });
+        $("[name='hediyeKarti']").on("click", function () {
+          var middleContent = $('#middleContent');
+          middleContent.html('');
+          middleContent.load('@Url.Action("HediyeKartiPartial","Kullanici")');
+        });
+
+    $("[name='arkadaslikIstekleri']").on("click", function () {
+        var middleContent = $('#middleContent');
+        middleContent.html('');
+        middleContent.load('@Url.Action("ArkadaslikIstekleriPartial", "Kullanici")');
+    });
+
+    $("[name='indirimKuponlari']").on("click", function () {
+        var middleContent = $('#middleContent');
+        middleContent.html('');
+        middleContent.load('@Url.Action("IndirimKuponuPartial", "Kullanici")');
+    });
+});
+
+    function showLoading() {
+        $('#middleContent').loadingModal({ text: 'Lütfen Bekleyin...' });
+        $('#middleContent').loadingModal('animation', 'cubeGrid');
+    };
+
+    function hideLoading(id) {
+        $('#middleContent').loadingModal('destroy');
+    };
+
+     function arkadasListesiGetir() {
+            @if (Model.ArkadasSayi>0)
+            {
+                <text>
+                var data = { ap: '@Html.Raw(Model.KullaniciAdi)', p: 0 };
+                $.ajax({
+                    type: "POST",
+                    url: "/Kullanici/ArkadasListesiModalPartial/",
+                    data: data,
+                    success: function (result) {
+                        var arkadasListesi = $('#arkadasListesi');
+                        arkadasListesi.html('');
+                        arkadasListesi.html(result);
+                    },
+
+                    error: function(err) {
+
+                    }
+                });</text>
+
+               // <text>arkadasListesi.load('/Kullanici/ArkadasListesiModalPartial/?ap=@Html.Raw(Model.KullaniciAdi)', function () { });</text>
+            }
+    };
+
+    function yuklenirkenGoster() {
+        $('#arkadasListesi').loadingModal({ text: 'Lütfen Bekleyin...' });
+        $('#arkadasListesi').loadingModal('animation', 'cubeGrid');
+    };
+
+    function yuklemeyiBitir() {
+        $('#arkadasListesi').loadingModal('destroy');
+    };
+
+    arkadasListesiGetir();
+
+    function bakilanProfillerListesiGetir() {
+        var bakilanProfiller = $('#bakilanProfiller');
+        bakilanProfiller.html('');
+            @if (Model.BakilanProfilSayi>0)
+            {
+                <text>bakilanProfiller.load('/Kullanici/BakilanProfillerModalPartial/?ap=@Html.Raw(Model.KullaniciAdi)', function () { });</text>
+            }
+    };
+
+    function yukleGoster() {
+        $('#bakilanProfiller').loadingModal({ text: 'Lütfen Bekleyin...' });
+        $('#bakilanProfiller').loadingModal('animation', 'cubeGrid');
+    };
+
+    function yukleBitir() {
+        $('#bakilanProfiller').loadingModal('destroy');
+    };
+
+    bakilanProfillerListesiGetir();
+</script>

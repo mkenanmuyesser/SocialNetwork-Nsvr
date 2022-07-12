@@ -1,0 +1,57 @@
+﻿@model List<NeSever.Common.Models.Sayfa.BannerIcerikVM>
+
+<div id="carouselIndicators" class="carousel slide" data-ride="carousel" style="z-index:1;">
+    <ol class="carousel-indicators">
+        @{ int sayac = 0; }
+        @foreach (var item in Model)
+        {
+            <li data-target="#carouselIndicators" data-slide-to="@sayac" class="@(sayac==0?"active":"")"></li>
+            sayac++;
+        }
+    </ol>
+    <div class="carousel-inner">
+        @(sayac=0);
+        @foreach (var item in Model)
+        {
+            <div class="carousel-item @(sayac==0?"active":"")">
+                @if (string.IsNullOrEmpty(item.Link))
+                {
+                    <img class="d-block w-100" src="@item.ResimBase64">
+                }
+                else
+                {
+                    if (item.Link.Contains("nesever"))
+                    {
+                        <a href="@item.Link">
+                            <img class="d-block w-100" src="@item.ResimBase64">
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="@item.Link" target="_blank">
+                            <img class="d-block w-100" src="@item.ResimBase64">
+                        </a>
+                    }
+                }
+            </div>
+            sayac++;
+        }
+    </div>
+    <a class="carousel-control-prev" href="#carouselIndicators" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Önce</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselIndicators" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Sonra</span>
+    </a>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.carousel').carousel({
+            touch: true,
+            interval: 3000
+        })
+    });
+</script>

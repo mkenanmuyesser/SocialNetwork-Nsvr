@@ -1,0 +1,297 @@
+﻿@model NeSever.Common.Models.Urun.UrunDetayIcerikVM
+
+<section>
+    <div class="shop-product-detail">
+        <div class="container">
+            <div class="row">
+                <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <a href="javascript:;" onclick="history.go(-1);" class="btn btn-primary btn-sm">@Html.Raw("<= GERİ DÖN")</a>
+                </div>
+
+                <div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                    <div class="thumbs-wrap">
+                        <div class="small-thumbs-wrap js-zoom-gallery">
+                            @foreach (var resim in Model.Resimler)
+                            {
+                                <a href="@resim" class="small-thumb">
+                                    <img src="@resim" alt="product" style="max-height:50px;">
+                                </a>
+                            }
+                        </div>
+
+                        <div class="shop-product-detail-thumb">
+                            <img class="main-img" alt="product" src="@Model.Resimler.First()" style="max-height:550px;">
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                    <div class="shop-product-detail-content">
+                        <div class="main-content-wrap" style="margin-bottom:0px;">
+                            <div class="block-title">
+                                @*<a href="#" class="product-category">Kategori (breadcrump olmalı)</a>*@
+                                <div class="article-number">
+                                    <a href="javascript:;" class="product-category">@Model.MarkaAdi</a>
+                                </div>
+                                <div class="article-number">
+                                    SKU:<span>@Model.Sku</span>
+                                </div>
+                                @if (Model.SatilabilirUrun && Model.Fiyat > 0)
+                                {
+                                    <br />
+                                    <div class="block-price">
+                                        <div class="product-price" style="font-size:22px;">@(Model.Fiyat.ToString("#,##0.00"))&nbsp;TL</div>
+                                    </div>
+                                }
+                                <br />
+                                <span class="title bold" style="font-size: xx-large;">@Model.UrunAdi</span>
+                            </div>
+                        </div>
+
+                        @if (!(Model.SatilabilirUrun && Model.Fiyat > 0))
+                        {
+                            <br />
+                            <div>
+                                <a href="@Model.AdresUrl" onclick="yonlendirmeSayisiArttir(event,'@Model.UrunId','@Model.AdresUrl');" target="_blank" class="btn btn-purple btn-md with--icon" style="margin-bottom:20px;">
+                                    <svg class="olymp-shopping-bag-icon icon"><use xlink:href="#olymp-magnifying-glass-icon"></use></svg>
+                                    <div class="text">
+                                        <span class="title">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fiyat Gör&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                    </div>
+                                </a>
+                            </div>
+                        }
+
+                        @if (Model.SatilabilirUrun && Model.Fiyat > 0)
+                        {
+                            <br />
+                            <div class="inputs-wrap" style="margin-bottom:20px !important;">
+                                <div class="form-group label-floating quantity">
+                                    <label class="control-label">Adet</label>
+                                    <a href="#" class="quantity-minus">∨</a>
+                                    <input id="inpAdet" title="Adet" class="form-control" value="1" type="text" style="background-color:transparent;" readonly>
+                                    <a href="#" class="quantity-plus">∧</a>
+                                    <span class="material-input"></span>
+                                </div>
+                            </div>
+
+                            <a href="javascript:;" onclick="alisverisSepetineEkle('@Model.UrunId');" class="btn bg-blue btn-md with--icon" style="margin-bottom:20px;">
+                                <svg class="olymp-shopping-bag-icon icon"><use xlink:href="#olymp-shopping-bag-icon"></use></svg>
+                                <div class="text">
+                                    <span class="title">Alışveriş Sepetine Ekle</span>
+                                </div>
+                            </a>
+                        }
+
+                        <div>
+                            <a href="javascript:;" onclick="hediyeSepetineEkle('@Model.UrunId', '@Model.HediyeSepetiSayisi');" class="btn btn-warning btn-md with--icon" style="margin-bottom: 20px; background-color: #ff5e3a;">
+                                <svg class="olymp-shopping-bag-icon icon"><use xlink:href="#olymp-like-post-icon"></use></svg>
+                                <div class="text">
+                                    <span class="title">&nbsp;&nbsp;Hediye Sepetine Ekle&nbsp;&nbsp;</span>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="main-content-wrap">
+                            <div class="block-title">
+                                <h3 id="hediyeSepetiDurum" class="title bold" title="@Model.HediyeSepetiSayisi kişinin hediye sepetinde">
+                                    <img src="/Themes/FrontEnd/Icons/present icons/1.png" width="24" height="24" /> <span id="hediyeSepetiSayi"> @Model.HediyeSepetiSayisi</span>
+                                </h3>
+                                <h3 id="hediyeSepetiDurum" class="title bold" title="@Model.GoruntulenmeSayisi kez görüntülendi">
+                                    <img src="/Themes/FrontEnd/Icons/present icons/16.png" width="24" height="24" /> <span id="hediyeSepetiSayi"> @Model.GoruntulenmeSayisi</span>
+                                </h3>
+                            </div>
+                        </div>
+
+                        @*<p>Ürün kısa içerik/açıklama...</p>*@
+
+                        <!--<div class="inputs-wrap">
+                        <div class="form-group label-floating quantity">
+                                <label class="control-label">Quantity</label>
+                                <a href="#" class="quantity-minus">&#8744;</a>
+                                <input title="Qty" class="form-control" value="2" type="text">
+                                <a href="#" class="quantity-plus">&#8743;</a>
+                            </div>-->
+                        @*Bu kısımla ilgili değişiklik/ekleme yapabiliriz*@
+
+                        <!--<div class="form-group label-floating is-select">
+                                    <label class="control-label">Özellikler</label>
+                                    <select class="selectpicker form-control">
+                                        <option value="-1">Lütfen Seçiniz</option>
+                                        <option value="1">M</option>
+                                        <option value="2">L</option>
+                                    </select>
+                                </div>
+                        </div>-->
+                        @*<a href="#" class="btn btn-primary btn-md with--icon">
+                                <svg class="olymp-shopping-bag-icon icon"><use xlink:href="#olymp-shopping-bag-icon"></use></svg>
+                                <div class="text">
+                                    <span class="title">Arkadaşına Hediye Et</span>
+                                </div>
+                            </a>*@
+
+                        @if (!string.IsNullOrEmpty(Model.Etiketler))
+                        {
+                            <ul class="tags">
+                                <li>
+                                    Etiketler :
+                                </li>
+                                <li>
+                                    <a class="tags-item" href="">@Html.Raw(Model.Etiketler)</a>
+                                </li>
+                            </ul>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="pt-2">
+    <div class="container">
+        <div class="row">
+            <div class="col col-xl-8 m-auto col-lg-8 col-md-12 col-sm-12 col-12">
+                <div class="product-description">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#additional" role="tab">
+                                @Html.Raw(Model.Aciklama)
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<partial name="~/Views/Shared/Partials/UyeHediye.cshtml" />
+<partial name="~/Views/Shared/Partials/UyeAlisveris.cshtml" />
+
+<script type="text/javascript">
+    function hediyeSepetineEkle(id, adet) {
+        $.ajax({
+            url: "/Hediye/KullaniciHediyeEkle/" + id,
+            type: "GET",
+            dataType: 'json',
+            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+            success: function (data) {
+                if (data.error == true) {
+                    if (data.operation == "show") {
+                        hediyeSepetiShowModal(adet);
+                    }
+                    else if (data.operation == "message") {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Uyarı!',
+                            text: data.message,
+                            confirmButtonText: "Tamam"
+                        })
+                    }
+                }
+                else {
+                    $('#hediyeSepetiDurum').attr("title","@(Model.HediyeSepetiSayisi+1) kişinin hediye sepetinde");
+                    $('#hediyeSepetiSayi').html("@(Model.HediyeSepetiSayisi+1)");
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Evvet!',
+                        text: "Hediye sepetinize eklendi.",
+                        confirmButtonText: "Tamam"
+                    })
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log("hata!");
+            }
+        });
+    }
+
+    function hediyeSepetiShowModal(adet) {
+        $('#hediyeSepetiToplamUrunSayisi').html(adet);
+        $('#hediyeEkleModal').modal('show');
+    }
+
+    function alisverisSepetineEkle(id) {
+        var adet = $('#inpAdet').val();
+
+        var sendData = { UrunId: id, Adet: adet };
+
+        $.ajax({
+            url: "/Sepet/SepetUrunEkle",
+            type: "POST",
+            dataType: 'json',
+            data: sendData,
+            success: function (data) {
+                if (data.error == true) {
+                    if (data.operation == "show") {
+                        alisverisSepetiShowModal();
+                    }
+                    else if (data.operation == "message") {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Uyarı!',
+                            text: data.message,
+                            confirmButtonText: "Tamam"
+                        })
+                    }
+                }
+                else {
+                    $("#headerSepetUrunSayisi").empty();
+                    $("#headerMobilSepetUrunSayisi").empty();
+                    $("#headerSepetUrunSayisi").html(data.recordsTotal);
+                    $("#headerMobilSepetUrunSayisi").html(data.recordsTotal);
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Evvet!',
+                        text: "Alışveriş sepetinize eklendi.",
+                        confirmButtonText: "Tamam"
+                    })
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log("hata!");
+            }
+        });
+    }
+
+    function alisverisSepetiShowModal() {
+        $('#uyeAlisverisModal').modal('show');
+    }
+
+    function yonlendirmeSayisiArttir(e, id, url) {
+        e.preventDefault();
+
+        $.ajax({
+            url: "/Hediye/YonlendirmeSayisiArttir/" + id,
+            type: "POST",
+            dataType: 'json',
+            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+            success: function (data) {
+                if (data.result == true) {
+                    Swal.fire({
+                        //icon: 'warning',
+                        title: data.title,
+                        text: data.text,
+                        imageUrl: data.content,
+                        confirmButtonText: "Tamam"
+                    })
+                }
+                else {
+                    var link = document.createElement("a");
+                    link.id = "hdnLink";
+                    link.href = url;
+                    link.target = '_blank';
+
+                    setTimeout(function () {
+                        link.click();
+                    }, 100);
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log("hata!");
+            }
+        });
+    }
+     
+</script>

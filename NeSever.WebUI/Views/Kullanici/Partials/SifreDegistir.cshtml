@@ -1,0 +1,131 @@
+﻿@model NeSever.Common.Models.Uyelik.SifreDegistirVM
+
+<div class="ui-block">
+    <div class="ui-block-title">
+        <h6 class="title">Şifre Değiştir</h6>
+    </div>
+    <div class="ui-block-content">
+        <form id="SifreDegistirForm">
+            <div class="row">
+                <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="form-group label-floating is-empty">
+                        <label class="control-label">Şu Anki Şifre</label>
+                        <input asp-for="SuankiSifre" class="form-control" placeholder="" type="password" value="">
+                    </div>
+                </div>
+                <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div class="form-group label-floating is-empty">
+                        <label class="control-label">Yeni Şifre</label>
+                        <input asp-for="YeniSifre" class="form-control" placeholder="" type="password">
+                    </div>
+                </div>
+                <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div class="form-group label-floating is-empty">
+                        <label class="control-label">Yeni Şifre Tekrar</label>
+                        <input asp-for="YeniSifreTekrar" class="form-control" placeholder="" type="password">
+                    </div>
+                </div>
+
+                <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <button onclick="SifreKaydetGuncelle()" class="btn btn-primary btn-lg full-width">Şifreni Değiştir</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+    function SifreKaydetGuncelle() {
+        $("#SifreDegistirForm").validate({
+            rules: {
+                SuankiSifre: {
+                    required: true,
+                    maxlength: 20
+                },
+                YeniSifre: {
+                    required: true,
+                    minlength: 6,
+                    maxlength: 20
+                },
+                YeniSifreTekrar: {
+                    required: true,
+                    minlength: 6,
+                    maxlength: 20
+                }
+            },
+            messages: {
+                SuankiSifre: {
+                    required: "Boş Geçilemez",
+                    maxlength: "Karakter Sınırı Aşıldı"
+                },
+                YeniSifre: {
+                    required: "Boş Geçilemez",
+                    minlength: "Şifreniz En Az 6 Hane Olmalı",
+                    maxlength: "Karakter Sınırı Aşıldı"
+                },
+                YeniSifreTekrar: {
+                    required: "Boş Geçilemez",
+                    minlength: "Şifreniz En Az 6 Hane Olmalı",
+                    maxlength: "Karakter Sınırı Aşıldı"
+                }
+            },
+            submitHandler: function (form) {
+
+                if ($('#YeniSifre').val() != $('#YeniSifreTekrar').val()) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Uyarı!',
+                        text: "",
+                        html: 'Şifreler eşleşmiyor.',
+                        confirmButtonText: "Tamam"
+                    })
+                    return;
+                }
+
+                var sifreDegistirModel = $('#SifreDegistirForm').serializeObject();
+
+                $.ajax({
+                    url: "/Kullanici/SifreKaydetGuncelle",
+                    type: "POST",
+                    dataType: 'json',
+                    contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                    data: sifreDegistirModel,
+                    success: function (data) {
+                        if (data.Type == 2 && data.ErrorMessage == "sessionnull") {
+                            window.location.reload();
+                        }
+                        else if (data.Type == 2) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: data.ErrorMessage
+                            })
+                        }
+                        if (data.Type == 1) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Başarılı',
+                                text: "Şifre Değiştirme İşleminiz Gerçekleştirilmiştir.",
+                                confirmButtonText: "Tamam"
+                            }).then(function () {
+                                $('#SuankiSifre').val('');
+                                $('#YeniSifre').val('');
+                                $('#YeniSifreTekrar').val('');
+                            });
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        console.log("hata!");
+                    }
+                });
+            }
+        });
+    }
+</script>
+
+
+
+
+<script src="/Themes/FrontEnd/src/js/libs-init/libs-init.js"></script>

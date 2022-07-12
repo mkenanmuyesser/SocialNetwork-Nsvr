@@ -1,0 +1,290 @@
+﻿@model NeSever.Common.Models.Katalog.MarkaVM
+@{
+    ViewData["Title"] = "MarkaGuncelle";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="d-flex flex-row flex-column-fluid container">
+    <div class="main d-flex flex-column flex-row-fluid">
+        <div class="subheader py-2 py-lg-4 subheader-transparent" id="kt_subheader">
+            <div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+                <div class="d-flex align-items-center flex-wrap mr-1">
+                    <div class="d-flex align-items-baseline flex-wrap mr-5">
+                        <h5 class="text-dark font-weight-bold my-1 mr-5">Marka Kayıt</h5>
+
+                        <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
+                            <li class="breadcrumb-item">
+                                <a href="/Admin/Katalog" class="text-muted">Katalog</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="/Admin/Katalog/MarkaGuncelle" class="text-muted">Marka Kayıt</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center">
+                    <a href="/Admin/Katalog/MarkaGuncelle" class="btn btn-icon btn-circle btn-sm btn-light-success mr-1" onclick="loadPage()">
+                        <i class="ki ki-reload icon-nm"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="content flex-column-fluid" id="kt_content">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card card-custom gutter-b example example-compact">
+                   
+                        <form id="_form" method="post" enctype="multipart/form-data">
+                            <input id="hdnMarkaId" type="hidden" value="@Model.MarkaId" />
+                            <div class="card-body">
+                                <div class="form-group row">
+                                    <div class="col-lg-6">
+                                        <label>Marka Adı:</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="" asp-for="MarkaAdi" />
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">
+                                                    <i class="la la-bookmark-o"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label>Web Sitesi:</label>
+                                        <div class="input-group">
+                                            <select asp-for="WebSiteId" asp-items="@(new SelectList(Model.WebSiteListesi,"WebSiteId","WebSiteAdi"))" class="form-control datatable-input">                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-lg-6">
+                                        <label>Anasayfada Gösterilsin Mi:</label>
+                                        <div class="input-group">
+                                            <input asp-for="AnasayfadaGosterilsin" data-switch="true" type="checkbox" data-on-color="success" data-off-color="danger" data-on-text="Evet" data-off-text="Hayır" />
+
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <label>Sıra:</label>
+                                        <div class="input-group">
+                                            <input class="form-control" type="number" asp-for="Sira">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">
+                                                    <i class="la la-sort-numeric-down"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <label>AktifMi :</label>
+                                        <div class="input-group">
+                                            <input asp-for="AktifMi" data-switch="true" type="checkbox" data-on-color="success" data-off-color="danger" data-on-text="Evet" data-off-text="Hayır" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-lg-3">
+                                        <label>Açıklama:</label>
+                                        <div class="input-group">
+                                            <input class="form-control" type="text" asp-for="Aciklama">
+
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <label>Meta Description:</label>
+                                        <div class="input-group">
+                                            <input class="form-control" type="text" asp-for="MetaDescription">
+                                        
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <label>Meta Title:</label>
+                                        <div class="input-group">
+                                            <input class="form-control" type="text" asp-for="MetaTitle">
+
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <label>Meta Keywords:</label>
+                                        <div class="input-group">
+                                            <input class="form-control" type="text" asp-for="MetaKeywords">
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-lg-12">
+                                        <div class="fileinput fileinput-new" data-provides="fileinput">
+                                            <div class="fileinput-new thumbnail" style="height: 100px; float:left;max-height:300px;max-width:300px" id="fileInputDiv">
+
+                                                @if (string.IsNullOrEmpty(Model.ResimBase64))
+                                                {
+
+                                                    <img src="~/Themes/Admin/design/noimage.png" id="emptyFile" style="max-height:200px;max-width:150px" />
+
+                                                }
+                                                else
+                                                {
+
+
+                                                    {<ul>
+                                                            <li>
+                                                                <img style="max-height:200px;max-width:150px" src="data:image/png;base64,@Model.ResimBase64" />
+                                                            </li>
+
+
+
+
+                                                        </ul>
+                                                    }
+
+
+                                                }
+                                            </div>
+                                            <div class="fileinput-preview fileinput-exists thumbnail" style=" max-height: 200px;float:left"> </div>
+                                            <div style="float:left">
+                                                <span class="btn default btn-file">
+
+                                                    <input id="file" name="file" type="file">
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="card-footer">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        
+                                        @if (Model.MarkaId > 0)
+                                        {
+                                        <button type="submit"  id="submitForm" class="btn btn-success mr-2">Güncelle</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="submit"  id="btnKaydet" class="btn btn-primary mr-2">Kaydet</button>
+                                        }
+                                        <button type="button" class="btn btn-secondary" onclick='location.reload();'>İptal</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+
+    <script src="/Themes/Admin/dist/assets/plugins/custom/ckeditor/ckeditor-classic.bundle.js?v=7.0.5"></script>
+    <script src="/Themes/Admin/dist/assets/js/pages/crud/forms/widgets/bootstrap-switch.js?v=7.0.5"></script>
+    <script src="/Themes/Admin/dist/assets/js/pages/crud/forms/widgets/bootstrap-datepicker.js?v=7.0.5"></script>
+
+<script type="text/javascript">
+    function loadPage() {
+        location.reload();
+    }
+
+    FormValidation.formValidation(document.getElementById('_form'),
+        {
+            fields: {
+                MarkaAdi: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Zorunlu Alan.'
+                        }
+                    }
+                },                   
+            },
+            plugins: {
+                submitButton: new FormValidation.plugins.SubmitButton(),
+                bootstrap: new FormValidation.plugins.Bootstrap({
+                    eleInvalidClass: '',
+                    eleValidClass: '',
+                })
+            }
+        }
+    ).on('core.form.valid', function () {
+        var data = new FormData($('#_form')[0]);
+        data.append('MarkaId', $('#hdnMarkaId').val());
+        data.append('AnasayfadaGosterilsin', $('#AnasayfadaGosterilsin').prop('checked'));
+        data.append('Sira', $('#Sira').val());
+        $.ajax({
+            url: '/Admin/Katalog/MarkaGuncelle',
+            data: data,
+            type: "Post",
+            contentType: false,
+            processData: false,
+            success: function (result) {
+                if (result.MarkaId > 0) {
+                    $('#hdnMarkaId').val(result.MarkaId);
+
+                    $("#btnKaydet").removeClass('btn-primary');
+                    $("#btnKaydet").addClass('btn-success');
+                    $("#btnKaydet").html('Güncelle');
+                    window.history.pushState("", "", "" + result.MarkaId);
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'İşlem Başarılı!',
+                        text: '',
+                        showCloseButton: true,
+                        confirmButtonText: "Tamam",
+                        cancelButtonText: "İptal",
+                    });
+                }
+                else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'İşlem Sırasında Hata Oluştu!',
+                        text: '',
+                        showCloseButton: true,
+                        confirmButtonText: "Tamam",
+                        cancelButtonText: "İptal",
+                    });
+                }
+
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.status);
+                alert(thrownError);
+            }
+        });
+    });
+
+    function readURL(input) {
+        $('#emptyFile').remove();
+        $('#fileInputDiv').empty();
+        $('#fileInputDiv').append('<ul style="list-style-type:circle"');
+        for (var i = 0; i < input.files.length; i++) {
+            if (input.files[i] && input.files[i]) {
+                var reader = new FileReader();
+                var reader = new FileReader();
+                reader.onload = function (e) {
+
+                    $('#fileInputDiv').append('<li><img  style="max-height:200px;max-width:150px" src="' + e.target.result + '"></img></li>');
+                }
+                reader.readAsDataURL(input.files[i]);
+            }
+
+        }
+        $('#fileInputDiv').append('</ul');
+    }
+    $("#file").change(function () {
+        readURL(this);
+    });
+</script>
+}
+
+

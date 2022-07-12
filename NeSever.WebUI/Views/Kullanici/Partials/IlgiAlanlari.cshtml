@@ -1,0 +1,158 @@
+﻿@model NeSever.Common.Models.Uyelik.KullaniciHobiVeIlgiAlanVM
+
+<div class="ui-block">
+    <div class="ui-block-title">
+        <h6 class="title">İlgi Alanları</h6>
+    </div>
+    <div class="ui-block-content">
+        <form id="IlgiAlanForm">
+            <div class="row">
+                <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div class="form-group">
+                        <input asp-for="IlgiAlan" class="form-control" placeholder="İlgi Alanlarınız" name="ilgiAllanlari">
+                    </div>          
+                </div>
+
+                <div class="col col-lg-6 col-md-6 col-sm-12 col-12">                  
+                    <button type="button" class="btn btn-secondary btn-lg full-width">İptal</button>
+                    <button class="btn btn-primary btn-lg full-width" onclick="ilgiAlanKaydet();">Kaydet</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        var ilgiAlanInput = document.querySelector('input[name = "ilgiAllanlari"]');    
+
+        var ilgiAlanTagify = new Tagify(ilgiAlanInput, {
+            enforceWhitelist: true,
+            skipInvalid: true,
+            dropdown: {
+                closeOnSelect: false,
+                enabled: 0,
+                classname: 'users-list',
+                searchKeys: ['value']
+            },
+            templates: {
+                tag: ilgiAlanTagTemplate,
+                dropdownItem: ilgiAlanSuggestionItemTemplate
+            },
+            whitelist: @Html.Raw(Model.IlgiAlan),
+        });
+
+        ilgiAlanTagify.on('input', async (e) => {
+            await onIlgiAlanInput(e, ilgiAlanTagify);
+        });
+    });
+
+    async function onIlgiAlanInput(e, tagify) {
+
+        var value = e.detail.value;
+
+        if (!value) return;
+
+        if (this.fetchSuggestionsTimer) {
+            clearTimeout(this.fetchSuggestionsTimer);
+        }
+
+        this.fetchSuggestionsTimer = setTimeout(async () => {
+            tagify.settings.whitelist.length = 0;
+
+            tagify.loading(true).dropdown.hide.call(tagify);
+            try {
+                var response = await axios.get(`/Kullanici/IlgiAlanGetir?query=${value}`);
+                var content = response.data;
+            } finally {
+                tagify.settings.whitelist.push(...content, ...tagify.value)
+                tagify.loading(false).dropdown.show.call(tagify, e.detail.value);
+                console.log(value);
+            }
+        }, 800);
+    }
+
+    function onDropdownShow(e) {
+        var dropdownContentElm = e.detail.tagify.DOM.dropdown.content;
+    }
+
+    function onSelectSuggestion(e) {
+
+    }
+
+    function ilgiAlanTagTemplate(tagData) {
+        return `
+        <tag title="${tagData.value}"
+                contenteditable='false'
+                spellcheck='false'
+                tabIndex="-1"
+                class="tagify__tag ${tagData.class ? tagData.class : ""}"
+                ${this.getAttributes(tagData)}>
+            <x title='' class='tagify__tag__removeBtn' role='button' aria-label='remove tag'></x>
+            <div>
+                <span class='tagify__tag-text'>${tagData.value}</span>
+            </div>
+        </tag>
+    `
+    }
+
+    function ilgiAlanSuggestionItemTemplate(tagData) {
+        return `
+        <div ${this.getAttributes(tagData)}
+            class='tagify__dropdown__item ${tagData.class ? tagData.class : ""}'
+            tabindex="0"
+            role="option">
+            <strong>${tagData.value}</strong>
+        </div>
+    `
+    }
+
+    function ilgiAlanKaydet() {
+        $("#IlgiAlanForm").validate({
+            submitHandler: function (form) {
+                var kullaniciIlgiAlanlar = "{'ilgiAlanlar': " + $('#IlgiAlan').val() + "}";
+
+                if ($('#IlgiAlan').val() == "") {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Uyarı!',
+                        text: "Böyle Bir İlgi Alanı Bulunamadı Veya Hepsi Kaldırıldı!",
+                        confirmButtonText: "Tamam"
+                    })
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Kullanici/IlgiAlaniKaydetGuncelle",
+                    dataType: 'json',
+                    contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                    data: {
+                        'ilgiAlanlar': kullaniciIlgiAlanlar
+                    },
+                    success: function (result) {
+                        if (result == true) {
+                            if ($('#IlgiAlan').val() != "") {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Evvet!',
+                                    text: "İşlem Başarılı",
+                                    confirmButtonText: "Tamam"
+                                })
+                            }
+                        }
+                        else {
+                            window.location.reload();
+                        }
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+            }
+        });
+    }
+    
+</script>

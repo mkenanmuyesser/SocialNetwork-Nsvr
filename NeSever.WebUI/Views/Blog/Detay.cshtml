@@ -1,0 +1,131 @@
+﻿@model NeSever.Common.Models.FrontEnd.BlogDetaySayfaVM
+@{
+    ViewData["Title"] = "Blog Detay";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="container">   
+    <div class="row">    
+        <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <a href="javascript:;" onclick="history.go(-1);" class="btn btn-primary btn-sm">@Html.Raw("<= GERİ DÖN")</a>
+        </div>
+
+        <div class="col col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12">           
+            <div class="ui-block mb60">
+                <article class="hentry blog-post single-post single-post-v3">
+                    <a href="#" class="post-category bg-primary">@Model.BlogIcerik.BlogKategoriAdi</a>
+
+                    <h1 class="post-title">@Model.BlogIcerik.Baslik</h1>
+
+                    <div class="author-date">
+                        <div class="post__date">
+                            <time class="published" datetime="@Model.BlogIcerik.YayinTarihi">
+                                @Model.BlogIcerik.YayinTarihi
+                            </time>
+                        </div>
+                    </div>
+
+                    <div class="post-thumb" style="margin:10px 0px 10px 0px; text-align:center;">
+                        @*<video class="gp-video-element" style="width:100%" autoplay="autoplay" loop="loop" muted="muted">
+                        <source type="video/mp4" src="/Themes/FrontEnd/src/videos/post_video.mp4" />
+                    </video>*@
+                        <img src="@Model.BlogIcerik.ResimBase64" alt="photo" style="max-height: 500px; width: initial; display: initial;">
+                    </div>
+
+                    <div class="post-content-wrap">
+                        <div class="control-block-button post-control-button">
+                            <a href="#" class="post-add-icon inline-items">
+                                <svg class="olymp-speech-balloon-icon"><use xlink:href="#olymp-star-icon"></use></svg>
+                                <span>@Model.BlogIcerik.OkunmaSayisi kez okundu</span>
+                            </a>
+
+                            <div class="sharethis-inline-share-buttons"></div>
+                        </div>
+
+                        <div class="post-content" style="min-height:200px;">
+                            @Html.Raw(Model.BlogIcerik.Icerik)
+                            @if (!string.IsNullOrEmpty(Model.BlogIcerik.Etiketler))
+                            {
+                                <p>
+                                    <b>Etiketler : </b>@Html.Raw(Model.BlogIcerik.Etiketler)
+                                </p>
+                            }
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            @if (Model.BlogIcerik.SecilenUrunListesi.Any())
+            {
+                <div class="related-products">
+                    <div class="row">
+                        <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <div class="crumina-module crumina-heading with-title-decoration">
+                                <h5 class="heading-title">Sana Özel Hediyeler</h5>
+                            </div>
+                        </div>
+                        <div class="owl-carousel owl-theme">
+                            @foreach (var urun in Model.BlogIcerik.SecilenUrunListesi)
+                            {
+                                <div class="shop-product-item">
+                                    <div class="product-thumb">
+                                        <a href="/Hediye/Detay/@urun.UrunId">
+                                            <img src="@urun.ResimUrl" alt="product">
+                                        </a>
+                                    </div>
+                                    <div class="product-content">
+                                        <div class="block-title">
+                                            <a href="/Hediye/Detay/@urun.UrunId" class="product-category">@urun.MarkaAdi</a>
+                                            <a href="/Hediye/Detay/@urun.UrunId" class="h5 title">@urun.UrunAdi</a>
+                                        </div>
+                                        <div class="block-price">
+                                            @*<div class="product-price">## kez eklendi</div>*@
+
+                                            <a href="#" class="in-cart bg-danger">
+                                                <svg class="olymp-like-post-icon"><use xlink:href="#olymp-like-post-icon"></use></svg>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="col col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">
+            <partial name="~/Views/Blog/Partials/OneCikanBlogIcerik.cshtml" model="@Model.OneCikanBlogIcerikList" />
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.owl-carousel').owlCarousel({
+                loop: true,
+                margin: 10,
+                responsiveClass: true,
+                //responsive: {
+                //    0: {
+                //        items: 1,
+                //        nav: true
+                //    },
+                //    600: {
+                //        items: 3,
+                //        nav: false
+                //    },
+                //    1000: {
+                //        items: 5,
+                //        nav: true,
+                //        loop: false,
+                //        margin: 20
+                //    }
+                //}
+            })
+        })
+    </script>
+}

@@ -1,0 +1,184 @@
+﻿@model NeSever.Common.Models.FrontEnd.HediyeAramaSayfaSonucVM
+@{
+    ViewData["Title"] = "Hediye Ara";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .sk .dropdown-menu {
+        max-height: 225px !important;
+    }
+</style>
+
+<div class="container">
+    <div class="row ">
+        <div class="col col-xl-9 col-lg-9 col-md-9 col-sm-9 col-9">
+            <ul class="cat-list-bg-style align-left sorting-menu cat-list__item-bg-blue" style="margin:5px;">
+                <li class="cat-list__item"><a href="/" class="" style="color:#ff5e3a; font-size: small; padding:10px;">ANASAYFA</a></li>
+                @if (Model.SayfaKategori.HasValue)
+                {
+                    <li class="cat-list__item"><a href="/Hediye/Ara?q=" class="" style="font-size: small; padding:10px;">Tümü</a></li>
+
+                    var breadcrumbL3 = Model.KategoriIcerikList.SingleOrDefault(p => p.KategoriId == Model.SayfaKategori);
+                    var breadcrumbL2 = breadcrumbL3 == null ? null : Model.KategoriIcerikList.SingleOrDefault(p => p.KategoriId == breadcrumbL3.UstKategoriId);
+                    var breadcrumbL1 = breadcrumbL2 == null ? null : Model.KategoriIcerikList.SingleOrDefault(p => p.KategoriId == breadcrumbL2.UstKategoriId);
+
+                    if (breadcrumbL1 != null)
+                    {
+                        <li class="cat-list__item"><a href="/Hediye/Ara?sk=@breadcrumbL1.KategoriId&@breadcrumbL1.Parametre" class="" style="font-size: small; padding:10px;">@breadcrumbL1.KategoriAdi</a></li>
+                    }
+
+                    if (breadcrumbL2 != null)
+                    {
+                        <li class="cat-list__item"><a href="/Hediye/Ara?sk=@breadcrumbL2.KategoriId&@breadcrumbL2.Parametre" class="" style="font-size: small; padding:10px;">@breadcrumbL2.KategoriAdi</a></li>
+                    }
+
+                    if (breadcrumbL3 != null)
+                    {
+                        <li class="cat-list__item active"><a href="/Hediye/Ara?sk=@breadcrumbL3.KategoriId&@breadcrumbL3.Parametre" class="" style="font-size: small; padding:10px;">@breadcrumbL3.KategoriAdi</a></li>
+                    }
+                }
+                else
+                {
+                    <li class="cat-list__item active"><a href="/Hediye/Ara?q=" class="" style="font-size:small; padding:10px;">Tümü</a></li>
+                }
+            </ul>
+        </div>
+        <div class="col col-xl-3 col-lg-3 col-md-3 col-sm-3 col-3 align-right">
+            <a class="cat-list__item btn btn-border-think custom-color c-grey btn-md-2" href="" style="font-size:x-small;">Toplam : @Model.HediyeIcerikList.TotalItemCount.ToString()</a>
+        </div>
+    </div>
+
+    @if (Model.KategoriBannerIcerikList.Any())
+    {
+        <div class="row sorting-container" id="posts-grid-1" data-layout="masonry">
+            @foreach (var kategoriBannerIcerik in Model.KategoriBannerIcerikList)
+            {
+                <div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 sorting-item community">
+                    <div class="ui-block">
+                        <article class="hentry blog-post blog-post-v2">
+                            <div class="post-thumb">
+                                <a href="@kategoriBannerIcerik.Parametre">
+                                    <img class="lazy" src="/Uploads/Site/loading_800_300.gif" data-src="@kategoriBannerIcerik.Resim" alt="@kategoriBannerIcerik.Aciklama" title="@kategoriBannerIcerik.Aciklama">
+                                </a>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="ui-block responsive-flex1200">
+                <div class="ui-block-title">
+                    <div class="w-select">
+                        <div class="title">Kategoriler :</div>
+                        <fieldset class="form-group">
+                            <select id="sk" name="sk" class="selectpicker form-control sk">
+                                @if (Model.SayfaKategori == null)
+                                {
+                                    <option value="">TÜMÜ</option>
+                                }
+
+                                @if (Model.KategoriIcerikList.Any(p => p.KategoriId == Model.SayfaKategori || p.UstKategoriId == Model.SayfaKategori))
+                                {
+                                    @foreach (var kategoriIcerik in Model.KategoriIcerikList.Where(p => p.KategoriId == Model.SayfaKategori || p.UstKategoriId == Model.SayfaKategori))
+                                    {
+                                        if (Model.SayfaKategori.HasValue && Model.SayfaKategori.Value == kategoriIcerik.KategoriId)
+                                        {
+                                            <option value="sk=@kategoriIcerik.KategoriId&@kategoriIcerik.Parametre" selected="@(Model.SayfaKategori.HasValue && Model.SayfaKategori.Value ==  kategoriIcerik.KategoriId?"selected":null)" style="font-weight:bolder;">@kategoriIcerik.KategoriAdi</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="sk=@kategoriIcerik.KategoriId&@kategoriIcerik.Parametre" selected="@(Model.SayfaKategori.HasValue && Model.SayfaKategori.Value ==  kategoriIcerik.KategoriId?"selected":null)" style="font-weight:bold;">@kategoriIcerik.KategoriAdi</option>
+
+                                            @if (Model.KategoriIcerikList.Any(p => p.UstKategoriId == kategoriIcerik.KategoriId))
+                                            {
+                                                foreach (var altKategoriIcerik in Model.KategoriIcerikList.Where(p => p.UstKategoriId == kategoriIcerik.KategoriId))
+                                                {
+                                                    <option value="sk=@altKategoriIcerik.KategoriId&@altKategoriIcerik.Parametre">=> @altKategoriIcerik.KategoriAdi</option>
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    <option value="">TÜMÜ</option>
+                                }
+                            </select>
+                        </fieldset>
+                    </div>
+
+                    <div class="w-select">
+                        <form class="w-search" style="width:100%;" onsubmit="event.preventDefault(); ara();">
+                            <div class="form-group">
+                                <input id="q" name="q" class="form-control" type="text" placeholder="Ara..." value="@(Context.Request.Query["q"])" style="height:40px;">
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="w-select">
+                        <fieldset class="form-group">
+                            <select id="s" name="s" class="selectpicker form-control">
+                                <option value="TEY" selected="@(Model.HediyeSiralama == "TEY" || Model.HediyeSiralama == "" ? "selected" :null)">Tarih (En Yeni)</option>
+                                <option value="TEE" selected="@(Model.HediyeSiralama == "TEE" ? "selected" :null)">Tarih (En Eski)</option>
+                                <option value="FGAR" selected="@(Model.HediyeSiralama == "FGAR" ? "selected" :null)">Fiyata Göre (Artan)</option>
+                                <option value="FGAZ" selected="@(Model.HediyeSiralama == "FGAZ" ? "selected" :null)">Fiyata Göre (Azalan)</option>
+                            </select>
+                        </fieldset>
+                    </div>
+
+                    <a href="javascript:ara();" class="btn btn-blue btn-md-2" style="display:block;">Filtrele</a>
+                    @*<a href="javascript:temizle();" class="btn btn-secondary btn-md-2">Temizle</a>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="pt-1">
+    <div class="container">
+        <div class="row">
+            <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <partial name="~/Views/Hediye/Partials/UrunIcerik.cshtml" model="@Model.HediyeIcerikList" />
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts{
+    <script type="text/javascript">
+        $("#sk").change(function () {
+            window.location = '/Hediye/Ara?'+this.value;
+        });
+
+        function ara() {
+            var s = $('#s').children("option:selected").val();
+            var q = $('#q').val();
+            var m = '@Context.Request.Query["m"]';
+            var k = '@Context.Request.Query["k"]';
+            var w = '@Context.Request.Query["w"]';
+            var sk = '@Context.Request.Query["sk"]';
+            var kb = '@Context.Request.Query["kb"]';
+            var location = "/Hediye/Ara" + "?s=" + s + (sk == "" || sk == '' || sk == null ? "" : ("&sk=" + sk)) + (q == "" || q == '' || q == null ? "" : ("&q=" + q)) + (m == "" || m == '' || m == null ? "" : ("&m=" + m)) + (k == "" || k == '' || k == null ? "" : ("&k=" + k)) + (w == "" || w == '' || w == null ? "" : ("&w=" + w)) + (kb == "" || kb == '' || kb == null ? "" : ("&kb=" + kb));
+            window.location = location;
+        }
+
+        $('.lazy').Lazy({
+            scrollDirection: 'vertical',
+            effect: 'fadeIn',
+            visibleOnly: true,
+            onError: function (element) {
+                console.log('error loading ' + element.data('src'));
+            }
+        });
+
+        function temizle() {
+            var location = "/Hediye/Ara?q=";
+            window.location = location;
+        }
+    </script>
+}

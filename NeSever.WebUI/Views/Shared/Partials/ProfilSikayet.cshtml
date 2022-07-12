@@ -1,0 +1,71 @@
+﻿@model NeSever.Common.Models.Uyelik.ProfilSikayetVM
+
+<form id="ProfilSikayetForm">
+    <input type="hidden" asp-for="SikayetEdilenKullaniciId" />
+    <div class="row">
+        <div class="col col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="form-group label-floating">
+                <textarea asp-for="SikayetSebebi" class="form-control" placeholder="Şikayet Sebebinizi Buraya Yazınız..."></textarea>
+            </div>
+        </div>
+        <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <button class="btn btn-primary btn-lg full-width">Gönder</button>
+        </div>
+    </div>
+</form>
+
+<script src="/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script type="text/javascript">
+    $("#ProfilSikayetForm").validate({     
+        rules: {
+            SikayetSebebi: {
+                required: true,
+                maxlength: 250
+            }
+        },
+        messages: {
+            SikayetSebebi: {
+                required: "Boş Geçilemez",
+                maxlength: "Karakter Sınırı Aşıldı"
+            }
+        },
+        submitHandler: function (form) {
+            var model = $("#ProfilSikayetForm").serializeObject();
+            $.ajax({
+                url: "/Kullanici/ProfilSikayetKaydet",
+                type: "POST",
+                dataType: 'json',
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                data: model,
+                success: function (data) {
+                    $('#ProfilSikayetModal').modal('hide');
+
+                    if (data.error == true) {
+                         Swal.fire({
+                            icon: 'error',
+                            title: 'Upps',
+                             text: data.message,
+                            confirmButtonText: "Tamam"
+                        })
+                    }
+                    else {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Evvet!',
+                            text: data.message,
+                            confirmButtonText: "Tamam"
+                        })
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Upps',
+                        text: "Bilinmeyen bir hata oluştu",
+                        confirmButtonText: "Tamam"
+                    })
+                }
+            });
+        }
+    });
+</script>

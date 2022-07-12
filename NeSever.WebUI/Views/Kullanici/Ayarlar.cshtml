@@ -1,0 +1,214 @@
+﻿@{
+    ViewData["Title"] = "Ayarlar";
+    Layout = "~/Views/Shared/_ProfileLayout.cshtml";
+}
+
+@section Content {
+    <div class="profile-settings-responsive">
+
+        <a href="#" class="js-profile-settings-open profile-settings-open">
+            <i class="fa fa-angle-right" aria-hidden="true"></i>
+            <i class="fa fa-angle-left" aria-hidden="true"></i>
+        </a>
+        <div class="mCustomScrollbar" data-mcs-theme="dark">
+            <div class="ui-block">
+                <div class="your-profile">
+                    <div class="ui-block-title ui-block-title-small">
+                        <h6 class="title"><a href="/Kullanici/Ayarlar">Ayarlar</a></h6>
+                    </div>
+
+                    <div class="ui-block-title">
+                        <a href="javascript:" name="kisiselBilgi" class="h6 title">Kişisel Bilgiler</a>
+                    </div>
+                    <div class="ui-block-title">
+                        <a href="javascript:" name="hesapAyarlari" class="h6 title">Hesap Ayarları</a>
+                    </div>
+                    <div class="ui-block-title">
+                        <a href="javascript:" name="kullaniciAdiDegistir" class="h6 title">Kullanıcı Adı Değiştir</a>
+                    </div>
+                    <div class="ui-block-title">
+                        <a href="javascript:" name="sifreDegistir" class="h6 title">Şifre Değiştir</a>
+                    </div>
+                    <div class="ui-block-title">
+                        <a href="javascript:" name="hobiler" class="h6 title">Hobiler</a>
+                    </div>
+                    <div class="ui-block-title">
+                        <a href="javascript:" name="ilgiAlanlari" class="h6 title">İlgi Alanları</a>
+                    </div>
+                    <div class="ui-block-title">
+                        <a href="javascript:" name="hesapKapatma" class="h6 title">Hesap Kapatma</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col col-xl-3 order-xl-1 col-lg-3 order-lg-1 col-md-12 order-md-2 col-sm-12 col-12 responsive-display-none">
+            <div class="ui-block">
+                <div class="your-profile">
+                    <div class="ui-block-title">
+                        <span><a href="/Kullanici/Ayarlar">Ayarlar</a></span>
+                    </div>
+                    <div class="ui-block-title">
+                        <a href="javascript:" name="kisiselBilgi" class="h6 title">Kişisel Bilgiler</a>
+                    </div>
+                    <div class="ui-block-title">
+                        <a href="javascript:" name="hesapAyarlari" class="h6 title">Hesap Ayarları</a>
+                    </div>
+                    <div class="ui-block-title">
+                        <a href="javascript:" name="kullaniciAdiDegistir" class="h6 title">Kullanıcı Adı Değiştir</a>
+                    </div>
+                    <div class="ui-block-title">
+                        <a href="javascript:" name="sifreDegistir" class="h6 title">Şifre Değiştir</a>
+                    </div>
+                    <div class="ui-block-title">
+                        <a href="javascript:" name="hobiler" class="h6 title">Hobiler</a>
+                    </div>
+                    <div class="ui-block-title">
+                        <a href="javascript:" name="ilgiAlanlari" class="h6 title">İlgi Alanları</a>
+                    </div>
+                    <div class="ui-block-title">
+                        <a href="javascript:" name="hesapKapatma" class="h6 title">Hesap Kapatma</a>
+                    </div>
+                </div>
+            </div>
+
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    $("[name='kisiselBilgi']").on("click", function () {
+                      var middleContent = $('#middleContent');
+                      middleContent.html('');
+                      middleContent.load('@Url.Action("KisiselBilgiPartial","Kullanici")');
+                    });
+
+                    $("[name='hesapAyarlari']").on("click", function () {
+                      var middleContent = $('#middleContent');
+                      middleContent.html('');
+                      middleContent.load('@Url.Action("HesapAyarlariPartial","Kullanici")');
+                    });
+
+                    $("[name='kullaniciAdiDegistir']").on("click", function () {
+                      var middleContent = $('#middleContent');
+                      middleContent.html('');
+                      middleContent.load('@Url.Action("KullaniciAdiModalPartial", "Kullanici")');
+                    });
+
+                    $("[name='sifreDegistir']").on("click", function () {
+                      var middleContent = $('#middleContent');
+                      middleContent.html('');
+                      middleContent.load('@Url.Action("SifreDegistirPartial","Kullanici")');
+                    });
+
+                    $("[name='hobiler']").on("click", function () {
+                      var middleContent = $('#middleContent');
+                      middleContent.html('');
+                      middleContent.load('@Url.Action("HobilerPartial","Kullanici")');
+                    });
+
+                    $("[name='ilgiAlanlari']").on("click", function () {
+                      var middleContent = $('#middleContent');
+                      middleContent.html('');
+                      middleContent.load('@Url.Action("IlgiAlanlariPartial","Kullanici")');
+                    });
+
+                    $("[name='hesapKapatma']").on("click", function () {
+                      var middleContent = $('#middleContent');
+                      middleContent.html('');
+                      middleContent.load('@Url.Action("HesapKapatmaPartial","Kullanici")');
+                    });
+                });
+            </script>
+        </div>
+
+        <div id="middleContent" class="col col-xl-9 order-xl-2 col-lg-9 order-lg-2 col-md-12 order-md-1 col-sm-12 col-12">
+            <div class="row">
+                <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div class="ui-block">
+                        <div class="widget w-action">
+                            <img src="/Uploads/Site/rsz_nesever-logo-white.png" alt="NeSever">
+                            <div class="content">
+                                @*<h4 class="title">Kişisel Bilgi</h4>*@
+                                @*<span>Profilinizle ilgili bilgileri güncelleyebilirsiniz.</span>*@
+                                <a href="javascript:" name="kisiselBilgi" class="btn btn-bg-secondary btn-md">Kişisel Bilgiler</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div class="ui-block">
+                        <div class="widget w-action">
+                            <img src="/Uploads/Site/rsz_nesever-logo-white.png" alt="NeSever">
+                            <div class="content">
+                                @*<h4 class="title">Kişisel Bilgi</h4>*@
+                                @*<span>Profilinizle ilgili bilgileri güncelleyebilirsiniz.</span>*@
+                                <a href="javascript:" name="hesapAyarlari" class="btn btn-bg-secondary btn-md">Hesap Ayarları</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div class="ui-block">
+                        <div class="widget w-action">
+                            <img src="/Uploads/Site/rsz_nesever-logo-white.png" alt="NeSever">
+                            <div class="content">
+                                @*<h4 class="title">Kişisel Bilgi</h4>*@
+                                @*<span>Profilinizle ilgili bilgileri güncelleyebilirsiniz.</span>*@
+                                <a href="javascript:" name="kullaniciAdiDegistir" class="btn btn-bg-secondary btn-md">Kullanıcı Adı Değiştir</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div class="ui-block">
+                        <div class="widget w-action">
+                            <img src="/Uploads/Site/rsz_nesever-logo-white.png" alt="NeSever">
+                            <div class="content">
+                                @*<h4 class="title">Kişisel Bilgi</h4>*@
+                                @*<span>Profilinizle ilgili bilgileri güncelleyebilirsiniz.</span>*@
+                                <a href="javascript:" name="sifreDegistir" class="btn btn-bg-secondary btn-md">Şifre Değiştir</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div class="ui-block">
+                        <div class="widget w-action">
+                            <img src="/Uploads/Site/rsz_nesever-logo-white.png" alt="NeSever">
+                            <div class="content">
+                                @*<h4 class="title">Kişisel Bilgi</h4>*@
+                                @*<span>Profilinizle ilgili bilgileri güncelleyebilirsiniz.</span>*@
+                                <a href="javascript:" name="hobiler" class="btn btn-bg-secondary btn-md">Hobiler</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div class="ui-block">
+                        <div class="widget w-action">
+                            <img src="/Uploads/Site/rsz_nesever-logo-white.png" alt="NeSever">
+                            <div class="content">
+                                @*<h4 class="title">Kişisel Bilgi</h4>*@
+                                @*<span>Profilinizle ilgili bilgileri güncelleyebilirsiniz.</span>*@
+                                <a href="javascript:" name="ilgiAlanlari" class="btn btn-bg-secondary btn-md">İlgi Alanları</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div class="ui-block">
+                        <div class="widget w-action">
+                            <img src="/Uploads/Site/rsz_nesever-logo-white.png" alt="NeSever">
+                            <div class="content">
+                                @*<h4 class="title">Hesap Kapatma</h4>*@
+                                @*<span>Hesabınızı kapatmak için lütfen tıklayın.</span>*@
+                                <a href="javascript:" name="hesapKapatma" class="btn btn-bg-secondary btn-md">Hesap Kapatma</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>            
+        </div>
+    </div>
+}

@@ -1,0 +1,274 @@
+﻿@model NeSever.Common.Models.FrontEnd.ProfilSolMenuVM
+
+<div class="profile-settings-responsive">
+    <a href="javascript:;" @*onclick="bildirimAciksaKapat();"*@ class="js-profile-settings-open profile-settings-open" style="z-index:2000;">
+        <i class="fa fa-angle-right" aria-hidden="true"></i>
+        <i class="fa fa-angle-left" aria-hidden="true"></i>
+    </a>
+    <div class="mCustomScrollbar" data-mcs-theme="dark">
+        <div class="ui-block">
+            <div class="your-profile">
+                <div class="ui-block-title ui-block-title-small">
+                    <h6 class="title">PROFİL</h6>
+                </div>
+
+                <div id="accordion" role="tablist" aria-multiselectable="false">
+                    <div class="card">
+                        <div class="card-header" role="tab" id="headingOne">
+                            <h6 class="mb-0">
+                                Kişisel Bilgiler
+                            </h6>
+                        </div>
+
+                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                            <div class="ui-block-content" style="padding: 0px 23px 0px 24px;">
+                                <ul class="widget w-personal-info item-block">
+                                    @if (Model.KisiselBilgiGosterimDurum)
+                                    {
+                                        <li style="padding: 5px 0;">
+                                            <span class="title">Hakkında:</span>
+                                            @if (string.IsNullOrEmpty(Model.Hakkinda))
+                                            {
+                                                <span class="text">Henüz Belirtilmemiş</span>
+                                            }
+                                            else
+                                            {
+                                                @if (Model.Hakkinda.Count() > 100)
+                                                {
+                                                    <span class="text">
+                                                        @Model.Hakkinda.Substring(0, 97).Insert(97, "...")
+                                                    </span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text">
+                                                        @Model.Hakkinda
+                                                    </span>
+                                                }
+                                            }
+                                        </li>
+                                        <li style="padding: 5px 0;">
+                                            <span class="title">Yaşadığı Yer:</span>
+                                            <span class="text">@Model.Sehir, @Model.Ulke</span>
+                                        </li>
+
+                                        <li style="padding: 5px 0;">
+                                            <span class="title">İlişki Durumu:</span>
+                                            @switch (Model.IliskiDurumu)
+                                            {
+                                                default:
+                                                    <span class="text">Belirtmek İstemiyorum</span>
+                                                    break;
+                                                case "BI":
+                                                    <span class="text">Belirtmek İstemiyor</span>
+                                                    break;
+                                                case "B":
+                                                    <span class="text">Bekar</span>
+                                                    break;
+                                                case "E":
+                                                    <span class="text">Evli</span>
+                                                    break;
+                                                case "N":
+                                                    <span class="text">Nişanlı</span>
+                                                    break;
+                                                case "S":
+                                                    <span class="text">Sözlü</span>
+                                                    break;
+                                                case "YCM":
+                                                    <span class="text">Yalnız Çok Mutlu</span>
+                                                    break;
+                                                case "AA":
+                                                    <span class="text">Arkadaş Arıyor</span>
+                                                    break;
+                                                case "IV":
+                                                    <span class="text">İlişkisi Var</span>
+                                                    break;
+                                                case "G":
+                                                    <span class="text">Gizli</span>
+                                                    break;
+                                            }
+                                        </li>
+                                        <li style="padding: 5px 0;">
+                                            <span class="title">Cinsiyet:</span>
+                                            @switch (Model.Cinsiyet)
+                                            {
+                                                case "G":
+                                                    <span class="text">Gizli</span>
+                                                    break;
+                                                case "E":
+                                                    <span class="text">Erkek</span>
+                                                    break;
+                                                case "K":
+                                                    <span class="text">Kadın</span>
+                                                    break;
+                                                default:
+                                                    <span class="text">Belirtmek İstemiyorum</span>
+                                                    break;
+                                            }
+                                        </li>
+                                        <li style="padding: 5px 0;">
+                                            <span class="title">Doğum Tarihi:</span>
+                                            @if (Model.DogumTarihi.HasValue)
+                                            {
+                                                @switch (Model.DogumTarihi.Value.Month)
+                                                {
+                                                    case 1:
+                                                        <span class="text">@Model.DogumTarihi.Value.Day Ocak</span>
+                                                        break;
+                                                    case 2:
+                                                        <span class="text">@Model.DogumTarihi.Value.Day Şubat</span>
+                                                        break;
+                                                    case 3:
+                                                        <span class="text">@Model.DogumTarihi.Value.Day Mart</span>
+                                                        break;
+                                                    case 4:
+                                                        <span class="text">@Model.DogumTarihi.Value.Day Nisan</span>
+                                                        break;
+                                                    case 5:
+                                                        <span class="text">@Model.DogumTarihi.Value.Day Mayıs</span>
+                                                        break;
+                                                    case 6:
+                                                        <span class="text">@Model.DogumTarihi.Value.Day Haziran</span>
+                                                        break;
+                                                    case 7:
+                                                        <span class="text">@Model.DogumTarihi.Value.Day Temmuz</span>
+                                                        break;
+                                                    case 8:
+                                                        <span class="text">@Model.DogumTarihi.Value.Day Ağustos</span>
+                                                        break;
+                                                    case 9:
+                                                        <span class="text">@Model.DogumTarihi.Value.Day Eylül</span>
+                                                        break;
+                                                    case 10:
+                                                        <span class="text">@Model.DogumTarihi.Value.Day Ekim</span>
+                                                        break;
+                                                    case 11:
+                                                        <span class="text">@Model.DogumTarihi.Value.Day Kasım</span>
+                                                        break;
+                                                    case 12:
+                                                        <span class="text">@Model.DogumTarihi.Value.Day Aralık</span>
+                                                        break;
+                                                    default:
+                                                        break;
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <span class="text">Gizli</span>
+                                            }
+
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li style="padding: 5px 0;">
+                                            <span class="text">Gizli</span>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ui-block-title">
+                    <div class="sharethis-inline-share-buttons" data-url="https://www.nesever.com.tr/Kullanici/Profil/@Model.KullaniciAdi" data-title="NeSever.com.tr"></div>
+                </div>
+
+                @*@if (!Model.ArkadasProfil)
+                {
+                    <div class="ui-block-title">
+                        <a href="javascript:" name="siparisler" class="h6 title">Siparişler</a>
+                        <a href="javascript:" name="siparisler" id="siparisSayi" class="items-round-little bg-breez-light">@Model.SiparisSayi</a>
+                    </div>
+
+                    <div class="ui-block-title">
+                        <a href="javascript:" name="adresler" class="h6 title">Adresler</a>
+                        <a href="javascript:" name="adresler" id="adresSayi" class="items-round-little bg-birthday">@Model.AdresSayi</a>
+                    </div>
+                }*@
+
+                <div class="ui-block-title">
+                    <a href="javascript:" name="hediyeSepeti" class="h6 title">Hediye Sepeti</a>
+                    <a href="javascript:" name="hediyeSepeti" id="hediyeSepetiSayiMobil" class="items-round-little bg-breez">@Model.HediyeSepetiSayi</a>
+                </div>
+
+                @if (!Model.ArkadasProfil)
+                {
+                    <div class="ui-block-title">
+                        <a href="javascript:" name="indirimKuponlari" class="h6 title">İndirim Kuponları</a>
+                        <a href="javascript:" name="indirimKuponlari" id="indirimKuponSayi" class="items-round-little bg-red">@Model.IndirimKuponuSayisi</a>
+                    </div>
+                    <div class="ui-block-title">
+                        <a href="javascript:" name="mesajlar" class="h6 title">Mesajlar</a>
+                        <a href="javascript:" name="mesajlar" id="mesajKutusuSayiMobil" class="items-round-little bg-dribbble">@Model.MesajSayi</a>
+                    </div>
+                    @*<div class="ui-block-title">
+                        <a href="javascript:" name="hediyeKarti" class="h6 title">Hediye Kartları</a>
+                        <a href="javascript:" name="hediyeKarti" id="hediyeKartiSayiMobil" class="items-round-little bg-green">@Model.HediyeKartSayi</a>
+                    </div>*@
+                    <div class="ui-block-title">
+                        <a href="javascript:" name="bildirimler" class="h6 title">Bildirimler</a>
+                        <a href="javascript:" name="bildirimler" id="profilMobilBildirimSayisi" class="items-round-little bg-primary">@Model.BildirimSayi</a>
+                    </div>
+                    <div class="ui-block-title">
+                        <a href="javascript:" name="arkadaslikIstekleri" class="h6 title">Arkadaşlık İstekleri</a>
+                        <a href="javascript:" name="arkadaslikIstekleri" id="arkadaslikIstekleriSayiMobil" class="items-round-little bg-blue">@Model.ArkadasIstekSayi</a>
+                    </div>
+                }
+
+                <div class="ui-block-title">
+                    <a data-toggle="modal" data-target="#create-friend-group-add-friends" href="#" class="h6 title">Arkadaşlar</a>
+                    <a data-toggle="modal" data-target="#create-friend-group-add-friends" href="#" class="items-round-little bg-red">@Model.ArkadasSayi</a>
+                </div>
+
+                @if (Model.ArkadasProfil)
+                {
+                    <div class="ui-block-title">
+                        <a href="javascript:;" onclick="history.go(-1);" class="btn btn-primary btn-sm full-width">@Html.Raw("<= Geri Dön")</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="create-friend-group-add-friends" tabindex="-1" role="dialog" aria-labelledby="create-friend-group-add-friends" aria-hidden="true">
+    <div class="modal-dialog window-popup create-friend-group create-friend-group-add-friends" role="document">
+        <div class="modal-content">
+            <a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
+                <svg class="olymp-close-icon"><use xlink:href="#olymp-close-icon"></use></svg>
+            </a>
+
+            <div class="modal-header">
+                <h6 class="title">Arkadaş Listesi</h6>
+            </div>
+
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        @*<div class="col col-sm-9">
+                                <div class="form-group label-floating">
+                                    <select id="ArkadasAra" class="selectpicker with-ajax" data-live-search="true" data-width="100%"></select>
+                                </div>
+                            </div>
+                            <div class="col col-sm-3">
+                                <button id="ProfileGit" class="btn btn-primary btn-lg full-width">Git</button>
+                            </div>*@
+                    </div>
+                </div>
+
+                <div id="arkadasListesi">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/Themes/FrontEnd/src/js/main.js"></script>
+<script type="text/javascript">
+    /* function bildirimAciksaKapat() {
+         document.getElementById("mobilBildirimKapat").className = "nav-link";
+         document.getElementById("notification").className = "tab-pane";
+     }*/
+</script>

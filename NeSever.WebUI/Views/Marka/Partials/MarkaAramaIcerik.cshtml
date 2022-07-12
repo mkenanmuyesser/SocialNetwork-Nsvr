@@ -1,0 +1,30 @@
+﻿@model NeSever.Common.Models.FrontEnd.MarkaAramaSayfaSonucVM
+
+@if (Model.BenzersizMarkaIsimleri.Any())
+{
+    @foreach (var harf in Model.HarfListesi)
+    {
+        <div id="@harf" class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12" style="font-size:38px; font-weight:bold; color:black; margin-top:10px;">@harf</div>
+        @foreach (var item in Model.BenzersizMarkaIsimleri)
+        {
+            @if (item.Substring(0, 1) == harf)
+            {
+                <div class="col col-sm-3 col-3">
+                    <a style="color:black; font-size:16px" href="javascript:;" onclick="markaAdindanIdGetir('@item');">
+                        &emsp; @item
+                    </a>
+                </div>
+            }
+        }
+    }
+}
+else
+{
+    <div class="col col-xl-12 m-auto col-lg-12 col-md-12 col-sm-12 col-12">
+        <div class="page-404-content ">
+            <div class="crumina-module crumina-heading align-center">               
+                <h2 class="h1 heading-title">Böyle Bir Marka <span class="c-primary">Bulunamadı!</span></h2>
+            </div>
+        </div>
+    </div>
+}

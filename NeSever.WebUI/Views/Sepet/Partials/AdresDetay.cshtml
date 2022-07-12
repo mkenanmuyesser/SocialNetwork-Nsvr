@@ -1,0 +1,422 @@
+﻿@model NeSever.Common.Models.Satis.SepetAdresVM
+
+<style type="text/css">
+    /*input {
+        height: 25px !important;
+    }
+
+    .dropdown-toggle {
+        padding: 6px !important;
+    }*/
+    .row {
+        margin-top: 8px !important;
+    }
+
+    .swal-container {
+        z-index: 300000;
+    }  
+</style>
+
+<section class="m-3">
+    <div class="container">
+        <div class="row">
+            <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <form id="AdresKayitForm" class="content">
+                    <input asp-for="AdresId" type="hidden" />
+
+                    <div class="crumina-module crumina-heading with-title-decoration">
+                        <h5 class="heading-title">Adres/Fatura Bilgileri</h5>
+                    </div>
+
+                    <div class="row">
+                        <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="form-group">
+                                <label class="control-label">Adres Tanımı</label>
+                                <input class="form-control" asp-for="AdresAdi">
+                            </div>
+                        </div>
+                        <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="form-group is-select">
+                                <label class="control-label">Fatura Tipi</label>
+                                <select class="selectpicker form-control" style="height:25px;" asp-for="FaturaTipId" onchange="faturaTipSecim()">
+                                    <option value="1">Bireysel</option>
+                                    <option value="2">Kurumsal</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
+                            <div class="form-group">
+                                <label class="control-label">Tc No</label>
+                                <input class="form-control" asp-for="TcNo">
+                            </div>
+                        </div>
+                        <div class="col col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
+                            <div class="form-group">
+                                <label class="control-label">Ad</label>
+                                <input class="form-control" asp-for="Ad">
+                            </div>
+                        </div>
+                        <div class="col col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
+                            <div class="form-group">
+                                <label class="control-label">Soyad</label>
+                                <input class="form-control" asp-for="Soyad">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="rowFirma" class="row" style="display:none;">
+                        <div class="col col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
+                            <div class="form-group">
+                                <label class="control-label">Firma Unvan</label>
+                                <input id="txtFirmaUnvan" name="txtFirmaUnvan" class="form-control" asp-for="FirmaUnvan">
+                            </div>
+                        </div>
+                        <div class="col col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
+                            <div class="form-group">
+                                <label class="control-label">Vergi Dairesi</label>
+                                <input id="txtVergiDairesi" name="txtVergiDairesi" class="form-control" asp-for="VergiDairesi">
+                            </div>
+                        </div>
+                        <div class="col col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
+                            <div class="form-group">
+                                <label class="control-label">Vergi No</label>
+                                <input id="txtVergiNo" name="txtVergiNo" class="form-control" asp-for="VergiNo">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
+                            <div class="form-group is-select">
+                                <label class="control-label">İl</label>
+                                <div class="input-group">
+                                    <select id="drpAdresIl" style="height:25px;" asp-for="AdresIlId" asp-items="@(new SelectList(Model.AdresIlListesi,"AdresIlId","IlAdi"))" class="form-control selectpicker">
+                                        <option value="" selected>Lütfen Seçiniz</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
+                            <div class="form-group is-select">
+                                <label class="control-label">İlçe</label>
+                                <select id="drpAdresIlce" class="form-control selectpicker" style="height:25px;" asp-for="AdresIlceId" asp-items="@(new SelectList(Model.AdresIlceListesi,"AdresIlceId","IlceAdi"))">
+                                    <option value="" selected>Lütfen Seçiniz</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
+                            <div class="form-group">
+                                <label class="control-label">Posta Kodu</label>
+                                <input class="form-control" asp-for="PostaKodu">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                            <div class="form-group">
+                                <textarea rows="3" class="form-control" placeholder="Adres" asp-for="AdresBilgi"></textarea>
+                            </div>
+                        </div>
+                        <div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                            <div class="form-group">
+                                <textarea rows="3" class="form-control" placeholder="Açıklama" asp-for="Aciklama"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                            <div class="form-group">
+                                <label class="control-label">Telefon 1</label>
+                                <input class="form-control" asp-for="Telefon1">
+                            </div>
+                        </div>
+                        <div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                            <div class="form-group">
+                                <label class="control-label">Telefon 2</label>
+                                <input class="form-control" asp-for="Telefon2">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                            <a href="javascript:;" class="btn btn-bg-secondary btn-lg full-width" onclick="adresDetayKapat();">İptal</a>
+                        </div>
+                        <div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                            <button class="btn btn-blue btn-lg full-width">Kaydet</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="/Themes/FrontEnd/src/js/libs-init/libs-init.js"></script>
+<script src="~/js/site.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+
+    });
+
+    $("#AdresKayitForm").validate({
+        rules: {
+            AdresAdi: {
+                required: true,
+                maxlength: 50
+            },
+            FaturaTipId: {
+                required: true,
+            },
+            TcNo: {
+                number: true,
+                minlength: 11,
+                maxlength: 11
+            },
+            Ad: {
+                required: true,
+                maxlength: 50
+            },
+            Soyad: {
+                required: true,
+                maxlength: 50
+            },
+            FirmaUnvan: {
+                maxlength: 100,
+            },
+            VergiDairesi: {
+                maxlength: 100,
+            },
+            VergiNo: {
+                number: true,
+                minlength: 10,
+                maxlength: 10
+            },
+            AdresIlId: {
+                required: true,
+            },
+            AdresIlceId: {
+                required: true,
+            },
+            PostaKodu: {
+                number: true,
+                minlength: 5,
+                maxlength: 5,
+            },
+            AdresBilgi: {
+                required: true,
+                maxlength: 400,
+            },
+            Aciklama: {
+                maxlength: 400,
+            },
+            Telefon1: {
+                required: true,
+                number: true,
+                minlength: 10,
+                maxlength: 20,
+            },
+            Telefon2: {
+                number: true,
+                minlength: 10,
+                maxlength: 20,
+            },
+        },
+        messages: {
+            AdresAdi: {
+                required: "Boş Geçilemez",
+                maxlength: "Karakter Sınırı Aşıldı",
+            },
+            FaturaTipId: {
+                required: "Lütfen Seçim Yapınız",
+            },
+            TcNo: {
+                number: "Sadece Rakam Girilebilir",
+                minlength: "11 Hane Girilmelidir",
+                maxlength: "11 Hane Girilmelidir",
+            },
+            Ad: {
+                required: "Boş Geçilemez",
+                maxlength: "Karakter Sınırı Aşıldı",
+            },
+            Soyad: {
+                required: "Boş Geçilemez",
+                maxlength: "Karakter Sınırı Aşıldı",
+            },
+            FirmaUnvan: {
+                maxlength: "Karakter Sınırı Aşıldı",
+            },
+            VergiDairesi: {
+                maxlength: "Karakter Sınırı Aşıldı",
+            },
+            VergiNo: {
+                number: "Sadece Rakam Girilebilir",
+                minlength: "10 Hane Girilmelidir",
+                maxlength: "10 Hane Girilmelidir",
+            },
+            AdresIlId: {
+                required: "Lütfen Seçim Yapınız",
+            },
+            AdresIlceId: {
+                required: "Lütfen Seçim Yapınız",
+            },
+            PostaKodu: {
+                number: "Sadece Rakam Girilebilir",
+                minlength: "5 Hane Girilmelidir",
+                maxlength: "5 Hane Girilmelidir",
+            },
+            AdresBilgi: {
+                required: "Boş Geçilemez",
+                maxlength: "Karakter Sınırı Aşıldı",
+            },
+            Aciklama: {
+                maxlength: "Karakter Sınırı Aşıldı",
+            },
+            Telefon1: {
+                required: "Boş Geçilemez",
+                number: "Sadece Rakam Girilebilir",
+                minlength: "En Az 10 Hane Girilebilir",
+                maxlength: "En Fazla 20 Hane Girilebilir",
+            },
+            Telefon2: {
+                number: "Sadece Rakam Girilebilir",
+                minlength: "En Az 10 Hane Girilebilir",
+                maxlength: "En Fazla 20 Hane Girilebilir",
+            },
+        },
+        submitHandler: function (form) {
+            var model = $('#AdresKayitForm').serializeObject();
+
+            if ($('#drpFaturaTipleri').val() == '2' &&
+                ($('#txtFirmaUnvan').val() == '' ||
+                    $('#txtVergiDairesi').val() == '' ||
+                    $('#txtVergiNo').val() == '')) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Fatura Tipi',
+                    text: 'Lütfen seçtiğiniz fatura tipinden dolayı "Firma Unvan", "Vergi Dairesi" ve "Vergi No" alanlarını lütfen doldurunuz.',
+                    confirmButtonText: "Tamam"
+                })
+                return false;
+            }
+
+            $.ajax({
+                url: "/Sepet/AdresKaydetGuncelle",
+                type: "POST",
+                dataType: 'json',
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                data: model,
+                success: function (data) {
+                    if (data.error == true) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Adres Kayıt',
+                            text: data.Message,
+                            confirmButtonText: "Tamam",
+                            customClass: {
+                                container: 'swal-container'
+                            }
+                        }).then(function () {
+                            adresDetayKapat();
+                        });
+                    }
+                    else {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Adres Kayıt',
+                            text: "İşlem Başarılı",
+                            confirmButtonText: "Tamam",
+                            customClass: {
+                                container: 'swal-container'
+                            }
+                        }).then(function () {
+                            adresDetayKapat();
+                            reloadAdresListesi();
+                        });
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    console.log("hata!");
+                }
+            });
+        }
+    });
+
+    function faturaTipSecim() {
+        var faturaTipId = $('#FaturaTipId').val();
+
+        if (faturaTipId == 1) {
+            $('#rowFirma').css("display", "none");
+        }
+        else {
+            $('#rowFirma').css("display", "flex");
+        }
+    }
+
+    function checkTCNo(value) {
+        value = value.toString();
+        var isEleven = /^[0-9]{11}$/.test(value);
+        var totalX = 0;
+        for (var i = 0; i < 10; i++) {
+            totalX += Number(value.substr(i, 1));
+        }
+        var isRuleX = totalX % 10 == value.substr(10, 1);
+        var totalY1 = 0;
+        var totalY2 = 0;
+        for (var i = 0; i < 10; i += 2) {
+            totalY1 += Number(value.substr(i, 1));
+        }
+        for (var i = 1; i < 10; i += 2) {
+            totalY2 += Number(value.substr(i, 1));
+        }
+        var isRuleY = ((totalY1 * 7) - totalY2) % 10 == value.substr(9, 0);
+        return isEleven && isRuleX && isRuleY;
+    }
+
+    function adresDetayKapat() {
+        var popupModal = $("#popupModal");
+        popupModal.modal('hide');
+    }
+
+    $('#drpAdresIl').change(function () {
+        var id = $('#drpAdresIl').val();
+        $.ajax({
+            url: "/Sepet/SepetAdresIlceGetir",
+            type: "GET",
+            dataType: 'json',
+            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+            data: { id: id },
+            success: function (result) {
+              
+                $("#drpAdresIlce").empty();
+                var select = document.getElementById("drpAdresIlce");
+
+                if (result.length == 0) {
+                    $("#drpAdresIlce").append('<option value="" selected>Lütfen Seçiniz</option>');
+                }
+                else {
+                    $(result).each(function () {
+                        var option = document.createElement("option");
+                        option.text = this.IlceAdi;
+                        option.value = this.AdresIlceId;
+                        select.appendChild(option);
+                    });
+                }              
+
+                $('.selectpicker').selectpicker('refresh');
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log("hata!");
+            }
+        });
+
+    })
+</script>

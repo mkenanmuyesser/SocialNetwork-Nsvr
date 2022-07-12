@@ -1,0 +1,64 @@
+﻿@model IPagedList<NeSever.Common.Models.Sayfa.BlogIcerikVM>
+
+@foreach (var blogIcerik in Model)
+{
+    <div class="ui-block">
+        <article class="hentry blog-post blog-post-v3">
+            <div class="post-thumb">
+                <a href="/Blog/Detay/@blogIcerik.BlogId">
+                    <img src="@blogIcerik.ResimBase64" alt="photo">
+                </a>
+                <a href="/Blog/Ara/@blogIcerik.BlogKategoriAttribute" class="post-category bg-blue-light">@blogIcerik.BlogKategoriAdi</a>
+            </div>
+
+            <div class="post-content">
+                <div class="author-date">
+                    <div class="post__date">
+                        <time class="published" datetime="@blogIcerik.YayinTarihi">
+                            @blogIcerik.YayinTarihi
+                        </time>
+                    </div>
+                </div>
+
+                <a href="/Blog/Detay/@blogIcerik.BlogId" class="h3 post-title">@blogIcerik.Baslik</a>
+                <p><a href="/Blog/Detay/@blogIcerik.BlogId">@Html.Raw(blogIcerik.KisaIcerik)</a></p>
+
+                <div class="post-additional-info inline-items" style="margin-left:0px;">
+                    <div class="comments-shared" style="margin-left:0px;">
+                        <a href="/Blog/Detay/@blogIcerik.BlogId" class="post-add-icon inline-items">
+                            <svg class="olymp-like-post-icon">
+                                <use xlink:href="#olymp-star-icon"></use>
+                            </svg>
+                            <span>@blogIcerik.OkunmaSayisi kez okundu</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+}
+
+<nav aria-label="Page navigation">
+    @Html.PagedListPager((IPagedList)Model, page => Url.Action("Ara",
+     new
+     {
+         p = page,
+         s = Context.Request.Query["s"],
+         q = Context.Request.Query["q"],
+     }),
+   new PagedListRenderOptionsBase
+   {
+       UlElementClasses = new string[] { "pagination justify-content-center" },
+       LiElementClasses = new string[] { "page-item" },
+       ActiveLiElementClass = "page-item active",
+       PageClasses = new string[] { "page-link" },
+       EllipsesFormat = "<a class='page-link' style='padding:12px 0px 0px 0px; border:none;'>...</a>",
+       Display = PagedListDisplayMode.Always,
+       DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+       DisplayLinkToLastPage = PagedListDisplayMode.Always,
+       DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+       DisplayLinkToNextPage = PagedListDisplayMode.Always,
+       MaximumPageNumbersToDisplay = 5,
+       ContainerDivClasses = null,
+   })
+</nav>

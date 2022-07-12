@@ -1,0 +1,125 @@
+﻿@model NeSever.Common.Models.Uyelik.ArkadasAramaSayfaSonucVM
+
+@{
+    ViewData["Title"] = "Arkadaş Ara";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style type="text/css">
+    .sk .dropdown-menu {
+        max-height: 225px !important;
+    }
+
+    @@media (min-width: 1200px) {
+        .btnAraIptal {
+            margin-top: 20px;
+        }
+    }
+
+    @@media (max-width: 1200px) {
+        .btnAraIptal {
+            margin-top: 0px;
+        }
+    }
+</style>
+
+<div class="container">
+    <div class="row ">
+        <div class="col col-xl-8 col-lg-8 col-md-8 col-sm-8 col-8">
+            <a class="btn btn-primary btn-md-2" href="/">ANASAYFA</a>
+        </div>
+        <div class="col col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4 align-right">
+            <a class="btn btn-border-think custom-color c-grey btn-md-2" href="#">Toplam : @Model.ArkadasAramaListSonuc.TotalItemCount.ToString()</a>
+           
+        </div>
+    </div>
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+
+            <div class="ui-block responsive-flex1200">
+                <div class="ui-block-title">
+                    <div class="w-select">
+                        <label class="control-label">Kullanıcı Adı/Ad/Soyad</label>
+                        <form class="w-search" style="width:100%;" onsubmit="event.preventDefault(); ara();">
+                            <div class="form-group">
+                                <input id="q" name="q" class="form-control" type="text" placeholder="Ara..." value="@(Context.Request.Query["q"])" style="height:40px;">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="w-select">
+                        <label class="control-label">Cinsiyet</label>
+                        <fieldset class="form-group">
+                            <select id="Cinsiyet" name="Cinsiyet" class="selectpicker form-control">
+                                <option selected="@(Model.Cinsiyet == "T" || Model.Cinsiyet == "" ? "selected" :null)" value="T">Tümü</option>
+                                <option selected="@(Model.Cinsiyet == "E" || Model.Cinsiyet == "" ? "selected" :null)" value="E">Erkek</option>
+                                <option selected="@(Model.Cinsiyet == "K" || Model.Cinsiyet == "" ? "selected" :null)" value="K">Kadın</option>
+                            </select>
+                        </fieldset>
+                    </div>
+                    @*<div class="w-select">
+                    <label class="control-label">İlişki Durumu</label>
+                    <fieldset class="form-group">
+                        <select id="IliskiDurumu" name="IliskiDurumu" class="selectpicker form-control">
+                            <option selected="@(Model.MedeniDurum == "T" || Model.MedeniDurum == "" ? "selected" :null)" value="T">Tümü</option>
+                            <option selected="@(Model.MedeniDurum == "BI" || Model.MedeniDurum == "" ? "selected" :null)" value="BI">Belirtmek İstemiyor</option>
+                            <option selected="@(Model.MedeniDurum == "E" || Model.MedeniDurum == "" ? "selected" :null)" value="E">Evli</option>
+                            <option selected="@(Model.MedeniDurum == "B" || Model.MedeniDurum == "" ? "selected" :null)" value="B">Bekar</option>
+                            <option selected="@(Model.MedeniDurum == "N" || Model.MedeniDurum == "" ? "selected" :null)" value="N">Nişanlı</option>
+                            <option selected="@(Model.MedeniDurum == "S" || Model.MedeniDurum == "" ? "selected" :null)" value="S">Sözlü</option>
+                            <option selected="@(Model.MedeniDurum == "YCM" || Model.MedeniDurum == "" ? "selected" :null)" value="YCM">Yalnız Çok Mutlu</option>
+                            <option selected="@(Model.MedeniDurum == "AA" || Model.MedeniDurum == "" ? "selected" :null)" value="AA">Arkadaş Arıyor</option>
+                        </select>
+                    </fieldset>
+                </div>*@
+                    @*<div class="w-select">
+                    <label class="control-label">Ülke</label>
+                    <fieldset class="form-group">
+                        <select id="Ulke" name="Ulke" class="selectpicker form-control sk">
+                            <option value="223">Türkiye</option>
+                        </select>
+                    </fieldset>
+                </div>*@
+                    <div class="w-select">
+                        <label class="control-label">Şehir</label>
+                        <fieldset class="form-group">
+                            <select asp-items="ViewBag.Sehirler" id="Sehir" name="Sehir" class="selectpicker form-control sk">
+                                <option value="0">Tümü</option>
+                            </select>
+                        </fieldset>
+                    </div>
+                    <a href="javascript:ara();" class="btn btn-primary btn-md-2 btnAraIptal">Ara</a>
+                    <a href="javascript:temizle();" class="btn btn-secondary btn-md-2 btnAraIptal">Temizle</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <partial name="~/Views/Arkadas/Partials/ArkadasAramaList.cshtml" model="@Model.ArkadasAramaListSonuc" />
+</div>
+
+
+@section Scripts{
+    <script type="text/javascript">
+        function ara() {
+            var q = $('#q').val();
+            var c = $('#Cinsiyet').val();
+            //var m = $('#IliskiDurumu').val();
+            //var u = $('#Ulke').val();
+            var s = $('#Sehir').val();
+            //var location = "/Arkadas/Ara" + "?" + (q == "" || q == '' || q == null ? "" : ("q=" + q));
+            var location = "/Arkadas/Ara" + "?" +
+                (q == "" || q == '' || q == null ? "" : ("q=" + q)) +
+                (c == "" || c == '' || c == null ? "" : ("&c=" + c)) +
+                //(m == "" || m == '' || m == null ? "" : ("&m=" + m)) +
+                (s == "" || s == '' || s == null ? "" : ("&s=" + s));
+            window.location = location;
+        }
+
+        function temizle() {
+            var location = "/Arkadas/Ara?q=";
+            window.location = location;
+        }
+    </script>
+}

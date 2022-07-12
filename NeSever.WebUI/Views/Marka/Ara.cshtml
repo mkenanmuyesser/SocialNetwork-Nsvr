@@ -1,0 +1,67 @@
+﻿@model NeSever.Common.Models.FrontEnd.MarkaAramaSayfaSonucVM
+@{
+    ViewData["Title"] = "Marka Ara";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="ui-block responsive-flex1200">
+                <div class="ui-block-title">                 
+                    <div class="w-select">
+                        <ul style="list-style: none">
+                            @foreach (var harf in Model.HarfListesi)
+                            {
+                                <li style="display:inline; margin-right:3px; font-size:20px">
+                                    <a style="color:black; font-weight:bold" href="#@harf">@harf</a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                    <div class="w-select">
+                            <div class="form-group">
+                                <input id="search" name="q" class="form-control" type="text" placeholder="Ara..." style="height:50px;">
+                            </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div id="markaListeleme" class="row">
+        <partial name="~/Views/Marka/Partials/MarkaAramaIcerik.cshtml" model="@Model" />    
+    </div>
+</div>
+
+<script>
+    function markaAdindanIdGetir(marka) {
+        var url = '/Marka/MarkaAdindanIdGetir/';
+        $.get(url, {markaAdi: marka}, function (data) {
+            window.location.href = "/Hediye/Ara?m=" + data;
+        });       
+    }
+
+    function delay(callback, ms) {
+        var timer = 0;
+        return function () {
+            var context = this, args = arguments;
+            clearTimeout(timer);
+            timer = setTimeout(function () {
+                callback.apply(context, args);
+            }, ms || 0);
+        };
+    }
+      
+    $('#search').on('keyup', delay(function (e) {
+        var kelime = $('#search').val();
+        var url = '/Marka/MarkaAramaIcerik/';
+        $.get(url, { m: kelime }, function (data) {
+            $('#markaListeleme').empty();
+            $('#markaListeleme').html(data);
+        });  
+    },500));
+</script>

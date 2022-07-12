@@ -1,0 +1,15 @@
+D:\Programlar\NeSeverProject\NeSever.Data.Context\bin\Release\netcoreapp3.1\NeSever.Data.Context.deps.json
+D:\Programlar\NeSeverProject\NeSever.Data.Context\bin\Release\netcoreapp3.1\NeSever.Data.Context.dll
+D:\Programlar\NeSeverProject\NeSever.Data.Context\bin\Release\netcoreapp3.1\NeSever.Data.Context.pdb
+D:\Programlar\NeSeverProject\NeSever.Data.Context\bin\Release\netcoreapp3.1\NeSever.Common.Infra.dll
+D:\Programlar\NeSeverProject\NeSever.Data.Context\bin\Release\netcoreapp3.1\NeSever.Data.Entities.dll
+D:\Programlar\NeSeverProject\NeSever.Data.Context\bin\Release\netcoreapp3.1\NeSever.Common.Infra.pdb
+D:\Programlar\NeSeverProject\NeSever.Data.Context\bin\Release\netcoreapp3.1\NeSever.Data.Entities.pdb
+D:\Programlar\NeSeverProject\NeSever.Data.Context\obj\Release\netcoreapp3.1\NeSever.Data.Context.AssemblyInfoInputs.cache
+D:\Programlar\NeSeverProject\NeSever.Data.Context\obj\Release\netcoreapp3.1\NeSever.Data.Context.AssemblyInfo.cs
+D:\Programlar\NeSeverProject\NeSever.Data.Context\obj\Release\netcoreapp3.1\NeSever.Data.Context.csproj.CoreCompileInputs.cache
+D:\Programlar\NeSeverProject\NeSever.Data.Context\obj\Release\netcoreapp3.1\NeSever.Data.Context.dll
+D:\Programlar\NeSeverProject\NeSever.Data.Context\obj\Release\netcoreapp3.1\NeSever.Data.Context.pdb
+D:\Programlar\NeSeverProject\NeSever.Data.Context\obj\Release\netcoreapp3.1\NeSever.Data.Context.csproj.AssemblyReference.cache
+D:\Programlar\NeSeverProject\NeSever.Data.Context\obj\Release\netcoreapp3.1\NeSever.Data.Context.GeneratedMSBuildEditorConfig.editorconfig
+D:\Programlar\NeSeverProject\NeSever.Data.Context\obj\Release\netcoreapp3.1\NeSever.Data.Context.csproj.CopyComplete

@@ -1,0 +1,7 @@
+D:\Programlar\NeSeverProject\NeSever.Test\bin\Release\WebTest1.webtest
+D:\Programlar\NeSeverProject\NeSever.Test\bin\Release\NeSever.Test.dll
+D:\Programlar\NeSeverProject\NeSever.Test\bin\Release\NeSever.Test.pdb
+D:\Programlar\NeSeverProject\NeSever.Test\obj\Release\NeSever.Test.csproj.AssemblyReference.cache
+D:\Programlar\NeSeverProject\NeSever.Test\obj\Release\NeSever.Test.csproj.CoreCompileInputs.cache
+D:\Programlar\NeSeverProject\NeSever.Test\obj\Release\NeSever.Test.dll
+D:\Programlar\NeSeverProject\NeSever.Test\obj\Release\NeSever.Test.pdb

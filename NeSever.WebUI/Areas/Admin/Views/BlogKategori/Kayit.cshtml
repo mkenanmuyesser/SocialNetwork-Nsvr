@@ -1,0 +1,403 @@
+﻿@{
+    ViewData["Title"] = "Kayit";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@model NeSever.Common.Models.Sayfa.BlogKategoriVM
+
+
+<div class="d-flex flex-row flex-column-fluid container">
+    <div class="main d-flex flex-column flex-row-fluid">
+        <div class="subheader py-2 py-lg-4 subheader-transparent" id="kt_subheader">
+            <div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+                <div class="d-flex align-items-center flex-wrap mr-1">
+                    <div class="d-flex align-items-baseline flex-wrap mr-5">
+                        <h5 class="text-dark font-weight-bold my-1 mr-5">Blog Kategori Kayıt</h5>
+
+                        <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
+                            <li class="breadcrumb-item">
+                                <a href="/Admin/Icerik" class="text-muted">İçerik</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="#" class="text-muted">Blog Kategori</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="/Admin/BlogKategori/Kayit" class="text-muted">Kayit</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center">
+                    <a href="#" class="btn btn-icon btn-circle btn-sm btn-light-success mr-1" data-card-tool="reload" onclick="loadPage()">
+                        <i class="ki ki-reload icon-nm"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="content flex-column-fluid" id="kt_content">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card card-custom gutter-b example example-compact">
+                        <div class="card-header">
+                            <h3 class="card-title">Kayıt Alanları</h3>
+                            <div class="card-toolbar">
+                                <div class="example-tools justify-content-center">
+                                    <span class="example-copy" data-toggle="tooltip" title="" style="visibility:hidden"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <form id="_myform" method="post" >
+                            <input id="hdnBlogKategoriId" type="hidden" value="@Model.BlogKategoriId" />
+                            <div class="card-body">
+                                <div class="form-group row">
+
+                                    <div class="col-lg-6">
+                                        <label><span class="text-danger">* </span>Kategori Adı:</label>
+                                        <div class="input-group">
+                                            <input asp-for="BlogKategoriAdi" class="form-control" placeholder="" type="text" required />
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">
+                                                    <i class="la la-bookmark-o"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label><span class="text-danger">* </span>Kategori Attribute:</label>
+                                        <div class="input-group">
+                                            <input asp-for="BlogKategoriAttribute" class="form-control" placeholder="" type="text" required />
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">
+                                                    <i class="la la-bookmark-o"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-lg-6">
+                                        <label>Açıklama:</label>
+                                        <div class="input-group border">
+                                            <textarea id="Aciklama" asp-for="Aciklama"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <label>Aktif Mi?:</label>
+                                        <div class="input-group">
+                                            <input asp-for="AktifMi" data-switch="true" type="checkbox" data-on-color="success" data-off-color="danger" data-on-text="Evet" data-off-text="Hayır" />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <label>Sıra:</label>
+                                        <div class="input-group">
+                                            <input class="form-control" type="number" asp-for="Sira" placeholder="0">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">
+                                                    <i class="la la-sort-numeric-down"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-lg-12">
+                                        <div class="fileinput fileinput-new" data-provides="fileinput">
+                                            <div class="fileinput-new thumbnail" style="height: auto; float:left;max-width:300px" id="fileInputDiv">
+
+                                                @if (Model.BlogKategoriResimListesi == null || Model.BlogKategoriResimListesi.Count == 0)
+                                                {
+
+                                                    <img src="~/Themes/Admin/design/noimage.png" id="emptyFile" style="max-height:200px;max-width:150px" />
+
+                                                }
+                                                else
+                                                {
+                                                    @foreach (var item in Model.BlogKategoriResimListesi)
+
+                                                    {<ul>
+                                                            <li>
+                                                                <img style="max-height:200px;max-width:150px" src="data:image/png;base64,@Convert.ToBase64String(item.Resim)" />
+                                                                <button class="btn btn-lg purple" type="button" onclick="ResimSil(@item.BlogKategoriResimId)"><i class="fa fa-times"></i></button>
+                                                            </li>
+
+
+
+
+                                                        </ul>
+                                                    }
+
+
+                                                }
+                                            </div>
+                                            <div class="fileinput-preview fileinput-exists thumbnail" style=" max-height: 200px;float:left"> </div>
+                                            <div style="float:left">
+                                                <span class="btn default btn-file">
+
+                                                    <input id="file" name="file" type="file" multiple>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="card-footer">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        @if (Model.BlogKategoriId > 0)
+                                        {
+                                            <button id="btnGuncelle" type="submit" class="btn btn-success mr-2">Güncelle</button>
+                                        }
+                                        else
+                                        {
+                                            <button id="btnKaydet" type="submit" class="btn btn-primary mr-2">Kaydet</button>
+                                        }
+                                        <button type="button" class="btn btn-secondary" onclick='location.reload();'>İptal</button>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+    <script src="/Themes/Admin/dist/assets/plugins/custom/ckeditor/ckeditor-classic.bundle.js?v=7.0.5"></script>
+    <script src="/Themes/Admin/dist/assets/js/pages/crud/forms/widgets/bootstrap-switch.js?v=7.0.5"></script>
+    <script src="/Themes/Admin/dist/assets/js/pages/crud/forms/widgets/bootstrap-datepicker.js?v=7.0.5"></script>
+
+    <script type="text/javascript">        
+        FormValidation.formValidation(document.getElementById('_myform'),
+            {
+
+                fields: {
+                    BlogKategoriAdi: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Zorunlu Alan.'
+                            }
+                        }
+                    },
+                    BlogKategoriAttribute: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Zorunlu Alan.'
+                            }
+                        }
+                    },
+                },
+                plugins: {
+                    submitButton: new FormValidation.plugins.SubmitButton(),
+                    bootstrap: new FormValidation.plugins.Bootstrap({
+                        eleInvalidClass: '',
+                        eleValidClass: '',
+                    })
+                }
+            }
+
+        ).on('core.form.valid', function () {
+            var data = new FormData($('#_myform')[0]);
+
+            var totalFiles = file.length;
+            for (var i = 0; i < totalFiles; i++) {
+                data.append('Resim', file[i].name);
+            }
+            var list = [];
+            for (var i = 0; i < file.length; i++) {
+                list.push(file[i].name);
+            }
+            data.append('Resimler', list);                
+            data.append('BlogKategoriId', $('#hdnBlogKategoriId').val());
+            data.append('AktifMi', $('#AktifMi').prop('checked'));
+            data.append('AciklamaContent', Aciklama.getData());
+            $.ajax({
+                type: "post",
+                url: "/Admin/BlogKategori/Kayit",
+                data: data,
+                contentType: false,
+                processData: false,
+                beforeSend: function () {
+                    showLoading('_myform');
+                },
+                success: function (result) {
+                    hideLoading('_myform');
+
+
+                    if (result.id > 0) {
+                        $('#hdnBlogKategoriId').val(result.id);
+
+                        if (result.operation == "insert") {
+                            $("#btnKaydet").removeClass('btn-primary');
+                            $("#btnKaydet").addClass('btn-success');
+                            $("#btnKaydet").html('Güncelle');
+                            window.history.pushState("", "", "Kayit/" + result.id);
+                        }
+
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'İşlem Başarılı!',
+                            text: '',
+                            showCloseButton: true,
+                            confirmButtonText: "Tamam",
+                            cancelButtonText: "İptal",
+                        });
+                    }
+                    else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'İşlem Sırasında Hata Oluştu!',
+                            text: '',
+                            showCloseButton: true,
+                            confirmButtonText: "Tamam",
+                            cancelButtonText: "İptal",
+                        });
+                    }
+                },
+
+                error: function (err) {
+                    hideLoading('_myform');
+
+                    Swal.fire(
+                        "Hata",
+                        "İşlem sırasında hata oluştu. " + err,
+                        "error"
+                    );
+                }
+            });
+        });
+        function ResimSil(resimId) {
+            $.ajax({
+                url: '/Admin/BlogKategori/ResimSil',
+                data: { Id: resimId },
+                type: "Get",
+                success: function (resultData) {
+                    if (resultData.length == 0) {
+                        $('#fileInputDiv').empty();
+                    }
+                    else {
+                        $('#fileInputDiv ul').remove();
+
+                        $('#fileInputDiv').append('<ul style="list-style-type:circle"');
+                        $.each(resultData, function (key, value) {
+                            var resim = value.ResimBase64;
+                            var blogResimId = value.BlogKategoriResimId;
+                            $('#fileInputDiv').append('<li class="deneme"><img  style="max-height:200px;max-width:150px" src="data:image/png;base64,' + resim + '"></img><button class="btn btn-lg purple" type="button" onclick="ResimSil(' + blogResimId + ')"><i class="fa fa-times"></i></button></li >');
+
+                        })
+                        $('#fileInputDiv').append('</ul');
+
+                    }
+
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status);
+                    alert(thrownError);
+                }
+            });
+        }
+        var file = [];
+        function YuklenenResimSil(resimId) {
+            file.splice(resimId, 1);
+            $('#emptyFile').remove();
+            $('#fileInputDiv').empty();
+            if (file.length == 0) {
+                $('#fileInputDiv').append('<img src="/Themes/Admin/design/noimage.png" id="emptyFile" style="max-height:200px;max-width:150px"/>');
+            }
+            else {
+                $('#fileInputDiv').append('<ul style="list-style-type:circle"');
+                for (var i = 0; i < file.length; i++) {
+                    if (file[i] && file[i]) {
+                        var reader = new FileReader();
+                        var reader = new FileReader();
+                        var id = 0;
+                        reader.onload = function (e) {
+                            $('#fileInputDiv').append('<li><img  style="max-height:200px;max-width:150px" src="' + e.target.result + '"></img><button class="btn btn-lg purple" type="button" onclick="YuklenenResimSil(' + id + ')"><i class="fa fa-times"></i></button></li>');
+                            id++;
+                        }
+                        reader.readAsDataURL(file[i]);
+                    }
+                }
+                $('#fileInputDiv').append('</ul');
+            }                      
+        }
+
+        function readURL(input) {
+            $('#emptyFile').remove();
+            $('#fileInputDiv').empty();
+            $('#fileInputDiv').append('<ul style="list-style-type:circle"');
+            for (var i = 0; i < input.files.length; i++) {                
+                if (input.files[i] && input.files[i]) {
+                    var reader = new FileReader();
+                    var reader = new FileReader();
+                    var id = 0;
+                    reader.onload = function (e) {
+                        $('#fileInputDiv').append('<li><img id="'+id+'" style="max-height:200px;max-width:150px" src="' + e.target.result + '"></img><button class="btn btn-lg purple" type="button" onclick="YuklenenResimSil('+id+')"><i class="fa fa-times"></i></button></li>');
+                        id++;
+                    }
+                    reader.readAsDataURL(input.files[i]);
+                }
+
+            }
+            $('#fileInputDiv').append('</ul');
+        }
+        $("#file").change(function () {
+            readURL(this);
+            for (var i = 0; i < file.length; i++) {
+                file.pop();
+            }
+            for (i = 0; i < this.files.length; i++) {
+                file.push(this.files[i]);
+            }
+        });
+        var KTCkeditor1 = function () {
+            //Private functions
+            var demos = function () {
+                ClassicEditor
+                    .create(document.querySelector('#Aciklama'))
+                    .then(editor => {
+                        Aciklama = editor;
+                    })
+                    .catch(err => {
+                        console.error(err.stack);
+                    });
+            }
+
+            return {
+                // public functions
+                init: function () {
+                    demos();
+                }
+            };
+        }();
+        function loadPage() {
+            location.reload();
+        }
+        function showLoading(id) {
+            KTApp.block(document.getElementById(id), {
+                overlayColor: '#000000',
+                state: 'danger',
+                message: 'Lütfen bekleyin...'
+            });
+        };
+        function hideLoading(id) {
+            KTApp.unblock(document.getElementById(id));
+        };
+        jQuery(document).ready(function () {
+
+            KTCkeditor1.init();
+
+
+        });
+    </script>
+}

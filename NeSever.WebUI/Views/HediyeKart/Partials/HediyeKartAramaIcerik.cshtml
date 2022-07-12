@@ -1,0 +1,75 @@
+﻿@model IPagedList<NeSever.Common.Models.Icerik.HediyeKartIcerikVM>
+
+
+<div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+    <div class="modal fade" id="HediyeKartAramaGonder" tabindex="-1" role="dialog" aria-labelledby="public-event" aria-hidden="true">
+        <div class="modal-dialog window-popup event-private-public public-event" role="document">
+            <div class="modal-content">
+                <a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
+                    <svg class="olymp-close-icon"><use xlink:href="#olymp-close-icon"></use></svg>
+                </a>
+                <div class="modal-body" id="hediyeKartAramaIcerikGonderModalBody">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <ul class="widget w-last-photo">
+        @foreach (var item in Model)
+        {
+            <li>
+                <a data-toggle="modal" href="javascript:;" onclick="hediyeKartAramaGetir('@item.HediyeKartId');" data-target="#public-event">
+                    <img class="lazy" src="~/Uploads/Site/loading_250_250.gif" data-src="@item.ResimBase64" alt="@item.HediyeKartAdi" title="@Html.Raw(item.Aciklama)">
+                </a>
+            </li>
+        }
+    </ul>
+</div>
+
+<script src="~/js/jquery.lazy.min.js"></script>
+<script type="text/javascript" charset="utf-8">    
+    $('.lazy').Lazy({
+            scrollDirection: 'vertical',
+        effect: 'fadeIn',
+        visibleOnly: true,
+        onError: function (element) {
+            console.log('error loading ' + element.data('src'));
+        }
+    });
+
+    function hediyeKartAramaGetir(id) {
+        var hediyeKartAramaa = $('#hediyeKartAramaIcerikGonderModalBody');
+        hediyeKartAramaa.html('');
+        hediyeKartAramaa.load('/Home/HediyeKartGonderPartial/' + id);
+        $('#HediyeKartAramaGonder').modal('show');
+    }
+</script>
+
+
+<div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 align-center pb80 pt80">
+    <nav aria-label="Page navigation">
+        @Html.PagedListPager((IPagedList)Model, page => Url.Action("Ara",
+         new
+         {
+             p = page,
+             sk = Context.Request.Query["sk"],
+             q = Context.Request.Query["q"],
+         }),
+       new PagedListRenderOptionsBase
+       {
+           UlElementClasses = new string[] { "pagination justify-content-center" },
+           LiElementClasses = new string[] { "page-item" },
+           ActiveLiElementClass = "page-item active",
+           PageClasses = new string[] { "page-link" },
+           EllipsesFormat = "<a class='page-link' style='padding:12px 0px 0px 0px; border:none;'>...</a>",
+           Display = PagedListDisplayMode.Always,
+           DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+           DisplayLinkToLastPage = PagedListDisplayMode.Always,
+           DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+           DisplayLinkToNextPage = PagedListDisplayMode.Always,
+           MaximumPageNumbersToDisplay = 5,
+           ContainerDivClasses = null,
+       })
+    </nav>
+</div>
