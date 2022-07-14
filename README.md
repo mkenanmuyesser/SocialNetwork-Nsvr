@@ -10,7 +10,7 @@ Used technologies : C#, .Net Core MVC, MS Sql Server, Web Api, Entity Framework,
 
 Also this project includes robot program which is using for searching websites and taking products information automatically.
 
-Important note : Being a running project, some codes were removed by me. If you want some detail, please just inform me
+Important note : Being a running and alive project, some codes were removed by me. If you want some detail, please just inform me
 
 Minran Kenan MÜYESSER
 mkenanmuyesser@hotmail.com
