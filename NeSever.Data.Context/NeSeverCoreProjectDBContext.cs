@@ -19,79 +19,11 @@ namespace NeSever.Data.Context
 
         #region RawEntities
         public virtual DbSet<ArkadasRaw> ArkadasRaw { get; set; }
-        public virtual DbSet<ArkadasTotalRaw> ArkadasTotalRaw { get; set; }
-        public virtual DbSet<ProfilRaw> ProfilRaw { get; set; }
-        public virtual DbSet<KullaniciRaw> KullaniciRaw { get; set; }
-        public virtual DbSet<UrunRaw> UrunRaw { get; set; }
-        public virtual DbSet<UrunIcerikRaw> UrunIcerikRaw { get; set; }
-        public virtual DbSet<UrunDetayIcerikSayiRaw> UrunDetayIcerikSayiRaw { get; set; }
-        public virtual DbSet<UrunDetayIcerikRaw> UrunDetayIcerikRaw { get; set; }
-        public virtual DbSet<UrunTotalRaw> UrunTotalRaw { get; set; }
+        
         #endregion
 
-        public virtual DbSet<Adres> Adres { get; set; }
-        public virtual DbSet<AdresIl> AdresIl { get; set; }
-        public virtual DbSet<AdresIlce> AdresIlce { get; set; }
-        public virtual DbSet<ArkadaslikIstek> ArkadaslikIstek { get; set; }
-        public virtual DbSet<ArkadaslikKabulDurumTip> ArkadaslikKabulDurumTip { get; set; }
-        public virtual DbSet<Ayarlar> Ayarlar { get; set; }
-        public virtual DbSet<Banner> Banner { get; set; }
-        public virtual DbSet<BannerTip> BannerTip { get; set; }
-        public virtual DbSet<Bildirim> Bildirim { get; set; }
-        public virtual DbSet<BildirimTip> BildirimTip { get; set; }
-        public virtual DbSet<Blog> Blog { get; set; }
-        public virtual DbSet<BlogKategori> BlogKategori { get; set; }
-        public virtual DbSet<BlogResim> BlogResim { get; set; }
-        public virtual DbSet<BlogKategoriResim> BlogKategoriResim { get; set; }
-        public virtual DbSet<BlogUrun> BlogUrun { get; set; }
-        public virtual DbSet<DataHataLog> DataHataLog { get; set; }
-        public virtual DbSet<DataKategori> DataKategori { get; set; }
-        public virtual DbSet<DataUrunKategori> DataUrunKategori { get; set; }
-        public virtual DbSet<DataUrunLink> DataUrunLink { get; set; }
-        public virtual DbSet<DuvarResim> DuvarResim { get; set; }
-        public virtual DbSet<FaturaTip> FaturaTip { get; set; }
-        public virtual DbSet<HediyeKart> HediyeKart { get; set; }
-        public virtual DbSet<HediyeKartKategori> HediyeKartKategori { get; set; }
-        public virtual DbSet<Hobi> Hobi { get; set; }
-        public virtual DbSet<IlgiAlan> IlgiAlan { get; set; }
-        public virtual DbSet<Kategori> Kategori { get; set; }
-        public virtual DbSet<KategoriBanner> KategoriBanner { get; set; }
-        public virtual DbSet<Kullanici> Kullanici { get; set; }
-        public virtual DbSet<KullaniciArkadas> KullaniciArkadas { get; set; }
-        public virtual DbSet<KullaniciHediyeKart> KullaniciHediyeKart { get; set; }
-        public virtual DbSet<KullaniciHobi> KullaniciHobi { get; set; }
-        public virtual DbSet<KullaniciIlgiAlan> KullaniciIlgiAlan { get; set; }
-        public virtual DbSet<KullaniciMesaj> KullaniciMesaj { get; set; }
-        public virtual DbSet<KullaniciResim> KullaniciResim { get; set; }
-        public virtual DbSet<KullaniciRol> KullaniciRol { get; set; }
-        public virtual DbSet<KullaniciUrun> KullaniciUrun { get; set; }
-        public virtual DbSet<KullaniciUlke> KullaniciUlke { get; set; }
-        public virtual DbSet<KullaniciSehir> KullaniciSehir { get; set; }
-        public virtual DbSet<KullaniciUrunFiyatGor> KullaniciUrunFiyatGor { get; set; }
-        public virtual DbSet<KullaniciBakilanProfiller> KullaniciBakilanProfiller { get; set; }
-        public virtual DbSet<Log> Log { get; set; }
-        public virtual DbSet<Marka> Marka { get; set; }
-        public virtual DbSet<Mesaj> Mesaj { get; set; }
-        public virtual DbSet<MesajTip> MesajTip { get; set; }
-        public virtual DbSet<Nitelik> Nitelik { get; set; }
-        public virtual DbSet<OdemeDurumTip> OdemeDurumTip { get; set; }
-        public virtual DbSet<ProfilEngel> ProfilEngel { get; set; }
-        public virtual DbSet<ProfilSikayet> ProfilSikayet { get; set; }
-        public virtual DbSet<Rol> Rol { get; set; }
-        public virtual DbSet<Sepet> Sepet { get; set; }
-        public virtual DbSet<SepetTip> SepetTip { get; set; }
-        public virtual DbSet<Siparis> Siparis { get; set; }
-        public virtual DbSet<SiparisDetay> SiparisDetay { get; set; }
-        public virtual DbSet<SiparisDurumTip> SiparisDurumTip { get; set; }
-        public virtual DbSet<SiparisHareket> SiparisHareket { get; set; }
-        public virtual DbSet<SiparisOdemeTip> SiparisOdemeTip { get; set; }
-        public virtual DbSet<SurprizUrun> SurprizUrun { get; set; }
-        public virtual DbSet<Urun> Urun { get; set; }
-        public virtual DbSet<UrunKategori> UrunKategori { get; set; }
-        public virtual DbSet<UrunNitelik> UrunNitelik { get; set; }
-        public virtual DbSet<UrunResim> UrunResim { get; set; }
-        public virtual DbSet<WebSite> WebSite { get; set; }
-        public virtual DbSet<YoneticiKullanici> YoneticiKullanici { get; set; }
+		//Important note : Being a running and alive project, some codes were removed by me. If you want some detail, please just inform me
+        public virtual DbSet<Adres> Adres { get; set; }       
         public virtual DbSet<IndirimKuponu> IndirimKuponu { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

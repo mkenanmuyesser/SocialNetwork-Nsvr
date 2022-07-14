@@ -39,7 +39,6 @@ namespace DataPickerProject
         private string diskImagePath = @"G:\Data";
 
         private string connectionString = "data source=.; initial catalog=NeSeverCoreProjectDB_Prod; integrated security=true";
-        //private string connectionString = "Server=.;Database=NeSeverCoreProjectDB_Prod;Trusted_Connection=False;User Id=sa;Password=@SqlServer2019;Connection Timeout=5000;MultipleActiveResultSets=True;";
         #endregion
 
         #region Events

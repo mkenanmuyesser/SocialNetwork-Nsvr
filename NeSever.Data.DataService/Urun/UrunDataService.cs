@@ -25,6 +25,8 @@ using System.Threading.Tasks;
 using System.Transactions;
 using X.PagedList;
 
+//Important note : Being a running and alive project, some codes were removed by me. If you want some detail, please just inform me
+
 namespace NeSever.Data.DataService
 {
     public interface IUrunDataService
@@ -61,17 +63,7 @@ namespace NeSever.Data.DataService
 
         #endregion
 
-        #region KategoriBanner
-
-        #region Admin
-
-        Task<KategoriBanner> KategoriBannerGetirById(int Id);
-        Task<int> KategoriBannerKayit(KategoriBannerVM model);
-        Task<List<KategoriBannerAramaResultVM>> KategoriBannerArama(KategoriBannerAramaVM kategoriAramaVM);
-        Task<int> KategoriBannerSil(int id);
-        Task<List<KategoriBannerVM>> GetKategoriBannerList();
-
-        #endregion
+        #region KategoriBanner        
 
         #region FrontEnd
 
@@ -374,147 +366,7 @@ namespace NeSever.Data.DataService
         #endregion
 
         #region Kategori
-
-        #region Admin
-
-        public async Task<int> KategoriKayit(KategoriVM model)
-        {
-            try
-            {
-                var data = new Kategori();
-
-                if (model.KategoriId == 0)
-                {
-
-                    data.KategoriAdi = model.KategoriAdi;
-                    data.Aciklama = model.Aciklama;
-                    data.MetaTitle = model.MetaTitle;
-                    data.MetaKeywords = model.MetaKeywords;
-                    data.MetaDescription = model.MetaDescription;
-                    data.Sira = model.Sira;
-                    data.AnasayfadaGoster = model.AnasayfadaGoster;
-                    data.Resim = model.Resim;
-                    data.ResimUrl = model.ResimUrl;
-                    data.SabitKategori = model.SabitKategori;
-                    data.AktifMi = model.AktifMi;
-                    data.AnasayfadaGoster = model.AnasayfadaGoster;
-                    data.OlusturmaTarihi = DateTime.Now;
-                    data.GuncellemeTarihi = DateTime.Now;
-                    data.UstKategoriId = model.UstKategoriId;
-                    data.Parametre = model.Parametre;
-                    repository.Create(data);
-                }
-                else
-                {
-
-
-                    data = await readOnlyRepository.GetQueryable<Kategori>(w => w.KategoriId == model.KategoriId).SingleOrDefaultAsync();
-                    data.KategoriAdi = model.KategoriAdi;
-                    data.Aciklama = model.Aciklama;
-                    data.MetaTitle = model.MetaTitle;
-                    data.MetaKeywords = model.MetaKeywords;
-                    data.MetaDescription = model.MetaDescription;
-                    data.Sira = model.Sira;
-                    data.AnasayfadaGoster = model.AnasayfadaGoster;
-                    if(model.ResimUrl != "resimYok")
-                    {
-                        if (model.Resim != null && model.Resim.Length > 0)
-                            data.Resim = model.Resim;
-                        if (!string.IsNullOrEmpty(model.ResimUrl))
-                            data.ResimUrl = model.ResimUrl;
-                    }
-                    else
-                    {
-                        data.Resim = null;
-                        data.ResimUrl = null;
-                    }
-                    data.SabitKategori = model.SabitKategori;
-                    data.AktifMi = model.AktifMi;
-                    data.AnasayfadaGoster = model.AnasayfadaGoster;
-                    data.GuncellemeTarihi = DateTime.Now;
-                    data.UstKategoriId = model.UstKategoriId;
-                    data.Parametre = model.Parametre;
-                    repository.Update(data);
-
-                }
-
-                var id = await SaveChanges();
-
-                return data.KategoriId;
-            }
-            catch (Exception ex)
-            {
-
-                throw;
-            }
-
-        }
-
-        public async Task<Kategori> GetKategoriById(int Id)
-        {
-            return await readOnlyRepository.GetQueryable<Kategori>(w => w.KategoriId == Id)
-                                     .SingleOrDefaultAsync();
-
-        }
-
-        public async Task<List<KategoriAramaResultVM>> GetKategoriList(KategoriAramaVM kategoriAramaVM)
-        {
-
-            var query = readOnlyRepository.GetQueryable<Kategori>(
-                                           p => (kategoriAramaVM.KategoriAdi == null || p.KategoriAdi.StartsWith(kategoriAramaVM.KategoriAdi))
-                                           && (kategoriAramaVM.UstKategoriId == null || p.UstKategoriId == kategoriAramaVM.UstKategoriId)
-                                           && (kategoriAramaVM.KategoriId == null || p.KategoriId == kategoriAramaVM.KategoriId)
-                                           && (kategoriAramaVM.SabitKategoriMi == -1 || p.SabitKategori == Convert.ToBoolean(kategoriAramaVM.SabitKategoriMi))
-                                           && (kategoriAramaVM.AktifMi == -1 || p.AktifMi == Convert.ToBoolean(kategoriAramaVM.AktifMi)));
-
-            var total = query.Count();
-
-            return await query.Include("UstKategori").OrderByDescending(p => p.KategoriId)
-                                .Select(p => new KategoriAramaResultVM
-                                {
-                                    KategoriId = p.KategoriId,
-                                    KategoriAdi = p.KategoriAdi,
-                                    UstKategoriAdi = p.UstKategori.KategoriAdi,
-                                    AnasayfadaGoster = p.AnasayfadaGoster,
-                                    AnasayfadaGosterDurum = p.AnasayfadaGoster == true ? "Evet" : "Hayır",
-                                    MetaDescription = p.MetaDescription,
-                                    MetaKeywords = p.MetaKeywords,
-                                    MetaTitle = p.MetaTitle,
-                                    Sira = p.Sira,
-                                    SabitKategoriDurum = p.SabitKategori == true ? "Evet" : "Hayır",
-                                    ResimBase64 = p.Resim != null ? Convert.ToBase64String(p.Resim) : null,
-                                    ResimUrl = p.ResimUrl,
-                                    Durum = p.AktifMi == true ? "Aktif" : "Pasif",
-                                    TotalCount = total
-                                }).Skip(kategoriAramaVM.start)
-                                .Take(kategoriAramaVM.length)
-                                .ToListAsync();
-
-        }
-
-        public async Task<int> DeleteKategori(int id)
-        {
-            Kategori updatedKategori = readOnlyRepository.GetQueryable<Kategori>(w => w.KategoriId == id).Single();
-            updatedKategori.AktifMi = false;
-            repository.Update(updatedKategori);
-            return await SaveChanges();
-
-        }
-
-        public async Task<List<KategoriVM>> GetKategoriList()
-        {
-            return await readOnlyRepository.GetQueryable<Kategori>()
-                                             .Include("UrunKategori")
-                                             .Select(p => new KategoriVM
-                                             {
-                                                 KategoriId = p.KategoriId,
-                                                 KategoriAdi = p.KategoriAdi,
-                                                 KategoriUrunSayisi = p.KategoriAdi + "(" + p.UrunKategori.Count.ToString() + ")"
-                                             }).ToListAsync();
-        }
-
-        #endregion
-
+ 
         #region FrontEnd
 
         public async Task<List<KategoriIcerikVM>> GetKategoriIcerikList(bool anasayfadaGoster = true)
@@ -1631,46 +1483,7 @@ namespace NeSever.Data.DataService
             return result;
         }
 
-        public async Task<SurprizHediyeSonucVM> SurprizHediyeKontrol(SurprizHediyeVM surprizHediye)
-        {
-            SurprizHediyeSonucVM result = new SurprizHediyeSonucVM()
-            {
-                Sonuc = false,
-                Aciklama = ""
-            };
-            try
-            {
-                //bu ürüne ait aktif ve kazananı olmayan surpriz hediye tanımı var mı?
-                var kontrol = readOnlyRepository.GetQueryable<SurprizUrun>(p => p.AktifMi &&
-                                                                                p.UrunId == surprizHediye.UrunId &&
-                                                                                !p.KullaniciId.HasValue);
-
-                //bu kişi daha önce aynı ürünü kazanmış mı?
-                var kisiUrunKontrol = readOnlyRepository.GetQueryable<SurprizUrun>(p => p.UrunId == surprizHediye.UrunId &&
-                                                                                        p.KullaniciId == surprizHediye.KullaniciId);
-
-                if (kontrol.Any() && !kisiUrunKontrol.Any())
-                {
-                    //ilkini bulup güncelleyip hediye kazandınız diyeceğiz(birden fazla aynı ürün tanımlanmış olabilir)
-
-                    var data = kontrol.FirstOrDefault();
-                    data.KazandigiTarih = DateTime.Now;
-                    data.KullaniciId = surprizHediye.KullaniciId;
-                    await SaveChanges();
-
-                    result.Sonuc = true;
-                }
-
-                return result;
-            }
-            catch (Exception ex)
-            {
-                logger.Log(LogLevel.Error, ex, string.Format("/{0}/{1}/{2}", "DataService", "UrunDataService", "SurprizHediyeKontrol"));
-
-                return result;
-            }
-        }
-
+        
         #endregion
 
         #endregion
