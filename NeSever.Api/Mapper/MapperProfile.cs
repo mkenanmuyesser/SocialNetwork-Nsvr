@@ -8,6 +8,8 @@ using NeSever.Common.Models.Uyelik;
 using NeSever.Data.Entities;
 using NeSever.Data.Entities.RawEntities;
 
+//Important note : Being a running and alive project, some codes were removed by me. If you want some detail, please just inform me
+
 namespace NeSever.Api.Mapper
 {
     public class MapperProfile :  Profile
@@ -39,20 +41,14 @@ namespace NeSever.Api.Mapper
 
             #endregion
 
-            //Uyelik Mappings
-            CreateMap<Kullanici, KullaniciKayitVM>().ReverseMap();
-            CreateMap<Kullanici, KullaniciVM>().ReverseMap();
-            CreateMap<Kullanici, KullaniciKisiselBilgiVM>().ReverseMap();
-            CreateMap<KullaniciSehir, KullaniciSehirVM>().ReverseMap();
+            //Uyelik Mappings 
+			
             CreateMap<KullaniciResim, KullaniciResimVM>().ReverseMap();
 
             //Sayfa Mappings
 
             CreateMap<BlogKategori, BlogKategoriVM>().ReverseMap();
             CreateMap<Blog, BlogKayitVM>().ReverseMap();
-            CreateMap<BlogResim, BlogResimVM>().ReverseMap();
-            CreateMap<Urun, NeSever.Common.Models.Sayfa.UrunVM>().ReverseMap();
-            CreateMap<Urun, NeSever.Common.Models.Urun.UrunVM>().ReverseMap();
             CreateMap<BannerTip, BannerTipVM>().ReverseMap();
             CreateMap<Banner, BannerKayitVM>().ReverseMap();
             CreateMap<HediyeKart, HediyeKartVM>().ReverseMap();
@@ -68,9 +64,6 @@ namespace NeSever.Api.Mapper
 
             #region Siparis
 
-            CreateMap<Siparis, SiparisGetirVM>().ReverseMap();
-            CreateMap<SiparisDetay, SiparisDetayVM>().ReverseMap();
-            CreateMap<Adres, SiparisAdresVM>().ReverseMap();
             CreateMap<SiparisHareket, SiparisHareketVM>().ReverseMap();
 
             #endregion
